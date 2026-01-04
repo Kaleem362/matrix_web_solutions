@@ -5,8 +5,8 @@ import Button from "../Elements/Button.jsx";
 
 const Navbar = () => {
   return (
-    <nav className="p-4 flex items-center justify-around">
-      <div className="img-logo h-14 w-14">
+    <nav className="flex items-center justify-around h-16 shadow-md bg-white">
+      <div className="img-logo h-12 w-12">
         <img
           src={ASSETS.logo}
           alt=""
@@ -19,8 +19,8 @@ const Navbar = () => {
           (item) => (
             <li
               key={item}
-              className="relative group text-indigo-400 cursor-pointer 
-                 xs:text-xs md:text-lg lg:text-xl xl:text-lg hover:text-indigo-500"
+              className="relative group text-indigo-600 cursor-pointer 
+                xs:text-xs md:text-lg lg:text-xl xl:text-lg hover:text-indigo-500"
             >
               {item}
               <span
@@ -33,7 +33,7 @@ const Navbar = () => {
         )}
       </ul>
 
-      <div className="search-input flex items-center xs:gap-1 md:gap-2 lg:gap-3 xl:gap-4">
+      <div className="search-input flex items-center xs:gap-1 md:gap-1 lg:gap-2 xl:gap-3">
         <Input
           type="text"
           style="outline-none border-1 border-[#8CA9FF] focus:border-2 active:border-[#8CA9FF] bg-white  py-1 px-3 rounded-lg text-black"
@@ -41,7 +41,7 @@ const Navbar = () => {
         />
         <Button
           type="button"
-          style="bg-indigo-400 text-white py-[5px] hover:bg-indigo-500 px-4 rounded-lg ml-2 cursor-pointer"
+          style="bg-indigo-400 text-white py-[5px] rounded-full hover:bg-indigo-500 px-4 ml-2 cursor-pointer"
           value="Search"
         ></Button>
       </div>
