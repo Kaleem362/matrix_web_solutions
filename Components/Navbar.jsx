@@ -19,8 +19,8 @@ const Navbar = () => {
           (item) => (
             <li
               key={item}
-              className="relative group text-indigo-600 cursor-pointer 
-                xs:text-xs md:text-lg lg:text-xl xl:text-lg hover:text-indigo-500"
+              className="relative group font-roboto text-indigo-600 cursor-pointer 
+                xs:text-xs md:text-lg lg:text-xl xl:text-lg hover:text-indigo-500 "
             >
               {item}
               <span
@@ -36,12 +36,12 @@ const Navbar = () => {
       <div className="search-input flex items-center xs:gap-1 md:gap-1 lg:gap-2 xl:gap-3">
         <Input
           type="text"
-          style="outline-none border-1 border-[#8CA9FF] focus:border-2 active:border-[#8CA9FF] bg-white  py-1 px-3 rounded-lg text-black"
-          placeholder="search here"
+          style="outline-none font-roboto border-1 border-[#8CA9FF] focus:border-2 active:border-[#8CA9FF] bg-white  py-0.5 px-2 rounded-lg text-black"
+          placeholder="search....."
         />
         <Button
           type="button"
-          style="bg-indigo-400 text-white py-[5px] rounded-full hover:bg-indigo-500 px-4 ml-2 cursor-pointer"
+          style="bg-indigo-400 text-white py-[3px] rounded-full hover:bg-indigo-500 px-4 ml-2 cursor-pointer"
           value="Search"
         ></Button>
       </div>
