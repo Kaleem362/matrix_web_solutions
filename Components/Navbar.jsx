@@ -11,6 +11,7 @@ const Navbar = () => {
           src={ASSETS.logo}
           alt=""
           className="animate-[spin_6s_linear_infinite]"
+          title="Matrix Web Solutions"
         />
       </div>
 
