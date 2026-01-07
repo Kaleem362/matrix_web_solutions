@@ -2,7 +2,7 @@ import React from "react";
 import { ASSETS } from "../src/Global/GlobalImages.jsx";
 import Input from "../Elements/Input.jsx";
 import Button from "../Elements/Button.jsx";
-
+import ThemeToggler from "./ThemeToggler/ThemeToggler.jsx";
 const Navbar = () => {
   return (
     <nav className="flex items-center justify-around h-16 shadow-md bg-white">
@@ -33,18 +33,21 @@ const Navbar = () => {
           )
         )}
       </ul>
+      <div className="themetoggle-icon">
+        <ThemeToggler />
+      </div>
 
       <div className="search-input flex items-center xs:gap-1 md:gap-1 lg:gap-2 xl:gap-3">
-        <Input
+        {/* <Input
           type="text"
           style="outline-none font-roboto border-1 border-[#8CA9FF] focus:border-2 active:border-[#8CA9FF] bg-white  py-0.5 px-2 rounded-lg text-black"
           placeholder="search....."
-        />
-        <Button
+        /> */}
+        {/* <Button
           type="button"
           style="bg-indigo-400 text-white py-[3px] rounded-full hover:bg-indigo-500 px-4 ml-2 cursor-pointer"
           value="Search"
-        ></Button>
+        ></Button> */}
       </div>
     </nav>
   );
