@@ -1,9 +1,8 @@
-import React from "react";
+import { useContext } from "react";
 import { ASSETS } from "../src/Global/GlobalImages.jsx";
-import Input from "../Elements/Input.jsx";
-import Button from "../Elements/Button.jsx";
-import ThemeToggler from "./ThemeToggler/ThemeToggler.jsx";
+import { useStore } from "../src/Context/UseStore.jsx";
 const Navbar = () => {
+  const { theme, themeChanger, sun, moon } = useStore(useContext);
   return (
     <nav className="flex items-center justify-around h-16 shadow-md bg-white">
       <div className="img-logo h-12 w-12">
@@ -33,21 +32,11 @@ const Navbar = () => {
           )
         )}
       </ul>
-      <div className="themetoggle-icon">
-        <ThemeToggler />
-      </div>
-
-      <div className="search-input flex items-center xs:gap-1 md:gap-1 lg:gap-2 xl:gap-3">
-        {/* <Input
-          type="text"
-          style="outline-none font-roboto border-1 border-[#8CA9FF] focus:border-2 active:border-[#8CA9FF] bg-white  py-0.5 px-2 rounded-lg text-black"
-          placeholder="search....."
-        /> */}
-        {/* <Button
-          type="button"
-          style="bg-indigo-400 text-white py-[3px] rounded-full hover:bg-indigo-500 px-4 ml-2 cursor-pointer"
-          value="Search"
-        ></Button> */}
+      <div
+        className="themetoggle-icon w-fit  h-auto bg-indigo-900 rounded-full p-2 cursor-pointer"
+        onClick={themeChanger}
+      >
+        {theme === "dark" ? <img src={sun} alt="Sun" className="w-6 h-6" /> : <img src={moon} alt="Moon" className="w-6 h-6" />}
       </div>
     </nav>
   );
