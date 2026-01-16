@@ -3,7 +3,7 @@ import React from "react";
 const Hero = () => {
   return (
     <div className="bg-linear-to-b bg-indigo-400 to-white h-full w-full p-16">
-      <div className="carousal shadow-2xl shadow-black bg-white p-4 flex items-center justify-between">
+      <div className="carousal rounded-md shadow-2xl shadow-black bg-white p-4 flex items-center justify-between">
         <div className="background bg-white left-side w-[50%] text-justify">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, sed
           sint nobis, molestiae eligendi ex placeat repudiandae provident
