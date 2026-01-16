@@ -4,7 +4,7 @@ import { useStore } from "../src/Context/UseStore.jsx";
 const Navbar = () => {
   const { theme, themeChanger, sun, moon } = useStore(useContext);
   return (
-    <nav className="flex items-center justify-around h-16 shadow-md bg-white">
+    <nav className={`flex items-center justify-around h-16 shadow-md ${theme === "dark" ? "bg-linear-to-r from-indigo-400 to-indigo-900" : "bg-white"}`}>
       <div className="img-logo h-12 w-12">
         <img
           src={ASSETS.logo}
@@ -19,24 +19,24 @@ const Navbar = () => {
           (item) => (
             <li
               key={item}
-              className="relative group font-roboto text-indigo-600 cursor-pointer 
-                xs:text-xs md:text-lg lg:text-xl xl:text-lg hover:text-indigo-500 "
+              className={`relative group font-roboto ${theme === "dark" ? "text-indigo-100" : "text-indigo-600"} cursor-pointer 
+                xs:text-xs md:text-lg lg:text-xl xl:text-lg ${theme === "dark" ? "hover:text-white" : "hover:text-indigo-500"}`}
             >
               {item}
               <span
-                className="absolute left-0 -bottom-1 h-0.5 w-0 
-                   bg-indigo-500 transition-all duration-300 
-                   group-hover:w-full"
+                className={`absolute left-0 -bottom-1 h-0.5 w-0 
+                   ${theme === "dark" ? "bg-white" : "bg-indigo-500"} transition-all duration-300 
+                   group-hover:w-full`}
               ></span>
             </li>
           )
         )}
       </ul>
       <div
-        className="themetoggle-icon w-fit  h-auto bg-indigo-900 rounded-full p-2 cursor-pointer"
+        className={`themetoggle-icon w-fit  h-auto ${theme === "dark" ? "bg-white shadow-white border border-black shadow-md" : "bg-white shadow-black border shadow-md"} rounded-full p-2 cursor-pointer`}
         onClick={themeChanger}
       >
-        {theme === "dark" ? <img src={sun} alt="Sun" className="w-6 h-6" /> : <img src={moon} alt="Moon" className="w-6 h-6" />}
+        {theme === "dark" ? <img src={moon} alt="Moon" className="w-6 h-6" /> :     <img src={sun} alt="Sun" className="w-6 h-6" />}
       </div>
     </nav>
   );
