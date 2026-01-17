@@ -2,6 +2,7 @@
 import { createContext, useState } from "react";
 import sun from "../../Elements/images/sun.png";  
 import moon from "../../Elements/images/cresent.png";  
+import SEO from "../../Elements/images/SEO1.png"
 export const StoreContext = createContext();
 
 export const ContextProvider = ({ children }) => {
@@ -16,9 +17,46 @@ export const ContextProvider = ({ children }) => {
     }
     
   }
+  const services = [
+      {
+        title: "Website Design",
+        bgImage:
+          "https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=1400&q=80",
+      },
+      {
+        title: "Website Development",
+        bgImage:
+          "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1400&q=80",
+      },
+      {
+        title: "App Design",
+        bgImage:
+          "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1400&q=80",
+      },
+      {
+        title: "App Development",
+        bgImage:
+          "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=80",
+      },
+      {
+        title: "Logo Designing",
+        bgImage:
+          "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1400&q=80",
+      },
+      {
+        title: "Search Engine Optimization",
+        bgImage:
+          "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1400&q=80",
+      },
+      {
+        title: "Digital Marketing",
+        bgImage:
+          "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=1400&q=80",
+      },
+    ];
 
   return (
-    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon }}>
+    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon, services }}>
       {children}
     </StoreContext.Provider>
   );
