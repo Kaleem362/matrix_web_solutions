@@ -5,8 +5,12 @@ import moon from "../../Elements/images/cresent.png";
 export const StoreContext = createContext();
 import designlogo from "../../Elements/images/icons/designicon.png"
 import webdev from "../../Elements/images/icons/webdev.png"
-import fastdel from "../../Elements/images/icons/fastdel.png"
 import seo from "../../Elements/images/icons/seo.png"
+import thumbnaildesign from "../../Elements/images/icons/thumbnaildesign.png"
+import cv from "../../Elements/images/icons/cv.png"
+
+import fastdel from "../../Elements/images/icons/fastdel.png"
+import appdev from "../../Elements/images/icons/appdev.png"
 import whatsappicon from "../../Elements/images/icons/whatsappicon.png"
 import logo from "../assets/MatrixLogo.png"
 
@@ -64,7 +68,7 @@ export const ContextProvider = ({ children }) => {
     ];
 
   return (
-    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon, services, designlogo,  webdev, fastdel,seo,whatsappicon,logo, isQuoteOpen, setIsQuoteOpen }}>
+    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun,cv, moon, services, designlogo,thumbnaildesign,  webdev, fastdel,seo,whatsappicon,logo,appdev, isQuoteOpen, setIsQuoteOpen }}>
       {children}
     </StoreContext.Provider>
   );

@@ -37,7 +37,7 @@ const QuoteModal = () => {
       {/* Modal Box */}
       <div
         className={`relative w-full max-w-lg rounded-2xl p-6 sm:p-7 shadow-2xl border backdrop-blur-md transition-all 
-        max-h-[85vh] overflow-y-auto 
+        max-h-[85vh] overflow-y-auto no-scrollbar 
         ${
           isDark
             ? "bg-black/60 border-white/10 text-white"
@@ -72,7 +72,7 @@ const QuoteModal = () => {
           <input
             type="text"
             placeholder="Your Name"
-            className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
+            className={`w-full px-3 py-2 rounded-xl outline-none border transition-all ${
               isDark
                 ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30"
                 : "bg-white border-gray-300 placeholder:text-gray-400 focus:border-indigo-500"
@@ -82,7 +82,7 @@ const QuoteModal = () => {
           <input
             type="email"
             placeholder="Email Address"
-            className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
+            className={`w-full px-3 py-2 rounded-xl outline-none border transition-all ${
               isDark
                 ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30"
                 : "bg-white border-gray-300 placeholder:text-gray-400 focus:border-indigo-500"
@@ -90,25 +90,25 @@ const QuoteModal = () => {
           />
 
           <select
-            className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
+            className={`w-full px-3 py-2 rounded-xl outline-none border transition-all ${
               isDark
                 ? "bg-white/5 border-white/10 text-white focus:border-white/30"
                 : "bg-white border-gray-300 text-gray-900 focus:border-indigo-500"
             }`}
           >
-            <option value="">Select Service</option>
-            <option value="Website Development">Website Development</option>
-            <option value="App Development">App Development</option>
-            <option value="SEO">SEO</option>
-            <option value="Logo / Branding">Logo / Branding</option>
-            <option value="Thumbnail Design">Thumbnail Design</option>
-            <option value="CV / Resume">CV / Resume</option>
+            <option value="" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>Select Service</option>
+            <option value="Website Development" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>Website Development</option>
+            <option value="App Development" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>App Development</option>
+            <option value="SEO" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>SEO</option>
+            <option value="Logo / Branding" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>Logo / Branding</option>
+            <option value="Thumbnail Design" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>Thumbnail Design</option>
+            <option value="CV / Resume" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>CV / Resume</option>
           </select>
 
           <textarea
             rows="4"
             placeholder="Describe your project..."
-            className={`w-full px-4 py-3 rounded-xl outline-none border transition-all resize-none ${
+            className={`w-full px-3 py-2 rounded-xl outline-none border transition-all resize-none ${
               isDark
                 ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30"
                 : "bg-white border-gray-300 placeholder:text-gray-400 focus:border-indigo-500"
