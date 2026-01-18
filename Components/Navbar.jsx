@@ -3,7 +3,7 @@ import { ASSETS } from "../src/Global/GlobalImages.jsx";
 import { useStore } from "../src/Context/UseStore.jsx";
 
 const Navbar = () => {
-  const { theme, themeChanger, sun, moon } = useStore(useContext);
+  const { theme, themeChanger, sun, moon,setIsQuoteOpen } = useStore(useContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = ["Home", "Our Work", "Projects", "Contact", "About", "Blog"];
@@ -86,7 +86,7 @@ const Navbar = () => {
                   ? "bg-white text-indigo-900 hover:bg-transparent hover:shadow-sm hover:shadow-white hover:text-white active:scale-95 transition-transform duration-75"
                   : "bg-indigo-700 text-white hover:bg-white hover:border hover:border-indigo-900 border-white hover:text-indigo-900 hover:text-shadow-indigo-900"
               }`}
-            >
+            onClick={() => setIsQuoteOpen(true)}>
               Get a Quote
             </button>
 
