@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "../src/Context/UseStore";
-import { FcBullish } from "react-icons/fc";
 
 const Hero = () => {
-  const { services } = useStore(useStore);
+  const { services,webdev,appdev,designlogo,fastdel,seo } = useStore(useStore);
 
   const [current, setCurrent] = useState(0);
   const intervalRef = useRef(null);
@@ -145,10 +144,10 @@ const Hero = () => {
 
           {/* points */}
           <div className="mt-5 space-y-2 text-gray-800 text-sm sm:text-base">
-            <p>✅ Modern Website & App Development</p>
-            <p className="flex items-center gap-2"><FcBullish /> SEO + Google Ranking Growth</p>
-            <p>✅ Branding (Logo, Thumbnails, Designs)</p>
-            <p>✅ Fast Delivery + Affordable Packages</p>
+            <p className="flex items-center gap-2"><img src={webdev} alt="" className="h-4 w-4 hover:scale-150 duration-300 transition-all" />Modern Website & App Development</p>
+            <p className="flex items-center gap-2"><img src={seo} alt="" className="h-4 w-4 hover:scale-150 duration-300 transition-all"/>SEO + Google Ranking Growth</p>
+            <p className="flex items-center gap-2"><img src={designlogo} alt="" className="h-4 w-4 hover:scale-150 duration-300 transition-all"/>Branding (Logo, Thumbnails, Designs)</p>
+            <p className="flex items-center gap-2"><img src={fastdel} alt="" className="h-4 w-4 hover:scale-150 duration-300 transition-all"/>Fast Delivery + Affordable Packages</p>
           </div>
 
           {/* CTA buttons */}

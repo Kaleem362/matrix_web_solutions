@@ -53,7 +53,7 @@ const Navbar = () => {
                   theme === "dark" ? "text-indigo-100" : "text-indigo-500"
                 }`}
               >
-                Digital Services Agency
+                Digital Services Agency <span className="text-[8px ]">1.0.1</span>
               </p>
             </div>
           </div>

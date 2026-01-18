@@ -2,8 +2,11 @@
 import { createContext, useState } from "react";
 import sun from "../../Elements/images/sun.png";  
 import moon from "../../Elements/images/cresent.png";  
-import SEO from "../../Elements/images/SEO1.png"
 export const StoreContext = createContext();
+import designlogo from "../../Elements/images/icons/designicon.png"
+import webdev from "../../Elements/images/icons/webdev.png"
+import fastdel from "../../Elements/images/icons/fastdel.png"
+import seo from "../../Elements/images/icons/seo.png"
 
 export const ContextProvider = ({ children }) => {
   const [theme, setTheme] = useState("dark");
@@ -56,7 +59,7 @@ export const ContextProvider = ({ children }) => {
     ];
 
   return (
-    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon, services }}>
+    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon, services, designlogo,  webdev, fastdel,seo }}>
       {children}
     </StoreContext.Provider>
   );
