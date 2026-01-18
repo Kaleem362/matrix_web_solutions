@@ -2,7 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "../src/Context/UseStore";
 
 const Hero = () => {
-  const { services,webdev,appdev,designlogo,fastdel,seo } = useStore(useStore);
+  const {
+    theme,
+    services,
+    webdev,
+    designlogo,
+    fastdel,
+    seo,
+    isQuoteOpen,
+    setIsQuoteOpen,
+    whatsappicon
+  } = useStore(useStore);
 
   const [current, setCurrent] = useState(0);
   const intervalRef = useRef(null);
@@ -51,14 +61,23 @@ const Hero = () => {
     }
   };
 
+  const isDark = theme === "dark";
+
   return (
-    <div className="bg-linear-to-b from-indigo-400 to-white w-full px-4 sm:px-8 lg:px-16 py-6 sm:py-10">
+    <div
+      className={`w-full px-4 sm:px-8 lg:px-16 py-6 sm:py-10 transition-all duration-300 ${
+        isDark
+          ? "bg-linear-to-b from-indigo-950 via-black to-black"
+          : "bg-linear-to-b from-indigo-400 to-white"
+      }`}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-        
         {/* LEFT: Carousel */}
         <div
-          className="lg:col-span-7 relative rounded-2xl shadow-2xl shadow-black/40 overflow-hidden
-          h-[55vh] sm:h-[60vh] lg:h-[80vh]"
+          className={`lg:col-span-7 relative rounded-2xl overflow-hidden
+          h-[55vh] sm:h-[60vh] lg:h-[80vh] transition-all duration-300 ${
+            isDark ? "shadow-2xl shadow-black/70" : "shadow-2xl shadow-black/40"
+          }`}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -73,10 +92,16 @@ const Hero = () => {
                 className="min-w-full h-full relative bg-cover bg-center"
                 style={{ backgroundImage: `url(${service.bgImage})` }}
               >
-                {/* light overlay */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/35 to-black/10"></div>
+                {/* overlay (dark theme me thoda zyada strong) */}
+                <div
+                  className={`absolute inset-0 ${
+                    isDark
+                      ? "bg-linear-to-t from-black/70 via-black/45 to-black/20"
+                      : "bg-linear-to-t from-black/55 via-black/35 to-black/10"
+                  }`}
+                ></div>
 
-                {/* small label */}
+                {/* label */}
                 <div className="absolute bottom-6 left-6 z-10">
                   <h2 className="text-white font-bold text-xl sm:text-2xl">
                     {service.title}
@@ -92,10 +117,13 @@ const Hero = () => {
               prevSlide();
               startAutoSlide();
             }}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20
-            w-11 h-11 rounded-full flex items-center justify-center
-            bg-white/15 border border-white/25 backdrop-blur-md
-            text-white hover:bg-white/25 transition-all duration-200 active:scale-90"
+            className={`absolute left-3 top-1/2 -translate-y-1/2 z-20
+            w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-md
+            transition-all duration-200 active:scale-90 ${
+              isDark
+                ? "bg-white/10 border border-white/20 text-white hover:bg-white/20"
+                : "bg-white/15 border border-white/25 text-white hover:bg-white/25"
+            }`}
           >
             ❮
           </button>
@@ -105,10 +133,13 @@ const Hero = () => {
               nextSlide();
               startAutoSlide();
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20
-            w-11 h-11 rounded-full flex items-center justify-center
-            bg-white/15 border border-white/25 backdrop-blur-md
-            text-white hover:bg-white/25 transition-all duration-200 active:scale-90"
+            className={`absolute right-3 top-1/2 -translate-y-1/2 z-20
+            w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-md
+            transition-all duration-200 active:scale-90 ${
+              isDark
+                ? "bg-white/10 border border-white/20 text-white hover:bg-white/20"
+                : "bg-white/15 border border-white/25 text-white hover:bg-white/25"
+            }`}
           >
             ❯
           </button>
@@ -131,42 +162,227 @@ const Hero = () => {
         </div>
 
         {/* RIGHT: Catchy Text Content */}
-        <div className="lg:col-span-5 rounded-2xl bg-white/60 backdrop-blur-md shadow-xl p-6 sm:p-8 flex flex-col justify-center h-full">
-          <h1 className="text-3xl sm:text-4xl font-poppins font-extrabold text-indigo-900 leading-tight ">
+        <div
+          className={`lg:col-span-5 rounded-2xl backdrop-blur-md shadow-xl p-6 sm:p-8 flex flex-col justify-center h-full transition-all duration-300 ${
+            isDark ? "bg-white/5 border border-white/10" : "bg-white/60"
+          }`}
+        >
+          <h1
+            className={`text-3xl sm:text-4xl font-poppins font-extrabold leading-tight transition-all duration-300 ${
+              isDark ? "text-white" : "text-indigo-900"
+            }`}
+          >
             Grow Your Business Online with{" "}
-            <span className="text-white border border-indigo-900 bg-indigo-900 font-Poppins font-bold">&nbsp;Matrix Web Solutions&nbsp;</span>
+            <span
+              className={`font-poppins font-bold px-2 py-1 rounded-md border transition-all duration-300 ${
+                isDark
+                  ? "text-indigo-200 bg-indigo-950/60 border-indigo-400/20"
+                  : "text-white bg-indigo-900 border-indigo-900"
+              }`}
+            >
+              Matrix Web Solutions
+            </span>
           </h1>
 
-          <p className="text-gray-700 mt-4 text-sm sm:text-base font-poppins">
+          <p
+            className={`mt-4 text-sm sm:text-base font-poppins transition-all duration-300 ${
+              isDark ? "text-white/75" : "text-gray-700"
+            }`}
+          >
             We build high-converting websites, powerful mobile apps, and SEO
             strategies that help your business rank, convert, and scale.
           </p>
 
           {/* points */}
-          <div className="mt-5 space-y-2 text-gray-800 text-sm sm:text-base">
-            <p className="flex items-center gap-2"><img src={webdev} alt="" className="h-4 w-4 hover:scale-150 duration-300 transition-all" />Modern Website & App Development</p>
-            <p className="flex items-center gap-2"><img src={seo} alt="" className="h-4 w-4 hover:scale-150 duration-300 transition-all"/>SEO + Google Ranking Growth</p>
-            <p className="flex items-center gap-2"><img src={designlogo} alt="" className="h-4 w-4 hover:scale-150 duration-300 transition-all"/>Branding (Logo, Thumbnails, Designs)</p>
-            <p className="flex items-center gap-2"><img src={fastdel} alt="" className="h-4 w-4 hover:scale-150 duration-300 transition-all"/>Fast Delivery + Affordable Packages</p>
+          <div
+            className={`mt-5 space-y-2 text-sm sm:text-base transition-all duration-300 ${
+              isDark ? "text-white/80" : "text-gray-800"
+            }`}
+          >
+            <p className="flex items-center gap-2">
+              <img
+                src={webdev}
+                alt=""
+                className="h-4 w-4 hover:scale-150 duration-300 transition-all"
+              />
+              Modern Website & App Development
+            </p>
+            <p className="flex items-center gap-2">
+              <img
+                src={seo}
+                alt=""
+                className="h-4 w-4 hover:scale-150 duration-300 transition-all"
+              />
+              SEO + Google Ranking Growth
+            </p>
+            <p className="flex items-center gap-2">
+              <img
+                src={designlogo}
+                alt=""
+                className="h-4 w-4 hover:scale-150 duration-300 transition-all"
+              />
+              Branding (Logo, Thumbnails, Designs)
+            </p>
+            <p className="flex items-center gap-2">
+              <img
+                src={fastdel}
+                alt=""
+                className="h-4 w-4 hover:scale-150 duration-300 transition-all"
+              />
+              Fast Delivery + Affordable Packages
+            </p>
           </div>
 
           {/* CTA buttons */}
-          <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            <button className="px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95">
+          <div className="mt-6 flex flex-col sm:flex-row gap-4">
+            {/* Get a Quote */}
+            <button
+              onClick={() => setIsQuoteOpen(true)}
+              className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
+                isDark
+                  ? "bg-indigo-500 text-white border-indigo-400/20 hover:bg-transparent hover:text-white hover:border-white/40"
+                  : "bg-white text-indigo-900 border-indigo-900 hover:bg-transparent hover:text-indigo-900 hover:border-indigo-900"
+              }`}
+            >
               Get a Quote
             </button>
 
-            <button className="px-6 py-3 rounded-xl border border-indigo-200 bg-white text-indigo-700 font-semibold hover:bg-indigo-50 transition-all active:scale-95">
+            {/* View Services */}
+            <button
+              className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
+                isDark
+                  ? "bg-white/10 text-white border-white/20 hover:bg-white hover:text-indigo-900 hover:border-indigo-200"
+                  : "bg-linear-to-r from-indigo-700 to-indigo-900 text-white border-white hover:bg-white hover:text-indigo-900 hover:border-indigo-900"
+              }`}
+            >
               View Services
             </button>
           </div>
 
-          {/* mini trust line */}
-          <p className="mt-4 text-xs text-gray-600">
+          {/* trust line */}
+          <p
+            className={`mt-4 text-xs transition-all duration-300 ${
+              isDark ? "text-white/60" : "text-gray-600"
+            }`}
+          >
             ⚡ Trusted by startups & small businesses for digital growth.
           </p>
         </div>
       </div>
+      {/* Quote Modal */}
+      {isQuoteOpen && (
+        <div className="fixed inset-0 z-999 flex items-center justify-center px-4">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setIsQuoteOpen(false)}
+          ></div>
+
+          {/* Modal Box */}
+          <div
+            className={`relative w-full max-w-lg rounded-2xl p-6 sm:p-7 shadow-2xl border backdrop-blur-md transition-all ${
+              theme === "dark"
+                ? "bg-linear-to-b from-indigo-900 to-indigo-700/50 border-white/10 text-white"
+                : "bg-white border-gray-200 text-gray-900"
+            }`}
+          >
+            {/* Header */}
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold font-poppins uppercase">
+                  Get a Free Quote
+                </h2>
+                <p
+                  className={`${theme === "dark" ? "text-white/70" : "text-indigo-600"} text-sm mt-1`}
+                >
+                  Tell us what you need and we’ll get back to you ASAP.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setIsQuoteOpen(false)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95 ${
+                  theme === "dark" ? "hover:bg-white/10 " : "hover:bg-indigo-900 hover:text-white border border-black "
+                }`}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Form */}
+            <form className="mt-6 space-y-4">
+              <input
+                type="text"
+                placeholder="Your Name"
+                className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
+                  theme === "dark"
+                    ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30 focus:border-2"
+                    : "bg-white placeholder:text-indigo-300  border-indigo-900 focus:border-indigo-900 focus:border-2"
+                }`}
+              />
+
+              <input
+                type="email"
+                placeholder="Email Address"
+                className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
+                  theme === "dark"
+                    ? "bg-white/5 border-white/10 placeholder:text-white/40  focus:border-indigo-900 focus:border-2"
+                    : "bg-white placeholder:text-indigo-300  border-indigo-900 focus:border-indigo-900 focus:border-2"
+                }`}
+              />
+
+              <select
+                className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
+                  theme === "dark"
+                    ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-indigo-900 focus:border-2"
+                    : "bg-white placeholder:text-indigo-300  border-indigo-900 focus:border-indigo-900 focus:border-2"
+                }`}
+              >
+                <option value="">Select Service</option>
+                <option value="Website Development">Website Development</option>
+                <option value="App Development">App Development</option>
+                <option value="SEO">SEO</option>
+                <option value="Logo / Branding">Logo / Branding</option>
+                <option value="Thumbnail Design">Thumbnail Design</option>
+                <option value="CV / Resume">CV / Resume</option>
+              </select>
+
+              <textarea
+                rows="4"
+                placeholder="Describe your project..."
+                className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
+                  theme === "dark"
+                    ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-indigo-900 focus:border-2"
+                    : "bg-white placeholder:text-indigo-300  border-indigo-900 focus:border-indigo-900 focus:border-2"
+                }`}
+              ></textarea>
+
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <button
+                  type="submit"
+                  className="w-full px-5 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
+                >
+                  Submit Quote Request
+                </button>
+
+                <a
+                  href="https://wa.me/923485427362?text=Hi%20Matrix%20Web%20Solutions!%20I%20want%20a%20quote%20for%20my%20project."
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`w-full px-5 py-3 rounded-full  font-semibold text-center border border-indigo-300 transition-all active:scale-95 flex gap-2 items-center justify-around ${
+                    isDark
+                      ? "border-white/20 text-white hover:bg-white/10"
+                      : "border-gray-300 text-gray-800 hover:bg-gray-100"
+                  }`}
+                >
+                  Or WhatsApp Us <img src={whatsappicon} alt="WhatsApp Icon" className="h-5 ml-2" />
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -7,9 +7,12 @@ import designlogo from "../../Elements/images/icons/designicon.png"
 import webdev from "../../Elements/images/icons/webdev.png"
 import fastdel from "../../Elements/images/icons/fastdel.png"
 import seo from "../../Elements/images/icons/seo.png"
+import whatsappicon from "../../Elements/images/icons/whatsappicon.png"
 
 export const ContextProvider = ({ children }) => {
   const [theme, setTheme] = useState("dark");
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+
 
   const themeChanger = () =>{
     if(theme === "dark"){
@@ -59,7 +62,7 @@ export const ContextProvider = ({ children }) => {
     ];
 
   return (
-    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon, services, designlogo,  webdev, fastdel,seo }}>
+    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon, services, designlogo,  webdev, fastdel,seo,whatsappicon, isQuoteOpen, setIsQuoteOpen }}>
       {children}
     </StoreContext.Provider>
   );
