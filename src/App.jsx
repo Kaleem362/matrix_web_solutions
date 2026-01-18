@@ -1,13 +1,18 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
 import Hero from '../Components/Hero'
+import ServicesSection from '../Components/ServicesSection'
+import QuoteModal from '../Components/QuoteModal'
 
 const App = () => {
   return (
     <div>
-      <Navbar></Navbar>
-      <Hero></Hero>
+      <Navbar/>
+      <Hero/>
+      <ServicesSection/>
+      <QuoteModal/>
     </div>
+
   )
 }
 

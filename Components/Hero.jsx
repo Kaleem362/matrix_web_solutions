@@ -9,9 +9,7 @@ const Hero = () => {
     designlogo,
     fastdel,
     seo,
-    isQuoteOpen,
     setIsQuoteOpen,
-    whatsappicon
   } = useStore(useStore);
 
   const [current, setCurrent] = useState(0);
@@ -254,6 +252,11 @@ const Hero = () => {
                   ? "bg-white/10 text-white border-white/20 hover:bg-white hover:text-indigo-900 hover:border-indigo-200"
                   : "bg-linear-to-r from-indigo-700 to-indigo-900 text-white border-white hover:bg-white hover:text-indigo-900 hover:border-indigo-900"
               }`}
+              onClick={() =>
+                document
+                  .getElementById("services")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
             >
               View Services
             </button>
@@ -269,120 +272,7 @@ const Hero = () => {
           </p>
         </div>
       </div>
-      {/* Quote Modal */}
-      {isQuoteOpen && (
-        <div className="fixed inset-0 z-999 flex items-center justify-center px-4">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/60"
-            onClick={() => setIsQuoteOpen(false)}
-          ></div>
 
-          {/* Modal Box */}
-          <div
-            className={`relative w-full max-w-lg rounded-2xl p-6 sm:p-7 shadow-2xl border backdrop-blur-md transition-all ${
-              theme === "dark"
-                ? "bg-linear-to-b from-indigo-900 to-indigo-700/50 border-white/10 text-white"
-                : "bg-white border-gray-200 text-gray-900"
-            }`}
-          >
-            {/* Header */}
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold font-poppins uppercase">
-                  Get a Free Quote
-                </h2>
-                <p
-                  className={`${theme === "dark" ? "text-white/70" : "text-indigo-600"} text-sm mt-1`}
-                >
-                  Tell us what you need and we’ll get back to you ASAP.
-                </p>
-              </div>
-
-              <button
-                onClick={() => setIsQuoteOpen(false)}
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95 ${
-                  theme === "dark" ? "hover:bg-white/10 " : "hover:bg-indigo-900 hover:text-white border border-black "
-                }`}
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Form */}
-            <form className="mt-6 space-y-4">
-              <input
-                type="text"
-                placeholder="Your Name"
-                className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
-                  theme === "dark"
-                    ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30 focus:border-2"
-                    : "bg-white placeholder:text-indigo-300  border-indigo-900 focus:border-indigo-900 focus:border-2"
-                }`}
-              />
-
-              <input
-                type="email"
-                placeholder="Email Address"
-                className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
-                  theme === "dark"
-                    ? "bg-white/5 border-white/10 placeholder:text-white/40  focus:border-indigo-900 focus:border-2"
-                    : "bg-white placeholder:text-indigo-300  border-indigo-900 focus:border-indigo-900 focus:border-2"
-                }`}
-              />
-
-              <select
-                className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
-                  theme === "dark"
-                    ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-indigo-900 focus:border-2"
-                    : "bg-white placeholder:text-indigo-300  border-indigo-900 focus:border-indigo-900 focus:border-2"
-                }`}
-              >
-                <option value="">Select Service</option>
-                <option value="Website Development">Website Development</option>
-                <option value="App Development">App Development</option>
-                <option value="SEO">SEO</option>
-                <option value="Logo / Branding">Logo / Branding</option>
-                <option value="Thumbnail Design">Thumbnail Design</option>
-                <option value="CV / Resume">CV / Resume</option>
-              </select>
-
-              <textarea
-                rows="4"
-                placeholder="Describe your project..."
-                className={`w-full px-4 py-3 rounded-xl outline-none border transition-all ${
-                  theme === "dark"
-                    ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-indigo-900 focus:border-2"
-                    : "bg-white placeholder:text-indigo-300  border-indigo-900 focus:border-indigo-900 focus:border-2"
-                }`}
-              ></textarea>
-
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <button
-                  type="submit"
-                  className="w-full px-5 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
-                >
-                  Submit Quote Request
-                </button>
-
-                <a
-                  href="https://wa.me/923485427362?text=Hi%20Matrix%20Web%20Solutions!%20I%20want%20a%20quote%20for%20my%20project."
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`w-full px-5 py-3 rounded-full  font-semibold text-center border border-indigo-300 transition-all active:scale-95 flex gap-2 items-center justify-around ${
-                    isDark
-                      ? "border-white/20 text-white hover:bg-white/10"
-                      : "border-gray-300 text-gray-800 hover:bg-gray-100"
-                  }`}
-                >
-                  Or WhatsApp Us <img src={whatsappicon} alt="WhatsApp Icon" className="h-5 ml-2" />
-                </a>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

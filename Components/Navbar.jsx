@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { ASSETS } from "../src/Global/GlobalImages.jsx";
 import { useStore } from "../src/Context/UseStore.jsx";
 
 const Navbar = () => {
-  const { theme, themeChanger, sun, moon,setIsQuoteOpen } = useStore(useContext);
+  const { theme, themeChanger, sun, moon,setIsQuoteOpen,logo } = useStore(useContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = ["Home", "Our Work", "Projects", "Contact", "About", "Blog"];
@@ -32,7 +31,7 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             <div className="img-logo h-10 w-10 sm:h-11 sm:w-11 flex items-center justify-center">
               <img
-                src={ASSETS.logo}
+                src={logo}
                 alt="Matrix Web Solutions"
                 className="animate-[spin_6s_linear_infinite] w-full h-full object-contain"
                 title="Matrix Web Solutions"

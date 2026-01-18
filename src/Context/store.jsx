@@ -8,6 +8,8 @@ import webdev from "../../Elements/images/icons/webdev.png"
 import fastdel from "../../Elements/images/icons/fastdel.png"
 import seo from "../../Elements/images/icons/seo.png"
 import whatsappicon from "../../Elements/images/icons/whatsappicon.png"
+import logo from "../assets/MatrixLogo.png"
+
 
 export const ContextProvider = ({ children }) => {
   const [theme, setTheme] = useState("dark");
@@ -62,7 +64,7 @@ export const ContextProvider = ({ children }) => {
     ];
 
   return (
-    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon, services, designlogo,  webdev, fastdel,seo,whatsappicon, isQuoteOpen, setIsQuoteOpen }}>
+    <StoreContext.Provider value={{ theme, setTheme, themeChanger, sun, moon, services, designlogo,  webdev, fastdel,seo,whatsappicon,logo, isQuoteOpen, setIsQuoteOpen }}>
       {children}
     </StoreContext.Provider>
   );
