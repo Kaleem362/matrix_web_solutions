@@ -34,7 +34,7 @@ const projects = [
     desc: "Logo + branding assets for strong brand presence.",
     tech: ["Logo", "Branding"],
     image:
-      "https://images.unsplash.com/photo-1526481280695-3c687fd643ed?w=1200",
+      "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     title: "SEO Growth Plan",
@@ -237,7 +237,7 @@ const OurWorkSection = () => {
                 <div className="mt-6 flex items-center justify-between gap-3">
                   <button
                     onClick={() => alert("Project details coming soon!")}
-                    className={`px-4 py-2 rounded-xl text-sm font-semibold border transition-all active:scale-95 ${
+                    className={`px-4 py-2 hover:border hover:border-indigo-400 hover:text-indigo-400 text-sm font-semibold border transition-all active:scale-95 ${
                       theme === "dark"
                         ? "border-white/20 text-white hover:bg-white/10"
                         : "border-gray-300 text-gray-800 hover:bg-gray-100"
@@ -248,7 +248,7 @@ const OurWorkSection = () => {
 
                   <button
                     onClick={() => setIsQuoteOpen(true)}
-                    className="px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-all active:scale-95"
+                    className={`px-4 py-2 rounded-full text-sm font-semibold ${theme === "dark" ? "bg-indigo-600 text-white hover:bg-transparent hover:text-white hover:border hover:border-white" : "bg-indigo-600 hover:bg-transparent hover:text-indigo-600 text-white hover:border hover:border-indigo-600"}  transition-all active:scale-9`}
                   >
                     Get a Quote
                   </button>
@@ -257,7 +257,7 @@ const OurWorkSection = () => {
 
               {/* Bottom highlight */}
               <div
-                className={`absolute bottom-0 left-0 w-full h-[3px] opacity-0 group-hover:opacity-100 transition-all duration-300 ${
+                className={`absolute bottom-0 left-0 w-full h-0.75 opacity-0 group-hover:opacity-100 transition-all duration-300 ${
                   theme === "dark" ? "bg-indigo-400/60" : "bg-indigo-700/60"
                 }`}
               ></div>
