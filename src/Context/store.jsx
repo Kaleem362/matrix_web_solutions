@@ -33,37 +33,37 @@ export const ContextProvider = ({ children }) => {
       {
         title: "Website Design",
         bgImage:
-          "https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=1400&q=80",
+          "https://img.freepik.com/free-vector/web-design-illustration-with-icons-concept-creating-websites-creating-logos-more_613284-492.jpg",
       },
       {
         title: "Website Development",
         bgImage:
-          "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1400&q=80",
+          "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         title: "App Design",
         bgImage:
-          "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1400&q=80",
+          "https://images.unsplash.com/photo-1767449441925-737379bc2c4d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         title: "App Development",
         bgImage:
-          "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=80",
+          "https://img.freepik.com/free-photo/representation-user-experience-interface-design_23-2150169853.jpg",
       },
       {
         title: "Logo Designing",
         bgImage:
-          "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1400&q=80",
+          "https://images.unsplash.com/photo-1569154078462-cb772ab90f97?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         title: "Search Engine Optimization",
         bgImage:
-          "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1400&q=80",
+          "https://img.freepik.com/free-photo/seo-search-engine-optimization-internet-digital-concept_53876-138498.jpg?t=st=1768810419~exp=1768814019~hmac=3d4236b9cad4028306d9358f4a784e2ea1bc02a4a0aacac5c40f01487eb613d5&w=1480",
       },
       {
         title: "Digital Marketing",
         bgImage:
-          "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=1400&q=80",
+          "https://img.freepik.com/free-photo/social-media-marketing-concept-marketing-with-applications_23-2150063166.jpg?t=st=1768810482~exp=1768814082~hmac=9a11c5164012d53b47665cbb00ef8acab67359a6cf9affff36330abb9ed49330",
       },
     ];
 

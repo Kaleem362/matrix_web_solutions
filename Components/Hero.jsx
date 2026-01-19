@@ -101,7 +101,7 @@ const Hero = () => {
 
                 {/* label */}
                 <div className="absolute bottom-6 left-6 z-10">
-                  <h2 className="text-white font-bold text-xl sm:text-2xl">
+                  <h2 className="text-white font-bold text-xl sm:text-2xl md:text-3xl drop-shadow-lg">
                     {service.title}
                   </h2>
                 </div>
