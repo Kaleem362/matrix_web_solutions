@@ -59,12 +59,10 @@ const Hero = () => {
     }
   };
 
-  const isDark = theme === "dark";
-
   return (
     <div
       className={`w-full px-4 sm:px-8 lg:px-16 py-6 sm:py-10 transition-all duration-300 ${
-        isDark
+        theme === "dark"
           ? "bg-linear-to-b from-indigo-950 via-black to-black"
           : "bg-linear-to-b from-indigo-400 to-white"
       }`}
@@ -74,7 +72,7 @@ const Hero = () => {
         <div
           className={`lg:col-span-7 relative rounded-2xl overflow-hidden
           h-[55vh] sm:h-[60vh] lg:h-[80vh] transition-all duration-300 ${
-            isDark ? "shadow-2xl shadow-black/70" : "shadow-2xl shadow-black/40"
+            theme === "dark" ? "shadow-2xl shadow-black/70" : "shadow-2xl shadow-black/40"
           }`}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -93,7 +91,7 @@ const Hero = () => {
                 {/* overlay (dark theme me thoda zyada strong) */}
                 <div
                   className={`absolute inset-0 ${
-                    isDark
+                    theme === "dark"
                       ? "bg-linear-to-t from-black/70 via-black/45 to-black/20"
                       : "bg-linear-to-t from-black/55 via-black/35 to-black/10"
                   }`}
@@ -118,7 +116,7 @@ const Hero = () => {
             className={`absolute left-3 top-1/2 -translate-y-1/2 z-20
             w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-md
             transition-all duration-200 active:scale-90 ${
-              isDark
+              theme === "dark"
                 ? "bg-white/10 border border-white/20 text-white hover:bg-white/20"
                 : "bg-white/15 border border-white/25 text-white hover:bg-white/25"
             }`}
@@ -134,7 +132,7 @@ const Hero = () => {
             className={`absolute right-3 top-1/2 -translate-y-1/2 z-20
             w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-md
             transition-all duration-200 active:scale-90 ${
-              isDark
+              theme === "dark"
                 ? "bg-white/10 border border-white/20 text-white hover:bg-white/20"
                 : "bg-white/15 border border-white/25 text-white hover:bg-white/25"
             }`}
@@ -167,13 +165,12 @@ const Hero = () => {
         >
           <h1
             className={`text-3xl sm:text-4xl font-poppins font-extrabold leading-tight transition-all duration-300 ${
-              isDark ? "text-white" : "text-indigo-900"
-            }`}
-          >
+              theme === "dark" ? "text-white" : "text-indigo-900"
+            }`}>
             Grow Your Business Online with{" "}
             <span
               className={`font-poppins font-bold px-2 py-1 rounded-md border transition-all duration-300 ${
-                isDark
+                theme === "dark"
                   ? "text-indigo-200 bg-indigo-950/60 border-indigo-400/20"
                   : "text-white bg-indigo-900 border-indigo-900"
               }`}
@@ -184,7 +181,7 @@ const Hero = () => {
 
           <p
             className={`mt-4 text-sm sm:text-base font-poppins transition-all duration-300 ${
-              isDark ? "text-white/75" : "text-gray-700"
+              theme === "dark" ? "text-white/75" : "text-gray-700"
             }`}
           >
             We build high-converting websites, powerful mobile apps, and SEO
@@ -194,7 +191,7 @@ const Hero = () => {
           {/* points */}
           <div
             className={`mt-5 space-y-2 text-sm sm:text-base transition-all duration-300 ${
-              isDark ? "text-white/80" : "text-gray-800"
+              theme === "dark" ? "text-white/80" : "text-gray-800"
             }`}
           >
             <p className="flex items-center gap-2">
@@ -237,7 +234,7 @@ const Hero = () => {
             <button
               onClick={() => setIsQuoteOpen(true)}
               className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
-                isDark
+                theme === "dark"
                   ? "bg-indigo-500 text-white border-indigo-400/20 hover:bg-transparent hover:text-white hover:border-white/40"
                   : "bg-white text-indigo-900 border-indigo-900 hover:bg-transparent hover:text-indigo-900 hover:border-indigo-900"
               }`}
@@ -248,9 +245,9 @@ const Hero = () => {
             {/* View Services */}
             <button
               className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
-                isDark
+                theme === "dark"
                   ? "bg-white/10 text-white border-white/20 hover:bg-white hover:text-indigo-900 hover:border-indigo-200"
-                  : "bg-linear-to-r from-indigo-700 to-indigo-900 text-white border-white hover:bg-white hover:text-indigo-900 hover:border-indigo-900"
+                  : "bg-indigo-900 text-white hover:bg-transparent hover:border hover:border-indigo-900 hover:text-indigo-900"
               }`}
               onClick={() =>
                 document
@@ -265,7 +262,7 @@ const Hero = () => {
           {/* trust line */}
           <p
             className={`mt-4 text-xs transition-all duration-300 ${
-              isDark ? "text-white/60" : "text-gray-600"
+              theme === "dark" ? "text-white/60" : "text-gray-600"
             }`}
           >
             ⚡ Trusted by startups & small businesses for digital growth.

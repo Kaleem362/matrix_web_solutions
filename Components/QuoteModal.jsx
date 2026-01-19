@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useStore } from "../src/Context/UseStore";
-import { FaWhatsapp } from "react-icons/fa6";
 
 const QuoteModal = () => {
-  const { theme, isQuoteOpen, setIsQuoteOpen } = useStore(useStore);
-  const isDark = theme === "dark";
+  const { theme, isQuoteOpen, setIsQuoteOpen,whatsappicon } = useStore(useStore);
 
   // ESC press to close
   useEffect(() => {
@@ -40,7 +38,7 @@ const QuoteModal = () => {
         className={`relative w-full max-w-lg rounded-2xl p-6 sm:p-7 shadow-2xl border backdrop-blur-md transition-all 
         max-h-[85vh] overflow-y-auto no-scrollbar 
         ${
-          isDark
+          theme === "dark"
             ? "bg-black/60 border-white/10 text-white"
             : "bg-white border-gray-200 text-gray-900"
         }`}
@@ -51,7 +49,7 @@ const QuoteModal = () => {
             <h2 className="text-xl sm:text-2xl font-bold">Get a Free Quote</h2>
             <p
               className={`text-sm mt-1 ${
-                isDark ? "text-white/70" : "text-gray-600"
+                theme === "dark" ? "text-white/70" : "text-gray-600"
               }`}
             >
               Tell us what you need and we’ll get back to you ASAP.
@@ -61,7 +59,7 @@ const QuoteModal = () => {
           <button
             onClick={() => setIsQuoteOpen(false)}
             className={`w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95 ${
-              isDark ? "hover:bg-white/10" : "hover:bg-gray-100"
+              theme === "dark" ? "hover:bg-white/10" : "hover:bg-gray-100"
             }`}
           >
             ✕
@@ -74,7 +72,7 @@ const QuoteModal = () => {
             type="text"
             placeholder="Your Name"
             className={`w-full px-3 py-2 rounded-xl outline-none border transition-all ${
-              isDark
+              theme === "dark"
                 ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30"
                 : "bg-white border-gray-300 placeholder:text-gray-400 focus:border-indigo-500"
             }`}
@@ -84,7 +82,7 @@ const QuoteModal = () => {
             type="email"
             placeholder="Email Address"
             className={`w-full px-3 py-2 rounded-xl outline-none border transition-all ${
-              isDark
+              theme === "dark"
                 ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30"
                 : "bg-white border-gray-300 placeholder:text-gray-400 focus:border-indigo-500"
             }`}
@@ -92,25 +90,25 @@ const QuoteModal = () => {
 
           <select
             className={`w-full px-3 py-2 rounded-xl outline-none border transition-all ${
-              isDark
+              theme === "dark"
                 ? "bg-white/5 border-white/10 text-white focus:border-white/30"
                 : "bg-white border-gray-300 text-gray-900 focus:border-indigo-500"
             }`}
           >
-            <option value="" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>Select Service</option>
-            <option value="Website Development" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>Website Development</option>
-            <option value="App Development" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>App Development</option>
-            <option value="SEO" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>SEO</option>
-            <option value="Logo / Branding" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>Logo / Branding</option>
-            <option value="Thumbnail Design" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>Thumbnail Design</option>
-            <option value="CV / Resume" className={`${isDark ? "bg-black text-white" : "bg-white text-gray-900"}`}>CV / Resume</option>
+            <option value="" className={`${theme === "dark" ? "bg-black text-white" : "bg-white text-gray-900"}`}>Select Service</option>
+            <option value="Website Development" className={`${theme === "dark" ? "bg-black text-white" : "bg-white text-gray-900"}`}>Website Development</option>
+            <option value="App Development" className={`${theme === "dark" ? "bg-black text-white" : "bg-white text-gray-900"}`}>App Development</option>
+            <option value="SEO" className={`${theme === "dark" ? "bg-black text-white" : "bg-white text-gray-900"}`}>SEO</option>
+            <option value="Logo / Branding" className={`${theme === "dark" ? "bg-black text-white" : "bg-white text-gray-900"}`}>Logo / Branding</option>
+            <option value="Thumbnail Design" className={`${theme === "dark" ? "bg-black text-white" : "bg-white text-gray-900"}`}>Thumbnail Design</option>
+            <option value="CV / Resume" className={`${theme === "dark" ? "bg-black text-white" : "bg-white text-gray-900"}`}>CV / Resume</option>
           </select>
 
           <textarea
             rows="4"
             placeholder="Describe your project..."
             className={`w-full px-3 py-2 rounded-xl outline-none border transition-all resize-none ${
-              isDark
+              theme === "dark"
                 ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30"
                 : "bg-white border-gray-300 placeholder:text-gray-400 focus:border-indigo-500"
             }`}
@@ -121,7 +119,7 @@ const QuoteModal = () => {
             <button
               type="submit"
               onClick={(e) => e.preventDefault()}
-              className="w-full px-5 py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
+              className="w-full px-5 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
             >
               Submit Quote Request
             </button>
@@ -130,14 +128,14 @@ const QuoteModal = () => {
               href="https://wa.me/923XXXXXXXXX?text=Hi%20Matrix%20Web%20Solutions!%20I%20want%20a%20quote%20for%20my%20project."
               target="_blank"
               rel="noreferrer"
-              className={`w-full flex items-center justify-center gap-4 px-5 py-3 rounded-xl font-semibold text-center border transition-all active:scale-95 ${
-                isDark
+              className={`w-full flex items-center justify-center gap-4 px-5 py-3 rounded-full font-semibold text-center border transition-all active:scale-95 ${
+                theme === "dark"
                   ? "border-white/20 text-white hover:bg-white/10"
                   : "border-gray-300 text-gray-800 hover:bg-gray-100"
               }`}
             >
               WhatsApp Us
-              <img src={FaWhatsapp} alt="" className="h-4 w-4" />
+              <img src={whatsappicon} alt="" className="h-5 w-5" />
             </a>
           </div>
         </form>

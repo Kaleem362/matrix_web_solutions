@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useStore } from "../src/Context/UseStore.jsx";
 
 const Navbar = () => {
-  const { theme, themeChanger, sun, moon,setIsQuoteOpen,logo } = useStore(useContext);
+  const { theme, themeChanger, sun, moon,setIsQuoteOpen,logo, setTheme } = useStore(useContext);
   const [isOpen, setIsOpen] = useState(false);
+  
 
   const navLinks = ["Home", "Our Work", "Projects", "Contact", "About", "Blog"];
 
@@ -15,6 +16,9 @@ const Navbar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  useEffect(() => {
+  setTheme(localStorage.getItem("theme"));
+}, [setTheme]);
 
   return (
     <header className="sticky top-0 z-50">
@@ -62,9 +66,6 @@ const Navbar = () => {
             {navLinks.map((item) => (
               <li
                 key={item}
-                // onClick={() =>{
-                //   document.getElementById("ourwork")?.scrollIntoView({ behavior: "smooth" });
-                // }}
                 className={`relative group font-roboto cursor-pointer text-[15px] xl:text-base ${
                   theme === "dark" ? "text-indigo-100" : "text-indigo-700"
                 } ${theme === "dark" ? "hover:text-white" : "hover:text-indigo-500"}`}
@@ -83,7 +84,7 @@ const Navbar = () => {
           <div className="flex items-center gap-2 sm:gap-3">
             {/* CTA (Desktop only) */}
             <button
-              className={`hidden lg:inline-flex items-center justify-center px-4 py-2 rounded-full font-roboto font-semibold text-sm transition-all duration-200 ${
+              className={`hidden lg:inline-flex items-center justify-center cursor-pointer px-4 py-2 rounded-full font-roboto font-semibold text-sm transition-all duration-200 ${
                 theme === "dark"
                   ? "bg-white text-indigo-900 hover:bg-transparent hover:shadow-sm hover:shadow-white hover:text-white active:scale-95 transition-transform duration-75"
                   : "bg-indigo-700 text-white hover:bg-white hover:border hover:border-indigo-900 border-white hover:text-indigo-900 hover:text-shadow-indigo-900"
@@ -94,15 +95,15 @@ const Navbar = () => {
 
             {/* Theme Toggle */}
             <button
-              className={`themetoggle-icon w-fit h-auto rounded-full p-2 cursor-pointer transition-all duration-200 `}
+              className={`themetoggle-icon w-fit h-auto rounded-full p-2 cursor-pointer transition-all duration-200 ${theme === "dark" ? "bg-white/30" : "rounded-full bg-indigo-500/30"}`}
               onClick={themeChanger}
               title="Toggle Theme"
               aria-label="Toggle Theme"
             >
               {theme === "dark" ? (
-                <img src={sun} alt="Sun" className="w-5 h-5 sm:w-6 sm:h-6" />
+                <img src={sun} alt="light mode" className="w-5 h-5 sm:w-6 sm:h-6" />
               ) : (
-                <img src={moon} alt="Moon" className="w-5 h-5 sm:w-6 sm:h-6" />
+                <img src={moon} alt="dark mode" className="w-5 h-5 sm:w-6 sm:h-6" />
               )}
             </button>
 
@@ -180,7 +181,7 @@ const Navbar = () => {
                     : "bg-indigo-700 text-white hover:bg-indigo-800"
                 }`}
               >
-                Get
+                Get a Quote
               </button>
             </div>
           </div>
