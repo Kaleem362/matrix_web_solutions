@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useStore } from "../src/Context/UseStore";
+import { FaWhatsapp } from "react-icons/fa6";
 
 const QuoteModal = () => {
   const { theme, isQuoteOpen, setIsQuoteOpen } = useStore(useStore);
@@ -116,7 +117,7 @@ const QuoteModal = () => {
           ></textarea>
 
           {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row gap-3 pt-2 items-center">
             <button
               type="submit"
               onClick={(e) => e.preventDefault()}
@@ -124,18 +125,19 @@ const QuoteModal = () => {
             >
               Submit Quote Request
             </button>
-
+            <span>or</span>
             <a
               href="https://wa.me/923XXXXXXXXX?text=Hi%20Matrix%20Web%20Solutions!%20I%20want%20a%20quote%20for%20my%20project."
               target="_blank"
               rel="noreferrer"
-              className={`w-full px-5 py-3 rounded-xl font-semibold text-center border transition-all active:scale-95 ${
+              className={`w-full flex items-center justify-center gap-4 px-5 py-3 rounded-xl font-semibold text-center border transition-all active:scale-95 ${
                 isDark
                   ? "border-white/20 text-white hover:bg-white/10"
                   : "border-gray-300 text-gray-800 hover:bg-gray-100"
               }`}
             >
-              Or WhatsApp Us
+              WhatsApp Us
+              <img src={FaWhatsapp} alt="" className="h-4 w-4" />
             </a>
           </div>
         </form>

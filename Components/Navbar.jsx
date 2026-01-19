@@ -62,6 +62,9 @@ const Navbar = () => {
             {navLinks.map((item) => (
               <li
                 key={item}
+                // onClick={() =>{
+                //   document.getElementById("ourwork")?.scrollIntoView({ behavior: "smooth" });
+                // }}
                 className={`relative group font-roboto cursor-pointer text-[15px] xl:text-base ${
                   theme === "dark" ? "text-indigo-100" : "text-indigo-700"
                 } ${theme === "dark" ? "hover:text-white" : "hover:text-indigo-500"}`}

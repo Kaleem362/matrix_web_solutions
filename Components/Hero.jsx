@@ -162,7 +162,7 @@ const Hero = () => {
         {/* RIGHT: Catchy Text Content */}
         <div
           className={`lg:col-span-5 rounded-2xl backdrop-blur-md shadow-xl p-6 sm:p-8 flex flex-col justify-center h-full transition-all duration-300 ${
-            isDark ? "bg-white/5 border border-white/10" : "bg-white/60"
+            theme === "dark" ? "bg-white/5 border border-white/10 shadow-xs shadow-indigo-600" : "bg-white/60"
           }`}
         >
           <h1
