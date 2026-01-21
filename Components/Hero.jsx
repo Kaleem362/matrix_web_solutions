@@ -164,7 +164,7 @@ const Hero = () => {
           }`}
         >
           <h1
-            className={`text-3xl sm:text-4xl font-poppins font-extrabold leading-tight transition-all duration-300 ${
+            className={`text-3xl sm:text-4xl md:text-5xl font-poppins font-extrabold leading-tight transition-all duration-300 ${
               theme === "dark" ? "text-white" : "text-indigo-900"
             }`}>
             Grow Your Business Online with{" "}

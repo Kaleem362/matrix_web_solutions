@@ -8,7 +8,7 @@ const FAQSection = () => {
   const isDark = theme === "dark";
 
   const faqs = [
-    { q: "What is the delivery time?", a: "Delivery depends on the service. Usually 2–7 days for websites and 7–15 days for apps." },
+    { q: "What is the delivery time?", a: "Websites: 5–12 days (depending on pages/features)\nApps: 3–6 weeks (depending on scope) \n Websites: 1–2 weeks\nApps: 3–8 weeks\nSEO: 4–8 weeks to start seeing improvements \n(If you want fast service positioning) \nWebsites: 7–10 days\nApps: 2–6 weeks" },
     { q: "Do you offer revisions?", a: "Yes, revisions are included based on the package. Premium includes unlimited revisions." },
     { q: "What payment methods do you accept?", a: "We accept bank transfer, Easypaisa, JazzCash and other local payment methods." },
     { q: "Do you provide support after delivery?", a: "Yes, we provide support and maintenance depending on the plan." },

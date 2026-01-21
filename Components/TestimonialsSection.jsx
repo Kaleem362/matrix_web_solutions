@@ -171,7 +171,7 @@ const TestimonialsSection = () => {
 
         <button
           onClick={() => setIsQuoteOpen(true)}
-          className="mt-5 px-7 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
+          className="mt-5 px-7 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-white hover:text-indigo-900 transition-all active:scale-95 "
         >
           Get a Free Quote
         </button>

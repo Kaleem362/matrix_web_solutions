@@ -9,9 +9,10 @@ const Footer = () => {
   };
 
   return (
+    <>
     <footer
       id="contact"
-      className={`w-full px-4 sm:px-8 lg:px-16 pt-14 pb-8 transition-all duration-300 ${
+      className={`w-full flex justify-center px-4 sm:px-8 lg:px-16 pt-14 pb-8 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-indigo-900 to-black text-white"
           : "bg-linear-to-b from-white hover:border hover:border-indigo-900 via-indigo-50 to-white text-gray-900"
@@ -120,14 +121,16 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div
+      
+    </footer>
+    <div
         className={`max-w-6xl mx-auto mt-10 pt-6 border-t text-center text-xs ${
           theme === "dark" ? "border-white/10 text-white/60" : "border-gray-200 text-gray-500"
         }`}
       >
         © {new Date().getFullYear()} Matrix Web Solutions. All Rights Reserved.
       </div>
-    </footer>
+      </>
   );
 };
 
