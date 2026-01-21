@@ -8,6 +8,7 @@ import TestimonialsSection from '../Components/TestimonialsSection'
 import Footer from '../Components/Footer'
 import PricingSection from '../Components/PricingSection'
 import ProcessSection from '../Components/ProcessSection'
+import FAQSection from '../Components/FAQSection'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <TestimonialsSection/>
       <PricingSection/>
       <ProcessSection />
+      <FAQSection/>
       <Footer/>
     </div>
 
