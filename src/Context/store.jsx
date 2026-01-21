@@ -13,6 +13,8 @@ import cv from "../../Elements/images/icons/cv.png";
 import fastdel from "../../Elements/images/icons/fastdel.png";
 import appdev from "../../Elements/images/icons/appdev.png";
 import whatsappicon from "../../Elements/images/icons/whatsappicon.png";
+import gmail from "../../Elements/images/icons/gmail.png";
+
 import logo from "../assets/MatrixLogo.png";
 
 export const ContextProvider = ({ children }) => {
@@ -93,6 +95,7 @@ export const ContextProvider = ({ children }) => {
         appdev,
         isQuoteOpen,
         setIsQuoteOpen,
+        gmail
       }}
     >
       {children}

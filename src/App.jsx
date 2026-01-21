@@ -5,6 +5,9 @@ import ServicesSection from '../Components/ServicesSection'
 import QuoteModal from '../Components/QuoteModal'
 import OurWorkSection from '../Components/OurWorkSection'
 import TestimonialsSection from '../Components/TestimonialsSection'
+import Footer from '../Components/Footer'
+import PricingSection from '../Components/PricingSection'
+import ProcessSection from '../Components/ProcessSection'
 
 const App = () => {
   return (
@@ -15,6 +18,9 @@ const App = () => {
       <QuoteModal/>
       <OurWorkSection/>
       <TestimonialsSection/>
+      <PricingSection/>
+      <ProcessSection />
+      <Footer/>
     </div>
 
   )

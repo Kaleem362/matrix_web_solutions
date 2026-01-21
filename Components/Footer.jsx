@@ -1,0 +1,132 @@
+import React from "react";
+import { useStore } from "../src/Context/UseStore";
+
+const Footer = () => {
+  const { theme, setIsQuoteOpen, whatsappicon,gmail } = useStore(useStore);
+
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <footer
+      id="contact"
+      className={`w-full px-4 sm:px-8 lg:px-16 pt-14 pb-8 transition-all duration-300 ${
+        theme === "dark"
+          ? "bg-linear-to-b from-black via-indigo-950 to-black text-white"
+          : "bg-linear-to-b from-white via-indigo-50 to-white text-gray-900"
+      }`}
+    >
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10">
+        {/* Brand */}
+        <div className="md:col-span-4">
+          <h3
+            className={`text-2xl font-extrabold font-poppins ${
+              theme === "dark" ? "text-white" : "text-indigo-900"
+            }`}
+          >
+            Matrix Web Solutions
+          </h3>
+
+          <p
+            className={`mt-3 text-sm leading-relaxed ${
+              theme === "dark" ? "text-white/70" : "text-gray-600"
+            }`}
+          >
+            We help startups and small businesses grow online with modern
+            websites, apps, SEO, and creative design solutions.
+          </p>
+
+          <button
+            onClick={() => setIsQuoteOpen(true)}
+            className="mt-5 px-6 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
+          >
+            Get a Free Quote
+          </button>
+        </div>
+
+        {/* Quick Links */}
+        <div className="md:col-span-4">
+          <h4 className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-bold`}>
+            Quick Links
+          </h4>
+
+          <ul className="mt-4 space-y-2 text-sm">
+            {[
+              { label: "Home", id: "home" },
+              { label: "Services", id: "services" },
+              { label: "Our Work", id: "ourwork" },
+              { label: "Testimonials", id: "testimonials" },
+            ].map((link) => (
+              <li key={link.id}>
+                <button
+                  onClick={() => scrollToSection(link.id)}
+                  className={`transition-all hover:underline ${
+                    theme === "dark" ? "text-white/70 hover:text-white" : "text-gray-600 hover:text-indigo-800"
+                  }`}
+                >
+                  {link.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Services */}
+        <div className="md:col-span-4">
+          <h4 className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-bold`}>
+            Services
+          </h4>
+
+          <ul className="mt-4 space-y-2 text-sm">
+            {[
+              "Website Development",
+              "App Development",
+              "SEO Services",
+              "Logo Design",
+              "Thumbnail Design",
+              "CV / Resume Making",
+            ].map((service) => (
+              <li
+                key={service}
+                className={`${theme === "dark" ? "text-white/70" : "text-gray-600"}`}
+              >
+                {service}
+              </li>
+            ))}
+          </ul>
+
+          {/* Contact */}
+          <div className="mt-6 space-y-4 text-sm">
+            <a href="mailto:Matrixdev19@gmail.com" target="_blank" rel="noopener noreferrer">
+            <p className={`${theme === "dark" ? "text-white/70" : "text-gray-600"}`}>
+              <img src={gmail} alt="" className="inline w-4 h-4 mr-2"/>
+              <span className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-semibold`}>
+                matrixdev19@gmail.com
+              </span>
+            </p>
+            </a>
+
+            <p className={`${theme === "dark" ? "text-white/70" : "text-gray-600"}`}>
+              <img src={whatsappicon} alt="WhatsApp" className="inline w-4 h-4 mr-2" />
+              <span className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-semibold`}>
+                +92 313 990 8631
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div
+        className={`max-w-6xl mx-auto mt-10 pt-6 border-t text-center text-xs ${
+          theme === "dark" ? "border-white/10 text-white/60" : "border-gray-200 text-gray-500"
+        }`}
+      >
+        © {new Date().getFullYear()} Matrix Web Solutions. All Rights Reserved.
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
