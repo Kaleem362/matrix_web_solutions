@@ -13,15 +13,15 @@ const Footer = () => {
       id="contact"
       className={`w-full px-4 sm:px-8 lg:px-16 pt-14 pb-8 transition-all duration-300 ${
         theme === "dark"
-          ? "bg-linear-to-b from-black via-indigo-950 to-black text-white"
-          : "bg-linear-to-b from-white via-indigo-50 to-white text-gray-900"
+          ? "bg-linear-to-b from-indigo-900 to-black text-white"
+          : "bg-linear-to-b from-white hover:border hover:border-indigo-900 via-indigo-50 to-white text-gray-900"
       }`}
     >
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10">
         {/* Brand */}
         <div className="md:col-span-4">
           <h3
-            className={`text-2xl font-extrabold font-poppins ${
+            className={`xs:text-2xl md:text-3xl lg:text-4xl font-extrabold font-poppins ${
               theme === "dark" ? "text-white" : "text-indigo-900"
             }`}
           >
@@ -39,7 +39,7 @@ const Footer = () => {
 
           <button
             onClick={() => setIsQuoteOpen(true)}
-            className="mt-5 px-6 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
+            className={`mt-5 px-6 py-3 rounded-full cursor-pointer ${theme === "dark" ? "bg-transparent border border-white text-white hover:bg-indigo-700" : "bg-indigo-600 hover:bg-white text-white hover:text-indigo-900 hover:border hover:border-indigo-900 hover:shadow-xl hover:shadow-indigo-500/20"} font-semibold transition-all active:scale-95`}
           >
             Get a Free Quote
           </button>
@@ -47,7 +47,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div className="md:col-span-4">
-          <h4 className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-bold`}>
+          <h4 className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-bold md:text-xl`}>
             Quick Links
           </h4>
 
@@ -61,8 +61,8 @@ const Footer = () => {
               <li key={link.id}>
                 <button
                   onClick={() => scrollToSection(link.id)}
-                  className={`transition-all hover:underline ${
-                    theme === "dark" ? "text-white/70 hover:text-white" : "text-gray-600 hover:text-indigo-800"
+                  className={`hover:underline hover:text-indigo-200/90 transition-all cursor-pointer ${
+                    theme === "dark" ? "text-white hover:text-white" : "text-gray-600 hover:text-indigo-800"
                   }`}
                 >
                   {link.label}
@@ -74,7 +74,7 @@ const Footer = () => {
 
         {/* Services */}
         <div className="md:col-span-4">
-          <h4 className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-bold`}>
+          <h4 className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-bold md:text-xl`}>
             Services
           </h4>
 
@@ -89,7 +89,9 @@ const Footer = () => {
             ].map((service) => (
               <li
                 key={service}
-                className={`${theme === "dark" ? "text-white/70" : "text-gray-600"}`}
+                className={`hover:underline hover:text-indigo-200/90 transition-all cursor-pointer ${
+                    theme === "dark" ? "text-white hover:text-white" : "text-gray-600 hover:text-indigo-800"
+                  }`}
               >
                 {service}
               </li>
@@ -100,15 +102,15 @@ const Footer = () => {
           <div className="mt-6 space-y-4 text-sm">
             <a href="mailto:Matrixdev19@gmail.com" target="_blank" rel="noopener noreferrer">
             <p className={`${theme === "dark" ? "text-white/70" : "text-gray-600"}`}>
-              <img src={gmail} alt="" className="inline w-4 h-4 mr-2"/>
+              <img src={gmail} alt="" className="inline w-4 h-4 mr-4"/>
               <span className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-semibold`}>
                 matrixdev19@gmail.com
               </span>
             </p>
             </a>
 
-            <p className={`${theme === "dark" ? "text-white/70" : "text-gray-600"}`}>
-              <img src={whatsappicon} alt="WhatsApp" className="inline w-4 h-4 mr-2" />
+            <p className={` mt-2 ${theme === "dark" ? "text-white/70" : "text-gray-600"}`}>
+              <img src={whatsappicon} alt="WhatsApp"  className="inline w-4 h-4 mr-4" />
               <span className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-semibold`}>
                 +92 313 990 8631
               </span>

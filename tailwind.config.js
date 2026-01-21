@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
+        knewave: ["Knewave", "system-ui"],
       },
     },
   },

@@ -37,7 +37,7 @@ const PricingSection = () => {
       className={`w-full px-4 sm:px-8 lg:px-16 py-14 sm:py-16 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-black via-indigo-950 to-black text-white"
-          : "bg-linear-to-b from-white via-indigo-50 to-white text-gray-900"
+          : "bg-linear-to-b from-indigo-300/40 via-indigo-50 to-white text-gray-900"
       }`}
     >
       <motion.div
@@ -64,7 +64,7 @@ const PricingSection = () => {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55, delay: i * 0.1 }}
             whileHover={{ y: -8, scale: 1.02 }}
-            className={`relative group rounded-3xl p-7 border shadow-xl overflow-hidden transition-all duration-300 ${
+            className={`relative group rounded-3xl p-7 hover:border hover:border-indigo-900 shadow-xl overflow-hidden transition-all duration-300 ${
               theme === "dark" ? "bg-white/5 border-white/10 shadow-black/40" : "bg-white border-gray-200 shadow-indigo-200/60"
             } ${plan.popular ? "ring-2 ring-indigo-500" : ""}`}
           >

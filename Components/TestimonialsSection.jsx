@@ -49,7 +49,7 @@ const TestimonialsSection = () => {
       className={`w-full px-4 sm:px-8 lg:px-16 py-14 sm:py-16 transition-all duration-300 ${
         isDark
           ? "bg-linear-to-b from-black via-indigo-950 to-black text-white"
-          : "bg-linear-to-b from-white via-indigo-50 to-white text-gray-900"
+          : "bg-linear-to-b from-white via-indigo-50 to-indigo-300/40 text-gray-900"
       }`}
     >
       {/* Heading */}
