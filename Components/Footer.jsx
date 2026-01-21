@@ -124,8 +124,8 @@ const Footer = () => {
       
     </footer>
     <div
-        className={`max-w-6xl mx-auto mt-10 pt-6 border-t text-center text-xs ${
-          theme === "dark" ? "border-white/10 text-white/60" : "border-gray-200 text-gray-500"
+        className={`w-full pb-6 mx-auto  pt-6 border-t text-center text-xs ${
+          theme === "dark" ? "border-white/10 text-white/60 bg-black" : "border-gray-200 text-gray-500"
         }`}
       >
         © {new Date().getFullYear()} Matrix Web Solutions. All Rights Reserved.
