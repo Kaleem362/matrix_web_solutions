@@ -30,7 +30,7 @@ const ProcessSection = () => {
       className={`w-full px-4 sm:px-8 lg:px-16 py-14 sm:py-16 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-black via-indigo-950 to-black text-white"
-          : "bg-linear-to-b from-white via-indigo-50 to-white text-gray-900"
+          : "bg-linear-to-b from-indigo-400 to-white text-gray-900"
       }`}
     >
       <motion.div
@@ -41,12 +41,12 @@ const ProcessSection = () => {
         className="max-w-6xl mx-auto text-center"
       >
         <h2
-          className={`text-3xl sm:text-4xl font-extrabold font-poppins ${theme === "dark" ? "text-white" : "text-indigo-900"}`}
+          className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins ${theme === "dark" ? "text-white" : "text-white"}`}
         >
           How We Work
         </h2>
         <p
-          className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${theme === "dark" ? "text-white/70" : "text-gray-600"}`}
+          className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${theme === "dark" ? "text-white/70" : "text-white"}`}
         >
           A simple, transparent process that delivers results.
         </p>

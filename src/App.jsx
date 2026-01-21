@@ -9,6 +9,7 @@ import Footer from '../Components/Footer'
 import PricingSection from '../Components/PricingSection'
 import ProcessSection from '../Components/ProcessSection'
 import FAQSection from '../Components/FAQSection'
+import ServiceDetailsModal from '../Components/ServiceDetailsModal'
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
       <ProcessSection />
       <FAQSection/>
       <Footer/>
+      <ServiceDetailsModal />
+
     </div>
 
   )

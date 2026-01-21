@@ -5,7 +5,6 @@ import { useStore } from "../src/Context/UseStore";
 
 const TestimonialsSection = () => {
   const { theme, setIsQuoteOpen } = useStore();
-  const isDark = theme === "dark";
 
   const testimonials = [
     {
@@ -47,9 +46,9 @@ const TestimonialsSection = () => {
     <section
       id="testimonials"
       className={`w-full px-4 sm:px-8 lg:px-16 py-14 sm:py-16 transition-all duration-300 ${
-        isDark
+        theme === "dark"
           ? "bg-linear-to-b from-black via-indigo-950 to-black text-white"
-          : "bg-linear-to-b from-white via-indigo-50 to-indigo-300/40 text-gray-900"
+          : "bg-linear-to-b from-indigo-400 to-white text-white"
       }`}
     >
       {/* Heading */}
@@ -61,8 +60,8 @@ const TestimonialsSection = () => {
         className="max-w-6xl mx-auto text-center"
       >
         <h2
-          className={`text-3xl sm:text-4xl font-extrabold font-poppins ${
-            isDark ? "text-white" : "text-indigo-900"
+          className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins ${
+            theme === "dark" ? "text-white" : "text-white"
           }`}
         >
           What Clients Say
@@ -70,7 +69,7 @@ const TestimonialsSection = () => {
 
         <p
           className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${
-            isDark ? "text-white/70" : "text-gray-600"
+            theme === "dark" ? "text-white/70" : "text-white"
           }`}
         >
           Trusted by startups and small businesses for design, development and
@@ -93,7 +92,7 @@ const TestimonialsSection = () => {
             whileHover={{ y: -8, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 220, damping: 18 }}
             className={`group relative rounded-3xl p-6 border shadow-xl overflow-hidden transition-all duration-300 ${
-              isDark
+              theme === "dark"
                 ? "bg-white/5 border-white/10 shadow-black/40"
                 : "bg-white border-gray-200 shadow-indigo-200/60"
             }`}
@@ -101,7 +100,7 @@ const TestimonialsSection = () => {
             {/* glow */}
             <div
               className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ${
-                isDark
+                theme === "dark"
                   ? "bg-linear-to-br from-indigo-500/15 via-transparent to-purple-500/10"
                   : "bg-linear-to-br from-indigo-200/40 via-transparent to-purple-200/30"
               }`}
@@ -119,7 +118,7 @@ const TestimonialsSection = () => {
             {/* Text */}
             <p
               className={`relative mt-4 text-sm leading-relaxed ${
-                isDark ? "text-white/75" : "text-gray-600"
+                theme === "dark" ? "text-white/75" : "text-gray-600"
               }`}
             >
               “{t.text}”
@@ -128,17 +127,17 @@ const TestimonialsSection = () => {
             {/* Person */}
             <div className="relative mt-6 flex items-center justify-between">
               <div>
-                <h4 className={`${isDark ? "text-white" : "text-indigo-900"} font-bold`}>
+                <h4 className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-bold`}>
                   {t.name}
                 </h4>
-                <p className={`${isDark ? "text-white/60" : "text-gray-500"} text-xs`}>
+                <p className={`${theme === "dark" ? "text-white/60" : "text-gray-500"} text-xs`}>
                   {t.role}
                 </p>
               </div>
 
               <div
                 className={`w-11 h-11 rounded-full flex items-center justify-center font-bold border ${
-                  isDark
+                  theme === "dark"
                     ? "bg-indigo-500/15 border-indigo-400/20 text-indigo-200"
                     : "bg-indigo-50 border-indigo-200 text-indigo-700"
                 }`}
@@ -150,7 +149,7 @@ const TestimonialsSection = () => {
             {/* bottom line */}
             <div
               className={`absolute bottom-0 left-0 w-full h-0.75 opacity-0 group-hover:opacity-100 transition-all duration-300 ${
-                isDark ? "bg-indigo-400/60" : "bg-indigo-700/60"
+                theme === "dark" ? "bg-indigo-400/60" : "bg-indigo-700/60"
               }`}
             ></div>
           </motion.div>
@@ -165,7 +164,7 @@ const TestimonialsSection = () => {
         transition={{ duration: 0.6 }}
         className="max-w-6xl mx-auto mt-12 text-center"
       >
-        <p className={`${isDark ? "text-white/70" : "text-gray-600"} text-sm`}>
+        <p className={`${theme === "dark" ? "text-white/70" : "text-gray-600"} text-sm`}>
           Ready to grow your business online? Let’s talk.
         </p>
 

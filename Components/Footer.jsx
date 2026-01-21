@@ -15,7 +15,7 @@ const Footer = () => {
       className={`w-full flex justify-center px-4 sm:px-8 lg:px-16 pt-14 pb-8 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-indigo-900 to-black text-white"
-          : "bg-linear-to-b from-white hover:border hover:border-indigo-900 via-indigo-50 to-white text-gray-900"
+          : "bg-linear-to-b from-indigo-400 to-white text-gray-900"
       }`}
     >
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10">

@@ -4,8 +4,18 @@ import { motion } from "framer-motion";
 import { useStore } from "../src/Context/UseStore";
 
 const ServicesSection = () => {
-  const { theme, designlogo, appdev, webdev, thumbnaildesign, seo, cv, setIsQuoteOpen } =
-    useStore();
+  const {
+    theme,
+    designlogo,
+    appdev,
+    webdev,
+    thumbnaildesign,
+    seo,
+    cv,
+    setIsQuoteOpen,
+    setActiveService,
+    setIsServiceOpen,
+  } = useStore();
 
   const servicesList = [
     {
@@ -79,7 +89,7 @@ const ServicesSection = () => {
       className={`w-full px-4 sm:px-8 lg:px-16 py-12 sm:py-16 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-black via-indigo-950 to-indigo-900/70 text-white"
-          : "bg-linear-to-b from-white via-indigo-50 to-white text-gray-900"
+          : "bg-linear-to-b from-indigo-400 to-white text-gray-900"
       }`}
     >
       {/* Heading */}
@@ -91,8 +101,8 @@ const ServicesSection = () => {
         className="max-w-6xl mx-auto text-center"
       >
         <h2
-          className={`text-3xl sm:text-4xl font-extrabold font-poppins ${
-            theme === "dark" ? "text-white" : "text-indigo-900"
+          className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins ${
+            theme === "dark" ? "text-white" : "text-white"
           }`}
         >
           Our Services
@@ -100,7 +110,7 @@ const ServicesSection = () => {
 
         <p
           className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${
-            theme === "dark" ? "text-white/70" : "text-gray-600"
+            theme === "dark" ? "text-white/70" : "text-white"
           }`}
         >
           We provide complete digital solutions to help you grow online, attract
@@ -192,7 +202,10 @@ const ServicesSection = () => {
             {/* Buttons */}
             <div className="relative mt-7 flex items-center gap-3">
               <button
-                onClick={() => alert(`${s.title} details coming soon!`)}
+                onClick={() => {
+                  setActiveService(s);
+                  setIsServiceOpen(true);
+                }}
                 className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all active:scale-95 ${
                   theme === "dark"
                     ? "border-white/20 hover:border-white text-white hover:bg-white/10"
@@ -228,8 +241,11 @@ const ServicesSection = () => {
         transition={{ duration: 0.6 }}
         className="max-w-6xl mx-auto mt-14 text-center"
       >
-        <p className={`${theme === "dark" ? "text-white/70" : "text-gray-600"} text-sm`}>
-          Want a custom package? Let’s build something amazing for your business.
+        <p
+          className={`${theme === "dark" ? "text-white/70" : "text-gray-600"} text-sm`}
+        >
+          Want a custom package? Let’s build something amazing for your
+          business.
         </p>
 
         <button

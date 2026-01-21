@@ -37,7 +37,7 @@ const PricingSection = () => {
       className={`w-full px-4 sm:px-8 lg:px-16 py-14 sm:py-16 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-black via-indigo-950 to-black text-white"
-          : "bg-linear-to-b from-indigo-300/40 via-indigo-50 to-white text-gray-900"
+          : "bg-linear-to-b from-indigo-400 to-white"
       }`}
     >
       <motion.div
@@ -47,10 +47,10 @@ const PricingSection = () => {
         transition={{ duration: 0.6 }}
         className="max-w-6xl mx-auto text-center"
       >
-        <h2 className={`text-3xl sm:text-4xl font-extrabold font-poppins ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>
+        <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins ${theme === "dark" ? "text-white" : "text-white"}`}>
           Pricing Packages
         </h2>
-        <p className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${theme === "dark" ? "text-white/70" : "text-gray-600"}`}>
+        <p className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${theme === "dark" ? "text-white/70" : "text-white"}`}>
           Choose the best package for your business goals. You can also request a custom plan.
         </p>
       </motion.div>

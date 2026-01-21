@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useState
- } from "react";
+import { createContext, useState } from "react";
 import sun from "../../Elements/images/sun.png";
 import moon from "../../Elements/images/cresent.png";
 export const StoreContext = createContext();
@@ -18,24 +17,22 @@ import gmail from "../../Elements/images/icons/gmail.png";
 import logo from "../assets/MatrixLogo.png";
 
 export const ContextProvider = ({ children }) => {
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const [isServiceOpen, setIsServiceOpen] = useState(false);
+  const [activeService, setActiveService] = useState(null);
+
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme || "dark";
   });
-  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
 
   const themeChanger = () => {
-     // ❌ theme dependency causes loop
+    // ❌ theme dependency causes loop
 
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
-
-    
   };
-  
-
-  
 
   const services = [
     {
@@ -95,11 +92,14 @@ export const ContextProvider = ({ children }) => {
         appdev,
         isQuoteOpen,
         setIsQuoteOpen,
-        gmail
+        gmail,
+        setActiveService,
+        setIsServiceOpen,
+        activeService,
+        isServiceOpen,
       }}
     >
       {children}
     </StoreContext.Provider>
   );
-  
 };

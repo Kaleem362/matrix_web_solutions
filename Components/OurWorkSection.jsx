@@ -87,7 +87,7 @@ const OurWorkSection = () => {
       className={`w-full px-4 sm:px-8 lg:px-16 py-14 sm:py-16 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-indigo-950 via-black to-black text-white"
-          : "bg-linear-to-b from-white via-indigo-50 to-white text-gray-900"
+          : "bg-linear-to-b from-indigo-400 to-white text-white"
       }`}
     >
       {/* Heading */}
@@ -99,8 +99,8 @@ const OurWorkSection = () => {
         className="max-w-6xl mx-auto text-center"
       >
         <h2
-          className={`text-3xl sm:text-4xl font-extrabold font-poppins ${
-            theme === "dark" ? "text-white" : "text-indigo-900"
+          className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins ${
+            theme === "dark" ? "text-white" : "text-white"
           }`}
         >
           Our Work
@@ -108,7 +108,7 @@ const OurWorkSection = () => {
 
         <p
           className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${
-            theme === "dark" ? "text-white/70" : "text-gray-600"
+            theme === "dark" ? "text-white/70" : "text-white"
           }`}
         >
           Some of our recent projects and creative work to help businesses grow
