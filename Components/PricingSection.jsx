@@ -78,7 +78,7 @@ const PricingSection = () => {
             <h3 className={`text-xl font-bold ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>{plan.name}</h3>
             <p className={`mt-2 text-sm ${theme === "dark" ? "text-white/70" : "text-gray-600"}`}>{plan.desc}</p>
 
-            <p className="mt-5 text-3xl font-extrabold text-indigo-500">{plan.price}</p>
+            <p className={`mt-5 text-3xl font-extrabold ${theme === "dark" ? "text-white" : "text-indigo-500"}`}>{plan.price}</p>
 
             <ul className="mt-6 space-y-2 text-sm">
               {plan.features.map((f, idx) => (

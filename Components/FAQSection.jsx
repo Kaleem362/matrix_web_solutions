@@ -32,7 +32,7 @@ const FAQSection = () => {
         transition={{ duration: 0.6 }}
         className="max-w-6xl mx-auto text-center"
       >
-        <h2 className={`text-3xl sm:text-4xl font-extrabold font-poppins ${theme === "dark" ? "text-white" : "text-white"}`}>
+        <h2 className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins ${theme === "dark" ? "text-white" : "text-white"}`}>
           Frequently Asked Questions
         </h2>
         <p className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${theme === "dark" ? "text-white/70" : "text-white"}`}>
