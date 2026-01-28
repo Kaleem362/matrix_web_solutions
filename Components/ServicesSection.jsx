@@ -466,7 +466,7 @@ const ServicesSection = () => {
 
               <button
                 onClick={() => setIsQuoteOpen(true)}
-                className="px-4 py-2 rounded-full hover:scale-110 hover:bg-transparent hover:border-white hover:border text-sm font-semibold bg-indigo-600 text-white transition-all active:scale-95"
+                className="px-4 py-2 rounded-full hover:scale-110 hover:bg-transparent hover:border-indigo-900 hover:border text-sm font-semibold bg-indigo-600 text-white transition-all active:scale-95 hover:text-indigo-900"
               >
                 Get a Quote
               </button>

@@ -1,31 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import axios from "axios";
 import { useStore } from "../src/Context/UseStore";
 
 const TestimonialsSection = () => {
   const { theme, setIsQuoteOpen } = useStore();
+  const [testimonials, setTestimonials] = useState([])
 
-  const testimonials = [
-    {
-      name: "Ali Khan",
-      role: "Small Business Owner",
-      text: "Matrix Web Solutions delivered a clean website and improved our online presence. Great communication and fast delivery!",
-      rating: 5,
-    },
-    {
-      name: "Ayesha Noor",
-      role: "Startup Founder",
-      text: "Their SEO guidance helped us rank better and get real traffic. Highly recommended for growing businesses.",
-      rating: 5,
-    },
-    {
-      name: "Usman Shah",
-      role: "Content Creator",
-      text: "The thumbnails were high quality and boosted my CTR. Professional work and quick revisions.",
-      rating: 5,
-    },
-  ];
+  useEffect(() => {
+  axios
+    .get("http://localhost:5000/api/testimonials")
+    .then(res => {
+      setTestimonials(Array.isArray(res.data.data) ? res.data.data : []);
+    })
+    .catch(err => {
+      console.error(err);
+      setTestimonials([]);
+    });
+}, []);
+
+    // Fetch testimonials from the API
+    
+
+  // 
+  //const testimonials = [
+  //   {
+  //     name: "Ali Khan",
+  //     role: "Small Business Owner",
+  //     text: "Matrix Web Solutions delivered a clean website and improved our online presence. Great communication and fast delivery!",
+  //     rating: 5,
+  //   },
+  //   {
+  //     name: "Ayesha Noor",
+  //     role: "Startup Founder",
+  //     text: "Their SEO guidance helped us rank better and get real traffic. Highly recommended for growing businesses.",
+  //     rating: 5,
+  //   },
+  //   {
+  //     name: "Usman Shah",
+  //     role: "Content Creator",
+  //     text: "The thumbnails were high quality and boosted my CTR. Professional work and quick revisions.",
+  //     rating: 5,
+  //   },
+  // ];
 
   const container = {
     hidden: {},
@@ -85,9 +103,9 @@ const TestimonialsSection = () => {
         viewport={{ once: true, amount: 0.2 }}
         className="max-w-6xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-3 gap-7"
       >
-        {testimonials.map((t, i) => (
+        {testimonials.map((t, id) => (
           <motion.div
-            key={i}
+            key={id}
             variants={card}
             whileHover={{ y: -8, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 220, damping: 18 }}
@@ -121,7 +139,7 @@ const TestimonialsSection = () => {
                 theme === "dark" ? "text-white/75" : "text-gray-600"
               }`}
             >
-              “{t.text}”
+              “{t.message}”
             </p>
 
             {/* Person */}
