@@ -3,196 +3,180 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useStore } from "../src/Context/UseStore";
+import Loader from "./Loader";
 
 const TestimonialsSection = () => {
   const { theme, setIsQuoteOpen } = useStore();
-  const [testimonials, setTestimonials] = useState([])
 
+  const [testimonials, setTestimonials] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleCards, setVisibleCards] = useState(3);
+
+  // ======================
+  // Responsive cards count
+  // ======================
   useEffect(() => {
-  axios
-    .get("http://localhost:5000/api/testimonials")
-    .then(res => {
-      setTestimonials(Array.isArray(res.data.data) ? res.data.data : []);
-    })
-    .catch(err => {
-      console.error(err);
-      setTestimonials([]);
-    });
-}, []);
+    const updateCards = () => {
+      if (window.innerWidth < 640) setVisibleCards(1);
+      else if (window.innerWidth < 1024) setVisibleCards(2);
+      else setVisibleCards(3);
+    };
 
-    // Fetch testimonials from the API
-    
+    updateCards();
+    window.addEventListener("resize", updateCards);
+    return () => window.removeEventListener("resize", updateCards);
+  }, []);
 
-  // 
-  //const testimonials = [
-  //   {
-  //     name: "Ali Khan",
-  //     role: "Small Business Owner",
-  //     text: "Matrix Web Solutions delivered a clean website and improved our online presence. Great communication and fast delivery!",
-  //     rating: 5,
-  //   },
-  //   {
-  //     name: "Ayesha Noor",
-  //     role: "Startup Founder",
-  //     text: "Their SEO guidance helped us rank better and get real traffic. Highly recommended for growing businesses.",
-  //     rating: 5,
-  //   },
-  //   {
-  //     name: "Usman Shah",
-  //     role: "Content Creator",
-  //     text: "The thumbnails were high quality and boosted my CTR. Professional work and quick revisions.",
-  //     rating: 5,
-  //   },
-  // ];
+  // ======================
+  // Fetch testimonials
+  // ======================
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        setIsLoading(true);
+        const res = await axios.get("http://localhost:5000/api/testimonials");
+        setTestimonials(res?.data?.data || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const container = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.15 } },
+    fetchTestimonials();
+  }, []);
+
+  const maxIndex = Math.max(testimonials.length - visibleCards, 0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
-  const card = {
-    hidden: { opacity: 0, y: 35, scale: 0.98 },
-    show: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
 
   return (
     <section
       id="testimonials"
-      className={`w-full px-4 sm:px-8 lg:px-16 py-14 sm:py-16 transition-all duration-300 ${
+      className={`w-full px-4 sm:px-8 lg:px-16 py-16 ${
         theme === "dark"
           ? "bg-linear-to-b from-black via-indigo-950 to-black text-white"
           : "bg-linear-to-b from-indigo-400 to-white text-white"
       }`}
     >
-      {/* Heading */}
-      <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-6xl mx-auto text-center"
-      >
-        <h2
-          className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins ${
-            theme === "dark" ? "text-white" : "text-white"
-          }`}
-        >
+      {/* ======================
+          Heading
+      ====================== */}
+      <div className="max-w-6xl mx-auto text-center">
+        <h2 className="text-4xl md:text-5xl font-extrabold">
           What Clients Say
         </h2>
-
-        <p
-          className={`mt-3 text-sm sm:text-base max-w-2xl mx-auto ${
-            theme === "dark" ? "text-white/70" : "text-white"
-          }`}
-        >
-          Trusted by startups and small businesses for design, development and
-          digital growth.
+        <p className="mt-3 text-sm max-w-2xl mx-auto text-white/80">
+          Trusted by startups and small businesses worldwide.
         </p>
-      </motion.div>
+      </div>
 
-      {/* Cards */}
-      <motion.div
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-        className="max-w-6xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-3 gap-7"
-      >
-        {testimonials.map((t, id) => (
+      {/* ======================
+          Slider
+      ====================== */}
+      <div className="relative max-w-6xl mx-auto mt-14 overflow-hidden">
+        {isLoading ? (
+          <Loader />
+        ) : (
           <motion.div
-            key={id}
-            variants={card}
-            whileHover={{ y: -8, scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 220, damping: 18 }}
-            className={`group relative rounded-3xl p-6 border shadow-xl overflow-hidden transition-all duration-300 ${
-              theme === "dark"
-                ? "bg-white/5 border-white/10 shadow-black/40"
-                : "bg-white border-gray-200 shadow-indigo-200/60"
-            }`}
+            animate={{
+              x: `-${currentIndex * (100 / visibleCards)}%`,
+            }}
+            transition={{ type: "spring", stiffness: 120, damping: 20 }}
+            className="flex gap-7"
+            style={{ width: `${(testimonials.length * 100) / visibleCards}%` }}
           >
-            {/* glow */}
-            <div
-              className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ${
-                theme === "dark"
-                  ? "bg-linear-to-br from-indigo-500/15 via-transparent to-purple-500/10"
-                  : "bg-linear-to-br from-indigo-200/40 via-transparent to-purple-200/30"
-              }`}
-            ></div>
-
-            {/* Stars */}
-            <div className="relative flex items-center gap-1">
-              {Array.from({ length: t.rating }).map((_, idx) => (
-                <span key={idx} className="text-yellow-400 text-lg">
-                  ★
-                </span>
-              ))}
-            </div>
-
-            {/* Text */}
-            <p
-              className={`relative mt-4 text-sm leading-relaxed ${
-                theme === "dark" ? "text-white/75" : "text-gray-600"
-              }`}
-            >
-              “{t.message}”
-            </p>
-
-            {/* Person */}
-            <div className="relative mt-6 flex items-center justify-between">
-              <div>
-                <h4 className={`${theme === "dark" ? "text-white" : "text-indigo-900"} font-bold`}>
-                  {t.name}
-                </h4>
-                <p className={`${theme === "dark" ? "text-white/60" : "text-gray-500"} text-xs`}>
-                  {t.role}
-                </p>
-              </div>
-
+            {testimonials.map((t) => (
               <div
-                className={`w-11 h-11 rounded-full flex items-center justify-center font-bold border ${
-                  theme === "dark"
-                    ? "bg-indigo-500/15 border-indigo-400/20 text-indigo-200"
-                    : "bg-indigo-50 border-indigo-200 text-indigo-700"
-                }`}
+                key={t._id}
+                className="w-full shrink-0"
+                style={{ width: `${100 / testimonials.length}%` }}
               >
-                {t.name?.[0]}
+                <div
+                  className={`group relative rounded-3xl p-6 border shadow-xl h-full ${
+                    theme === "dark"
+                      ? "bg-white/5 border-white/10"
+                      : "bg-white border-gray-200"
+                  }`}
+                >
+                  {/* Stars */}
+                  <div className="flex gap-1">
+                    {Array.from({ length: t.rating || 0 }).map((_, i) => (
+                      <span key={i} className="text-yellow-400">
+                        ★
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Message */}
+                  <p
+                    className={`mt-4 text-sm leading-relaxed ${
+                      theme === "dark"
+                        ? "text-white/75"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    “{t.message}”
+                  </p>
+
+                  {/* Person */}
+                  <div className="mt-6 flex items-center justify-between">
+                    <div>
+                      <h4 className="font-bold">{t.name}</h4>
+                      <p className="text-xs opacity-70">{t.role}</p>
+                    </div>
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold bg-indigo-600/20">
+                      {t.name?.[0]}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* bottom line */}
-            <div
-              className={`absolute bottom-0 left-0 w-full h-0.75 opacity-0 group-hover:opacity-100 transition-all duration-300 ${
-                theme === "dark" ? "bg-indigo-400/60" : "bg-indigo-700/60"
-              }`}
-            ></div>
+            ))}
           </motion.div>
-        ))}
-      </motion.div>
+        )}
 
-      {/* CTA */}
-      <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-6xl mx-auto mt-12 text-center"
-      >
-        <p className={`${theme === "dark" ? "text-white/70" : "text-gray-600"} text-sm`}>
-          Ready to grow your business online? Let’s talk.
+        {/* ======================
+            Controls
+        ====================== */}
+        {!isLoading && testimonials.length > visibleCards && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 p-3 rounded-full"
+            >
+              ‹
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 p-3 rounded-full"
+            >
+              ›
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* ======================
+          CTA
+      ====================== */}
+      <div className="text-center mt-14">
+        <p className="text-sm opacity-80">
+          Ready to grow your business online?
         </p>
-
         <button
           onClick={() => setIsQuoteOpen(true)}
-          className="mt-5 px-7 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-white hover:text-indigo-900 transition-all active:scale-95 "
+          className="mt-5 px-7 py-3 rounded-full bg-indigo-600 font-semibold hover:bg-white hover:text-indigo-900 transition"
         >
           Get a Free Quote
         </button>
-      </motion.div>
+      </div>
     </section>
   );
 };
