@@ -81,7 +81,7 @@ const TestimonialsSection = () => {
       {/* ======================
           Slider
       ====================== */}
-      <div className="relative max-w-6xl mx-auto mt-14 overflow-hidden">
+      <div className="relative max-w-6xl mx-auto mt-14 overflow-visible no-scrollbar">
         {isLoading ? (
           <Loader />
         ) : (
