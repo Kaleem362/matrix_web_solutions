@@ -129,10 +129,10 @@ const TestimonialsSection = () => {
                   {/* Person */}
                   <div className="mt-6 flex items-center justify-between">
                     <div>
-                      <h4 className="font-bold">{t.name}</h4>
-                      <p className="text-xs opacity-70">{t.role}</p>
+                      <h4 className={`text-sm opacity-70 font-bold ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>{t.name}</h4>
+                      <p className={`text-xs opacity-70 ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>{t.role}</p>
                     </div>
-                    <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold bg-indigo-600/20">
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold bg-indigo-600">
                       {t.name?.[0]}
                     </div>
                   </div>
@@ -167,8 +167,8 @@ const TestimonialsSection = () => {
           CTA
       ====================== */}
       <div className="text-center mt-14">
-        <p className="text-sm opacity-80">
-          Ready to grow your business online?
+        <p className={`text-sm opacity-70 ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>
+          Ready to grow your business online? Quote Now to Discuss Your Project!
         </p>
         <button
           onClick={() => setIsQuoteOpen(true)}
