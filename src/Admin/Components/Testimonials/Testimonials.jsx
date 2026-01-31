@@ -1,166 +1,175 @@
-import { useEffect, useState } from "react";
-
-
-
-import {
-  fetchAllTestimonials,
-  approveTestimonial,
-  deleteTestimonial,
-} from "../../services/testimonialAdmin.service.js";
-import AdminLayout from "../../layout/AdminLayout.jsx";
-import TestimonialsSkeleton from "./TestimonialsSkeleton.jsx";
-
-/*
-  Ab ye component REAL kaam karta hai:
-
-  - API se testimonials fetch
-  - Approve → backend call
-  - Delete → backend call
-  - Loading → skeleton
-*/
+import { React, useEffect, useState } from "react";
+import axios from "axios";
 
 const Testimonials = () => {
-  const [testimonials, setTestimonials] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // 🔹 Backend se aane wale SAARE testimonials (approved + unapproved)
+  const [testimonialsData, setTestimonialsData] = useState([]);
 
-  // ========================
-  // Fetch testimonials
-  // ========================
-  const loadTestimonials = async () => {
+  // 🔹 Loading state (API call ke dauran)
+  const [loading, setLoading] = useState(false);
+
+  // 🔹 Error state (agar API fail ho jaye)
+  const [error, setError] = useState("");
+
+  // 🔹 UI filter:
+  // pending  => approved === false
+  // approved => approved === true
+  const [filter, setFilter] = useState("pending");
+
+  // 🔹 Admin ke liye base API (NO query params)
+  const GETALL_API_URL = "http://localhost:5000/api/testimonials/all";
+  const API_URL = "http://localhost:5000/api/testimonials/";
+  const APP_testimonials_API_URL = "http://localhost:5000/api/testimonials/";
+
+  // =========================================
+  // 🔹 FETCH ALL TESTIMONIALS (ADMIN ONLY)
+  // =========================================
+  const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      const res = await fetchAllTestimonials();
-      setTestimonials(res.data.data || []);
+      const res = await axios.get(GETALL_API_URL);
+      console.log(res.data.data); // checkpoint to console if the data is coming or
+      setTestimonialsData(res.data.data || []);
+      setError("");
     } catch (err) {
-      console.error("Failed to fetch testimonials", err);
+      setError("Failed to fetch testimonials: " + err.message);
     } finally {
       setLoading(false);
     }
   };
 
+  // =========================================
+  // 🔹 useEffect
+  // =========================================
   useEffect(() => {
-    loadTestimonials();
+    // Component load hotay hi admin ko saare testimonials mil jate hain
+    fetchTestimonials();
+    const interval = setInterval(() => {
+    fetchTestimonials();
+  }, 10000); // every 10 seconds
+
+  return () => clearInterval(interval);
   }, []);
 
-  // ========================
-  // Approve handler
-  // ========================
-  const handleApprove = async (id) => {
+  // =========================================
+  // 🔹 FRONTEND FILTERING (CORE LOGIC)
+  // =========================================
+  // UI ke filter (pending / approved) ko
+  // database ke `approved: true/false` se map kar rahe hain
+  const filteredTestimonials = testimonialsData.filter((item) =>
+    filter === "approved" ? item.approved === true : item.approved === false,
+  );
+
+  // =========================================
+  // 🔹 APPROVE TESTIMONIAL
+  // =========================================
+  const approveTestimonial = async (id) => {
     try {
-      await approveTestimonial(id);
-      // UI ko refresh karne ke liye dobara fetch
-      loadTestimonials();
+      await axios.patch(`${APP_testimonials_API_URL}${id}/approve`);
+      // UI update
+      setTestimonialsData((prev) => prev.filter((item) => item._id !== id));
+
+      alert("Testimonial approved successfully");
     } catch (err) {
-      console.error("Approve failed", err);
+      alert(
+        "Approval failed: " +
+          (err?.response?.status +
+            " " +
+            (err?.response?.data?.message || err.message)),
+      );
     }
   };
 
-  // ========================
-  // Delete handler
-  // ========================
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this testimonial?"
-    );
-
-    if (!confirmDelete) return;
+  // =========================================
+  // 🔹 DELETE TESTIMONIAL
+  // =========================================
+  const deleteTestimonial = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this testimonial?"))
+      return;
 
     try {
-      await deleteTestimonial(id);
-      loadTestimonials();
+      await axios.delete(`${APP_testimonials_API_URL}${id}`);
+
+      // 🔹 UI se bhi remove kar diya
+      setTestimonialsData((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
-      console.error("Delete failed", err);
+      alert("Delete failed: " + err.message);
     }
   };
 
+  // =========================================
+  // 🔹 UI RENDER
+  // =========================================
   return (
-    <AdminLayout>
-      <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-        Testimonials
-      </h1>
+    <div className="p-6 ml-64 min-h-screen bg-gray-100">
+      <h2 className="text-2xl font-semibold mb-6">Testimonials Management</h2>
 
-      {/* ===== LOADING STATE ===== */}
-      {loading && <TestimonialsSkeleton />}
+      {/* 🔹 FILTER TABS (UI ONLY) */}
+      <div className="flex gap-3 mb-6">
+        <button
+          onClick={() => setFilter("pending")}
+          className={`px-4 py-2 rounded border ${
+            filter === "pending"
+              ? "bg-indigo-900 text-white border-indigo-900"
+              : "bg-white/50 text-gray-700"
+          }`}
+        >
+          Pending
+        </button>
 
-      {/* ===== DATA TABLE ===== */}
-      {!loading && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-600">
-              <tr>
-                <th className="px-5 py-3 text-left">Client</th>
-                <th className="px-5 py-3 text-left">Message</th>
-                <th className="px-5 py-3 text-left">Rating</th>
-                <th className="px-5 py-3 text-left">Status</th>
-                <th className="px-5 py-3 text-right">Actions</th>
-              </tr>
-            </thead>
+        <button
+          onClick={() => setFilter("approved")}
+          className={`px-4 py-2 rounded border ${
+            filter === "approved"
+              ? "bg-black text-white border-black"
+              : "bg-gray-100 text-gray-700"
+          }`}
+        >
+          Approved
+        </button>
+      </div>
 
-            <tbody>
-              {testimonials.map((t) => (
-                <tr
-                  key={t._id}
-                  className="border-t hover:bg-gray-50 transition"
-                >
-                  <td className="px-5 py-4">
-                    <div className="font-medium">{t.name}</div>
-                    <div className="text-xs text-gray-500">
-                      {t.role}
-                    </div>
-                  </td>
+      {/* 🔹 STATES */}
+      {loading && <p className="text-gray-500">Loading testimonials...</p>}
+      {error && <p className="text-red-500">{error}</p>}
 
-                  <td className="px-5 py-4 max-w-md text-gray-600">
-                    {t.message}
-                  </td>
-
-                  <td className="px-5 py-4">
-                    {"★".repeat(t.rating)}
-                    {"☆".repeat(5 - t.rating)}
-                  </td>
-
-                  <td className="px-5 py-4">
-                    {t.approved ? (
-                      <span className="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                        Approved
-                      </span>
-                    ) : (
-                      <span className="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
-                        Pending
-                      </span>
-                    )}
-                  </td>
-
-                  <td className="px-5 py-4 text-right space-x-2">
-                    {!t.approved && (
-                      <button
-                        onClick={() => handleApprove(t._id)}
-                        className="px-3 py-1.5 text-xs rounded-md bg-indigo-600 text-white hover:bg-indigo-700"
-                      >
-                        Approve
-                      </button>
-                    )}
-
-                    <button
-                      onClick={() => handleDelete(t._id)}
-                      className="px-3 py-1.5 text-xs rounded-md bg-red-600 text-white hover:bg-red-700"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* EMPTY STATE */}
-          {testimonials.length === 0 && (
-            <div className="text-center py-10 text-gray-500">
-              No testimonials found.
-            </div>
-          )}
-        </div>
+      {!loading && filteredTestimonials.length === 0 && (
+        <p className="text-gray-500">No testimonials found.</p>
       )}
-    </AdminLayout>
+
+      {/* 🔹 TESTIMONIALS GRID */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4">
+        {filteredTestimonials.map((item) => (
+          <div
+            key={item._id}
+            className="border rounded-lg p-5 bg-white shadow-sm"
+          >
+            <div className="mb-2">
+              <h4 className="font-semibold text-lg">{item.name}</h4>
+              <p className="text-sm text-gray-500">Rating: ⭐ {item.rating}</p>
+            </div>
+
+            <p className="text-gray-700 text-sm mb-4">{item.message}</p>
+
+            <div className="flex gap-3">
+              {/* 🔹 Approve button sirf pending testimonials ke liye */}
+              {!item.approved && (
+                <button onClick={() => approveTestimonial(item._id)} className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-transparent hover:text-indigo-900 border hover:border transition">
+                  Approve
+                </button>
+              )}
+
+              <button
+                onClick={() => deleteTestimonial(item._id)}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

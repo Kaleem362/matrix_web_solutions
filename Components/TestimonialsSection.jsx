@@ -45,6 +45,11 @@ const TestimonialsSection = () => {
     };
 
     fetchTestimonials();
+  //   const interval = setInterval(() => {
+  //   fetchTestimonials();
+  // }, 10000); // every 10 seconds
+
+  // return () => clearInterval(interval);
   }, []);
 
   const maxIndex = Math.max(testimonials.length - visibleCards, 0);
@@ -82,6 +87,8 @@ const TestimonialsSection = () => {
           Slider
       ====================== */}
       <div className="relative max-w-6xl mx-auto mt-14 overflow-visible no-scrollbar">
+        {!testimonials.length && isLoading && <Loader /> ? <div><h1>No testimonials available yet</h1></div> : null}
+        
         {isLoading ? (
           <Loader />
         ) : (
@@ -161,6 +168,7 @@ const TestimonialsSection = () => {
             </button>
           </>
         )}
+       
       </div>
 
       {/* ======================

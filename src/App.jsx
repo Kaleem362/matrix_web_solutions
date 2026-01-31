@@ -12,6 +12,7 @@ import ProcessSection from "../Components/ProcessSection";
 import FAQSection from "../Components/FAQSection";
 import ServiceDetailsModal from "../Components/ServiceDetailsModal";
 import AdminRoutes from "./Admin/routes/AdminRoutes";
+import TestimonialForm from "../Components/TestimonialForm";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
                 <QuoteModal />
                 <OurWorkSection />
                 <TestimonialsSection />
+                <TestimonialForm/>
                 <PricingSection />
                 <ProcessSection />
                 <FAQSection />
