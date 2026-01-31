@@ -350,9 +350,7 @@ const ServicesSection = () => {
         className="max-w-6xl mx-auto text-center"
       >
         <h2
-          className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins ${
-            theme === "dark" ? "text-white" : "text-white"
-          }`}
+          className={`text-3xl sm:text-4xl md:text-5xl font-extrabold font-poppins text-white`}
         >
           Our Services
         </h2>

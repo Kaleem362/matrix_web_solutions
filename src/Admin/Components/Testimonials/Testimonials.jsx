@@ -44,11 +44,7 @@ const Testimonials = () => {
   useEffect(() => {
     // Component load hotay hi admin ko saare testimonials mil jate hain
     fetchTestimonials();
-    const interval = setInterval(() => {
-    fetchTestimonials();
-  }, 10000); // every 10 seconds
-
-  return () => clearInterval(interval);
+    
   }, []);
 
   // =========================================
