@@ -5,6 +5,11 @@ import axios from "axios";
 import { useStore } from "../src/Context/UseStore";
 import Loader from "./Loader";
 
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5000");
+
+
 const TestimonialsSection = () => {
   const { theme, setIsQuoteOpen } = useStore();
 
@@ -44,13 +49,18 @@ const TestimonialsSection = () => {
       }
     };
 
-    fetchTestimonials();
-  //   const interval = setInterval(() => {
-  //   fetchTestimonials();
-  // }, 10000); // every 10 seconds
+    // Initial fetch
+  fetchTestimonials();
 
-  // return () => clearInterval(interval);
-  }, []);
+  // 🔥 Listen for real-time updates
+  socket.on("testimonialApproved", () => {
+    fetchTestimonials();
+  });
+
+  return () => {
+    socket.off("testimonialApproved");
+  };
+}, []);
 
   const maxIndex = Math.max(testimonials.length - visibleCards, 0);
 

@@ -1,16 +1,16 @@
 import { React, useEffect, useState } from "react";
+
 import axios from "axios";
+import { socket } from "./../../../Socket.js";
+
 
 const Testimonials = () => {
   // 🔹 Backend se aane wale SAARE testimonials (approved + unapproved)
   const [testimonialsData, setTestimonialsData] = useState([]);
-
   // 🔹 Loading state (API call ke dauran)
   const [loading, setLoading] = useState(false);
-
   // 🔹 Error state (agar API fail ho jaye)
   const [error, setError] = useState("");
-
   // 🔹 UI filter:
   // pending  => approved === false
   // approved => approved === true
@@ -18,34 +18,50 @@ const Testimonials = () => {
 
   // 🔹 Admin ke liye base API (NO query params)
   const GETALL_API_URL = "http://localhost:5000/api/testimonials/all";
-  const API_URL = "http://localhost:5000/api/testimonials/";
+  // const API_URL = "http://localhost:5000/api/testimonials/";
   const APP_testimonials_API_URL = "http://localhost:5000/api/testimonials/";
 
-  // =========================================
-  // 🔹 FETCH ALL TESTIMONIALS (ADMIN ONLY)
-  // =========================================
-  const fetchTestimonials = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(GETALL_API_URL);
-      console.log(res.data.data); // checkpoint to console if the data is coming or
-      setTestimonialsData(res.data.data || []);
-      setError("");
-    } catch (err) {
-      setError("Failed to fetch testimonials: " + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+// =========================================
+// 🔹 FETCH ALL TESTIMONIALS (ADMIN ONLY)
+// =========================================
+const fetchTestimonials = async () => {
+  try {
+    setLoading(true);
+    const res = await axios.get(GETALL_API_URL);
+    console.log(res.data.data); // checkpoint to console if the data is coming or not
+    setTestimonialsData(res.data.data || []);
+    setError("");
+  } catch (err) {
+    setError("Failed to fetch testimonials: " + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  // =========================================
-  // 🔹 useEffect
-  // =========================================
-  useEffect(() => {
-    // Component load hotay hi admin ko saare testimonials mil jate hain
-    fetchTestimonials();
-    
-  }, []);
+// =========================================
+// 🔹 useEffect and Socket IO integration
+// =========================================
+useEffect(() => {
+  // 🔹 Initial load (ONLY ONCE)
+  fetchTestimonials();
+
+  // 🔥 Socket listener for NEW testimonial submission
+  socket.on("newTestimonialSubmitted", (newTestimonial) => {
+    console.log("🟢 New testimonial received via socket:", newTestimonial);
+
+    // 🔹 Direct state update (NO API refetch)
+    setTestimonialsData((prev) => [
+      newTestimonial,
+      ...prev,
+    ]);
+  });
+
+  // 🔹 Cleanup socket listener on unmount
+  return () => {
+    socket.off("newTestimonialSubmitted");
+  };
+}, []);
+
 
   // =========================================
   // 🔹 FRONTEND FILTERING (CORE LOGIC)
@@ -134,11 +150,11 @@ const Testimonials = () => {
       )}
 
       {/* 🔹 TESTIMONIALS GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4 ">
         {filteredTestimonials.map((item) => (
           <div
             key={item._id}
-            className="border rounded-lg p-5 bg-white shadow-sm"
+            className="rounded-lg p-5 bg-white shadow-lg hover:bg-gray-100 shadow-gray-500"
           >
             <div className="mb-2">
               <h4 className="font-semibold text-lg">{item.name}</h4>
@@ -157,7 +173,7 @@ const Testimonials = () => {
 
               <button
                 onClick={() => deleteTestimonial(item._id)}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                className="px-4 py-2 bg-red-600 text-white border hover:border-red-600 hover:border hover:bg-transparent hover:text-red-600 transition rounded-full"
               >
                 Delete
               </button>
