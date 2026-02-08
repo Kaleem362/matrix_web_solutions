@@ -56,9 +56,15 @@ const TestimonialsSection = () => {
   socket.on("testimonialApproved", () => {
     fetchTestimonials();
   });
+  // 🔔 When testimonial is deleted
+  socket.on("testimonialDeleted", () => {
+    console.log("🗑 Public: testimonial deleted");
+    fetchTestimonials();
+  });
 
   return () => {
     socket.off("testimonialApproved");
+    socket.off("testimonialDeleted");
   };
 }, []);
 

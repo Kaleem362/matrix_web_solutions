@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Navbar from "../Components/Navbar";
 import Hero from "../Components/Hero";
 import ServicesSection from "../Components/ServicesSection";
@@ -11,14 +12,18 @@ import PricingSection from "../Components/PricingSection";
 import ProcessSection from "../Components/ProcessSection";
 import FAQSection from "../Components/FAQSection";
 import ServiceDetailsModal from "../Components/ServiceDetailsModal";
-import AdminRoutes from "./Admin/routes/AdminRoutes";
 import TestimonialForm from "../Components/TestimonialForm";
+
+import AdminRoutes from "./Admin/routes/AdminRoutes";
+import Login from "../src/Admin/pages/Login"; //  LOGIN PAGE
 
 const App = () => {
   return (
     <BrowserRouter>
       <div>
         <Routes>
+
+          {/*  PUBLIC WEBSITE */}
           <Route
             path="/"
             element={
@@ -29,7 +34,7 @@ const App = () => {
                 <QuoteModal />
                 <OurWorkSection />
                 <TestimonialsSection />
-                <TestimonialForm/>
+                <TestimonialForm />
                 <PricingSection />
                 <ProcessSection />
                 <FAQSection />
@@ -37,8 +42,14 @@ const App = () => {
                 <ServiceDetailsModal />
               </>
             }
-            />
-            <Route path="/admin/*" element={<AdminRoutes />} />
+          />
+
+          {/* 🔓 LOGIN (PUBLIC) */}
+          <Route path="/login" element={<Login />} />
+
+          {/* 🔐 ADMIN PANEL */}
+          <Route path="/admin/*" element={<AdminRoutes />} />
+
         </Routes>
       </div>
     </BrowserRouter>

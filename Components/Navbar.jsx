@@ -34,12 +34,14 @@ const Navbar = () => {
           {/* Left: Logo + Brand */}
           <div className="flex items-center gap-3">
             <div className="img-logo h-10 w-10 sm:h-11 sm:w-11 flex items-center justify-center">
+              <a href="/">
               <img
                 src={logo}
                 alt="Matrix Web Solutions"
                 className="animate-[spin_6s_linear_infinite] w-full h-full object-contain"
                 title="Matrix Web Solutions"
               />
+              </a>
             </div>
 
             {/* Brand text (hidden on very small screens) */}
