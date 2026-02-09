@@ -17,7 +17,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Basic frontend validation
+    // Frontend validation
     if (!email || !password) {
       setError("Email and password are required");
       return;
@@ -27,23 +27,26 @@ const Login = () => {
       setLoading(true);
       setError("");
 
-      // 🔥 IMPORTANT: withCredentials:true
-      // ye cookie ko allow karta hai
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
         { email, password },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
-      // Agar login successful
-      if (res.data.success) {
-        // Admin dashboard par redirect
+      // ✅ Login success (token ya user mila)
+      if (res.data?.token) {
+        // Optional: token localStorage (agar cookies use nahi kar rahe)
+        localStorage.setItem("token", res.data.token);
+
+        // Optional: user data
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
         navigate("/admin/dashboard");
+      } else {
+        setError("Invalid login response");
       }
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Login failed. Try again."
-      );
+      setError(err.response?.data?.message || "Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -55,18 +58,12 @@ const Login = () => {
         onSubmit={handleLogin}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          Admin Login
-        </h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2>
 
-        {error && (
-          <p className="text-red-600 text-sm mb-4">{error}</p>
-        )}
+        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
 
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">
-            Email
-          </label>
+          <label className="block text-sm font-medium mb-1">Email</label>
           <input
             type="email"
             value={email}
@@ -77,9 +74,7 @@ const Login = () => {
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-medium mb-1">
-            Password
-          </label>
+          <label className="block text-sm font-medium mb-1">Password</label>
           <input
             type="password"
             value={password}
@@ -92,7 +87,7 @@ const Login = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
+          className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition disabled:opacity-60"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
