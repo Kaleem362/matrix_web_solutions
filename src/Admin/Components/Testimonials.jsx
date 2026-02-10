@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { socket } from "./../../../Socket.js";
+import { socket } from "../../Socket.js";
 
 const Testimonials = () => {
   // 🔹 Backend se aane wale SAARE testimonials

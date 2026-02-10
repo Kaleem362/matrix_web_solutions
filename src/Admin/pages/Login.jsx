@@ -44,14 +44,12 @@ const Login = () => {
       );
 
       // ✅ Agar token mila, matlab login successful
-      if (res.data?.token) {
-        // Token save (JWT)
-        localStorage.setItem("token", res.data.token);
-
+      // ✅ Login successful agar success true hai
+      if (res.data?.success) {
         // User info save (optional)
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        // Dashboard pe redirect
+        // Redirect
         navigate("/admin/dashboard");
       } else {
         setError("Invalid login response");

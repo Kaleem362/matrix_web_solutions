@@ -1,5 +1,5 @@
 import AdminLayout from "../layout/AdminLayout";
-import Testimonials from "./../Components/Testimonials/Testimonials"
+import Testimonials from "./../Components/Testimonials"
 const stats = [
   {
     title: "Total Testimonials",

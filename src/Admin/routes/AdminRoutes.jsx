@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Topbar from "../layout/Topbar";
 import Sidebar from "../layout/Sidebar";
-import Testimonials from "../Components/Testimonials/Testimonials";
+import Testimonials from "../Components/Testimonials";
 
 const AdminRoutes = () => {
   return (
