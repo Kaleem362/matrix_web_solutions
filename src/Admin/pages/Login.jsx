@@ -1,23 +1,32 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
-  // 🔹 Form state
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  /* =============================
+     FORM STATES
+     ============================= */
 
-  // 🔹 UI states
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState(""); // user email
+  const [password, setPassword] = useState(""); // user password
 
-  const navigate = useNavigate();
+  /* =============================
+     UI STATES
+     ============================= */
 
-  // 🔐 LOGIN HANDLER
+  const [loading, setLoading] = useState(false); // loading indicator
+  const [error, setError] = useState(""); // error message
+
+  const navigate = useNavigate(); // route navigation
+
+  /* =============================
+     LOGIN HANDLER
+     ============================= */
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Frontend validation
+    // 🔴 Basic frontend validation
     if (!email || !password) {
       setError("Email and password are required");
       return;
@@ -27,20 +36,22 @@ const Login = () => {
       setLoading(true);
       setError("");
 
+      // 🔐 Login API call
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/login`,
         { email, password },
         { withCredentials: true },
       );
 
-      // ✅ Login success (token ya user mila)
+      // ✅ Agar token mila, matlab login successful
       if (res.data?.token) {
-        // Optional: token localStorage (agar cookies use nahi kar rahe)
+        // Token save (JWT)
         localStorage.setItem("token", res.data.token);
 
-        // Optional: user data
+        // User info save (optional)
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
+        // Dashboard pe redirect
         navigate("/admin/dashboard");
       } else {
         setError("Invalid login response");
@@ -52,6 +63,10 @@ const Login = () => {
     }
   };
 
+  /* =============================
+     UI
+     ============================= */
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form
@@ -60,8 +75,10 @@ const Login = () => {
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2>
 
+        {/* Error message */}
         {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
 
+        {/* Email input */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">Email</label>
           <input
@@ -73,6 +90,7 @@ const Login = () => {
           />
         </div>
 
+        {/* Password input */}
         <div className="mb-6">
           <label className="block text-sm font-medium mb-1">Password</label>
           <input
@@ -84,6 +102,7 @@ const Login = () => {
           />
         </div>
 
+        {/* Login button */}
         <button
           type="submit"
           disabled={loading}
@@ -91,6 +110,17 @@ const Login = () => {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+
+        {/* 🔗 Signup link */}
+        <p className="text-sm text-center mt-4">
+          Not having an account?{" "}
+          <Link
+            to="/signup"
+            className="text-indigo-600 font-medium hover:underline"
+          >
+            Create Account
+          </Link>
+        </p>
       </form>
     </div>
   );
