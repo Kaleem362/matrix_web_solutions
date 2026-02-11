@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { socket } from "../../Socket.js";
+import Loader from "./Loader/Loader.jsx";
 
 const Testimonials = () => {
   // 🔹 Backend se aane wale SAARE testimonials
@@ -23,7 +24,7 @@ const Testimonials = () => {
   const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(GETALL_API_URL, { withCredentials: true });
+      const res = await axios.get(GETALL_API_URL,{}, { withCredentials: true });
       setTestimonialsData(res.data.data || []);
       setError("");
     } catch (err) {
@@ -153,11 +154,11 @@ const Testimonials = () => {
       </div>
 
       {/* 🔹 STATES */}
-      {loading && <p className="text-gray-500">Loading testimonials...</p>}
+      {loading && <Loader/>}
       {error && <p className="text-red-500">{error}</p>}
 
       {!loading && filteredTestimonials.length === 0 && (
-        <p className="text-gray-500">No testimonials found.</p>
+        <p className="text-gray-500/30 text-center flex items-center justify-center text-9xl h-82">No testimonials found</p>
       )}
 
       {/* 🔹 GRID */}
