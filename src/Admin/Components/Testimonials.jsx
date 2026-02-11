@@ -23,7 +23,7 @@ const Testimonials = () => {
   const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(GETALL_API_URL);
+      const res = await axios.get(GETALL_API_URL, { withCredentials: true });
       setTestimonialsData(res.data.data || []);
       setError("");
     } catch (err) {
@@ -81,7 +81,11 @@ const Testimonials = () => {
   // =========================================
   const approveTestimonial = async (id) => {
     try {
-      await axios.patch(`${APP_testimonials_API_URL}${id}/approve`);
+      await axios.patch(
+      `${APP_testimonials_API_URL}${id}/approve`,
+      {},
+      { withCredentials: true }
+    );
 
       // 🔥 Source of truth = backend
       await fetchTestimonials();
@@ -105,7 +109,9 @@ const Testimonials = () => {
       return;
 
     try {
-      await axios.delete(`${APP_testimonials_API_URL}${id}`);
+      await axios.delete(`${APP_testimonials_API_URL}${id}`, {
+        withCredentials: true,
+      });
 
       // 🔥 Keep state in sync
       await fetchTestimonials();
