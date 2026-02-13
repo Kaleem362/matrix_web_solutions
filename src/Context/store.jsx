@@ -14,6 +14,7 @@ import appdev from "../../Elements/images/icons/appdev.png";
 import whatsappicon from "../../Elements/images/icons/whatsappicon.png";
 import gmail from "../../Elements/images/icons/gmail.png";
 import github from "../../Elements/images/github.png";
+import logouticon from "../../Elements/images/logouticon.png";
 
 import logo from "../assets/MatrixLogo.png";
 
@@ -98,7 +99,8 @@ export const ContextProvider = ({ children }) => {
         setIsServiceOpen,
         activeService,
         isServiceOpen,
-        github
+        github,
+        logouticon
       }}
     >
       {children}

@@ -24,7 +24,7 @@ const Testimonials = () => {
   const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(GETALL_API_URL,{}, { withCredentials: true });
+      const res = await axios.get(GETALL_API_URL, { withCredentials: true });
       setTestimonialsData(res.data.data || []);
       setError("");
     } catch (err) {
