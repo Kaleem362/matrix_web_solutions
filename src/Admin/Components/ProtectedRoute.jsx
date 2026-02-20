@@ -11,15 +11,12 @@ const ProtectedRoute = ({ children }) => {
         const res = await fetch(
           `${import.meta.env.VITE_API_URL}/api/auth/check`,
           {
-            credentials: "include",
+            credentials: "include", // ⚠️ MUST
           }
         );
 
-        if (res.status === 200) {
-          setIsAuth(true);
-        }
-      } catch (err) {
-        console.error("Auth check error:", err);
+        setIsAuth(res.status === 200);
+      } catch {
         setIsAuth(false);
       } finally {
         setLoading(false);
@@ -29,8 +26,7 @@ const ProtectedRoute = ({ children }) => {
     checkAuth();
   }, []);
 
-  // 🚨 IMPORTANT: dashboard render mat hone do
-  if (loading) return <div>Checking authentication...</div>;
+  if (loading) return <div>Checking auth...</div>;
 
   if (!isAuth) return <Navigate to="/login" replace />;
 

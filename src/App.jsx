@@ -16,6 +16,7 @@ import ProcessSection from "../Components/ProcessSection";
 import FAQSection from "../Components/FAQSection";
 import ServiceDetailsModal from "../Components/ServiceDetailsModal";
 import TestimonialForm from "../Components/TestimonialForm";
+import ProtectedRoute from "./Admin/Components/ProtectedRoute";
 
 /* =============================
    ADMIN / AUTH PAGES
@@ -28,7 +29,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* 🌍 PUBLIC WEBSITE */}
         <Route
           path="/"
@@ -49,14 +49,18 @@ const App = () => {
             </>
           }
         />
-
         {/* 🔓 AUTH ROUTES (PUBLIC) */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} /> {/* ✅ ADDED */}
-
         {/* 🔐 ADMIN PANEL (PROTECTED INSIDE) */}
-        <Route path="/admin/*" element={<AdminRoutes />} />
-
+        <Route
+          path="/admin/*"
+          element={
+            <ProtectedRoute>
+              <AdminRoutes />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
