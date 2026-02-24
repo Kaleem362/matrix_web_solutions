@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Loader from "./Loader/Loader";
 
 const ProtectedRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ const ProtectedRoute = ({ children }) => {
     checkAuth();
   }, []);
 
-  if (loading) return <div>Checking auth...</div>;
+  if (loading) return <div className="h-screen w-full justify-center items-center bg-indigo-900"><Loader/></div>;
 
   if (!isAuth) return <Navigate to="/login" replace />;
 

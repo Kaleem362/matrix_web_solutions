@@ -10,3 +10,13 @@
   scrollbar-width: none;
 }
 
+/* dark dropdown */
+.react-tel-input .country-list {
+  border-radius: 12px;
+  border: none;
+}
+
+.react-tel-input .country-list .country:hover {
+  background-color: #4f46e5 !important; /* indigo-600 */
+  color: white !important;
+}

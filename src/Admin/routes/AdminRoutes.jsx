@@ -3,6 +3,7 @@ import Dashboard from "../pages/Dashboard";
 import Topbar from "../layout/Topbar";
 import Sidebar from "../layout/Sidebar";
 import Testimonials from "../Components/Testimonials";
+import Quotes from "../Components/Quotes";
 
 const AdminRoutes = () => {
   return (
@@ -15,7 +16,8 @@ const AdminRoutes = () => {
             <Testimonials/>
         </div>
       </div>} />
-      <Route path="/quotes" element={<div>Quotes Management Page</div>} />
+      {/* FIX: Render Quotes component instead of placeholder text. */}
+      <Route path="/quotes" element={<Quotes />} />
       <Route path="/services" element={<div>Services Management Page</div>} />
     </Routes>
   );

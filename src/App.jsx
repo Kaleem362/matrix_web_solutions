@@ -17,6 +17,7 @@ import FAQSection from "../Components/FAQSection";
 import ServiceDetailsModal from "../Components/ServiceDetailsModal";
 import TestimonialForm from "../Components/TestimonialForm";
 import ProtectedRoute from "./Admin/Components/ProtectedRoute";
+import PublicRoute from "./Admin/Components/PublicRoute"; // ✅ PUBLIC ROUTE COMPONENT
 
 /* =============================
    ADMIN / AUTH PAGES
@@ -59,6 +60,14 @@ const App = () => {
             <ProtectedRoute>
               <AdminRoutes />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
           }
         />
       </Routes>
