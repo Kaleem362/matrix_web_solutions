@@ -4,7 +4,7 @@ import Loader from "./Loader/Loader";
 
 const ProtectedRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(false); // OFF
 
   useEffect(() => {
     const checkAuth = async () => {

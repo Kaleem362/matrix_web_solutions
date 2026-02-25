@@ -54,12 +54,17 @@ const QuoteModal = () => {
         { name, email, phone, service, description },
         { headers: { "Content-Type": "application/json" } }
       );
+
+      console.log(email,phone,service,description);
+      alert("Quote request submitted successfully!");
       
     setName("");
     setEmail("");
     setPhone("");
     setService("");
     setDescription("");
+    setIsQuoteOpen(false);
+   
 
   } catch (error) {
     alert("Error submitting quote request: " + error.message);
@@ -205,7 +210,7 @@ const QuoteModal = () => {
             </button>
             <span>or</span>
             <a
-              href="https://wa.me/923XXXXXXXXX?text=Hi%20Matrix%20Web%20Solutions!%20I%20want%20a%20quote%20for%20my%20project."
+              href="https://wa.me/923485427362?text=Hi%20Matrix%20Web%20Solutions!%20I%20want%20a%20quote%20for%20my%20project."
               target="_blank"
               rel="noreferrer"
               className={`w-full flex items-center justify-center gap-4 px-5 py-3 rounded-full font-semibold text-center border transition-all active:scale-95 ${
