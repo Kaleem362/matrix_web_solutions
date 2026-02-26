@@ -47,18 +47,19 @@ const Navbar = () => {
             {/* Brand text (hidden on very small screens) */}
             <div className="hidden sm:block leading-tight">
               <p
-                className={`font-roboto font-semibold text-sm sm:text-base ${
+                className={`font-roboto font-semibold text-[clamp(0.85rem,1vw,1.1rem)] ${
                   theme === "dark" ? "text-white" : "text-indigo-700"
                 }`}
               >
                 Matrix Web Solutions
               </p>
               <p
-                className={`text-xs ${
+                className={`text-[clamp(0.62rem,0.75vw,0.88rem)] ${
                   theme === "dark" ? "text-indigo-100" : "text-indigo-500"
                 }`}
               >
-                Digital Services Agency <span className="text-[8px ]">1.0.1</span>
+                Digital Services Agency{" "}
+                <span className="text-[clamp(0.5rem,0.6vw,0.65rem)]">1.0.1</span>
               </p>
             </div>
           </div>
@@ -68,7 +69,7 @@ const Navbar = () => {
             {navLinks.map((item) => (
               <li
                 key={item}
-                className={`relative group font-roboto cursor-pointer text-[15px] xl:text-base ${
+                className={`relative group font-roboto cursor-pointer text-[clamp(0.82rem,0.9vw,1rem)] ${
                   theme === "dark" ? "text-indigo-100" : "text-indigo-700"
                 } ${theme === "dark" ? "hover:text-white" : "hover:text-indigo-500"}`}
               >
@@ -86,7 +87,7 @@ const Navbar = () => {
           <div className="flex items-center gap-2 sm:gap-3">
             {/* CTA (Desktop only) */}
             <button
-              className={`hidden lg:inline-flex items-center justify-center cursor-pointer px-4 py-2 rounded-full font-roboto font-semibold text-sm transition-all duration-200 ${
+              className={`hidden lg:inline-flex items-center justify-center cursor-pointer px-4 py-2 rounded-full font-roboto font-semibold text-[clamp(0.82rem,0.9vw,1rem)] transition-all duration-200 ${
                 theme === "dark"
                   ? "bg-white text-indigo-900 hover:bg-transparent hover:shadow-sm hover:shadow-white hover:text-white active:scale-95 transition-transform duration-75"
                   : "bg-indigo-700 text-white hover:bg-white hover:border hover:border-indigo-900 border-white hover:text-indigo-900 hover:text-shadow-indigo-900"
@@ -160,7 +161,7 @@ const Navbar = () => {
                 <li
                   key={item}
                   onClick={() => setIsOpen(false)}
-                  className={`font-roboto cursor-pointer text-sm sm:text-base ${
+                  className={`font-roboto cursor-pointer text-[clamp(0.85rem,1.1vw,1.1rem)] ${
                     theme === "dark" ? "text-indigo-100" : "text-indigo-700"
                   } ${
                     theme === "dark"
@@ -177,7 +178,7 @@ const Navbar = () => {
             <div className="mt-4">
               <button
                 onClick={() => setIsOpen(false)}
-                className={`w-full py-3 rounded-lg font-roboto font-semibold transition-all duration-200 ${
+                className={`w-full py-3 rounded-lg font-roboto font-semibold text-[clamp(0.85rem,1vw,1rem)] transition-all duration-200 ${
                   theme === "dark"
                     ? "bg-white text-indigo-800 hover:bg-indigo-100"
                     : "bg-indigo-700 text-white hover:bg-indigo-800"

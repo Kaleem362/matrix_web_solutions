@@ -61,7 +61,7 @@ const Hero = () => {
 
   return (
     <div
-      className={`w-full px-4 sm:px-8 lg:px-16 py-6 sm:py-10 transition-all duration-300 ${
+      className={`w-full px-4 min-[475px]:px-5 sm:px-8 lg:px-16 py-6 sm:py-10 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-indigo-950 via-black to-black"
           : "bg-linear-to-b from-indigo-400 to-white"
@@ -99,7 +99,7 @@ const Hero = () => {
 
                 {/* label */}
                 <div className="absolute bottom-6 left-6 z-10">
-                  <h2 className="text-white font-bold text-xl sm:text-2xl md:text-3xl drop-shadow-lg">
+                  <h2 className="text-white font-bold text-lg min-[475px]:text-xl sm:text-2xl md:text-3xl xl:text-4xl drop-shadow-lg">
                     {service.title}
                   </h2>
                 </div>
@@ -164,12 +164,12 @@ const Hero = () => {
           }`}
         >
           <h1
-            className={`text-3xl sm:text-4xl md:text-5xl font-poppins font-extrabold leading-tight transition-all duration-300 ${
+            className={`text-2xl min-[475px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-poppins font-extrabold leading-tight transition-all duration-300 ${
               theme === "dark" ? "text-white" : "text-indigo-900"
             }`}>
             Grow Your Business Online with{" "}
             <span
-              className={`font-poppins font-bold px-2 py-1 rounded-md border transition-all duration-300 ${
+              className={`inline-block font-poppins font-bold px-2 py-1 min-[475px]:px-2.5 sm:px-3 rounded-md border transition-all duration-300 ${
                 theme === "dark"
                   ? "text-indigo-200 bg-indigo-950/60 border-indigo-400/20"
                   : "text-white bg-indigo-900 border-indigo-900"
@@ -180,7 +180,7 @@ const Hero = () => {
           </h1>
 
           <p
-            className={`mt-4 text-sm sm:text-base font-poppins transition-all duration-300 ${
+            className={`mt-4 text-[13px] min-[475px]:text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-poppins leading-relaxed transition-all duration-300 ${
               theme === "dark" ? "text-white/75" : "text-gray-700"
             }`}
           >
@@ -190,50 +190,50 @@ const Hero = () => {
 
           {/* points */}
           <div
-            className={`mt-5 space-y-2 text-sm sm:text-base transition-all duration-300 ${
+            className={`mt-5 space-y-2.5 text-[13px] min-[475px]:text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-300 ${
               theme === "dark" ? "text-white/80" : "text-gray-800"
             }`}
           >
-            <p className="flex items-center gap-2">
+            <p className="flex items-center gap-2.5 leading-snug">
               <img
                 src={webdev}
                 alt=""
-                className="h-4 w-4 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-[18px] min-[475px]:w-[18px] sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               Modern Website & App Development
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex items-center gap-2.5 leading-snug">
               <img
                 src={seo}
                 alt=""
-                className="h-4 w-4 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-[18px] min-[475px]:w-[18px] sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               SEO + Google Ranking Growth
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex items-center gap-2.5 leading-snug">
               <img
                 src={designlogo}
                 alt=""
-                className="h-4 w-4 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-[18px] min-[475px]:w-[18px] sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               Branding (Logo, Thumbnails, Designs)
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex items-center gap-2.5 leading-snug">
               <img
                 src={fastdel}
                 alt=""
-                className="h-4 w-4 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-[18px] min-[475px]:w-[18px] sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               Fast Delivery + Affordable Packages
             </p>
           </div>
 
           {/* CTA buttons */}
-          <div className="mt-6 flex flex-col sm:flex-row gap-4">
+          <div className="mt-6 grid grid-cols-1 gap-3 min-[475px]:grid-cols-2 sm:flex sm:flex-wrap sm:gap-4 xl:flex-nowrap">
             {/* Get a Quote */}
             <button
               onClick={() => setIsQuoteOpen(true)}
-              className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
+              className={`w-full sm:w-auto sm:min-w-[180px] lg:min-w-[200px] px-4 min-[475px]:px-5 sm:px-6 xl:px-7 py-2.5 sm:py-3 xl:py-3.5 text-sm sm:text-base xl:text-lg rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
                 theme === "dark"
                   ? "bg-indigo-500 text-white border-indigo-400/20 hover:bg-transparent hover:text-white hover:border-white/40"
                   : "bg-white text-indigo-900 border-indigo-900 hover:bg-transparent hover:text-indigo-900 hover:border-indigo-900"
@@ -244,7 +244,7 @@ const Hero = () => {
 
             {/* View Services */}
             <button
-              className={`px-6 py-3 rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
+              className={`w-full sm:w-auto sm:min-w-[180px] lg:min-w-[200px] px-4 min-[475px]:px-5 sm:px-6 xl:px-7 py-2.5 sm:py-3 xl:py-3.5 text-sm sm:text-base xl:text-lg rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
                 theme === "dark"
                   ? "bg-white/10 text-white border-white/20 hover:bg-white hover:text-indigo-900 hover:border-indigo-200"
                   : "bg-indigo-900 text-white hover:bg-transparent hover:border hover:border-indigo-900 hover:text-indigo-900"
@@ -261,7 +261,7 @@ const Hero = () => {
 
           {/* trust line */}
           <p
-            className={`mt-4 text-xs transition-all duration-300 ${
+            className={`mt-4 text-[11px] min-[475px]:text-xs sm:text-sm transition-all duration-300 ${
               theme === "dark" ? "text-white/60" : "text-gray-600"
             }`}
           >
