@@ -24,7 +24,8 @@ import PublicRoute from "./Admin/Components/PublicRoute"; // ✅ PUBLIC ROUTE CO
    ============================= */
 import AdminRoutes from "./Admin/routes/AdminRoutes";
 import Login from "../src/Admin/pages/Login";
-import Signup from "../src/Admin/pages/Signup"; // ✅ SIGNUP PAGE
+// import Signup from "../src/Admin/pages/Signup";/ // ✅ SIGNUP PAGE
+import Signup from "../src/Admin/pages/SignUp"
 
 const App = () => {
   return (
