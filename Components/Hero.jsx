@@ -61,6 +61,7 @@ const Hero = () => {
 
   return (
     <div
+      id="home"
       className={`w-full px-4 min-[475px]:px-5 sm:px-8 lg:px-16 py-6 sm:py-10 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-indigo-950 via-black to-black"
@@ -244,7 +245,7 @@ const Hero = () => {
 
             {/* View Services */}
             <button
-              className={`w-full sm:w-auto sm:min-w-[180px] lg:min-w-[200px] px-4 min-[475px]:px-5 sm:px-6 xl:px-7 py-2.5 sm:py-3 xl:py-3.5 text-sm sm:text-base xl:text-lg rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
+              className={`w-full sm:w-auto sm:min-w-45 lg:min-w-50 px-4 min-[475px]:px-5 sm:px-6 xl:px-7 py-2.5 sm:py-3 xl:py-3.5 text-sm sm:text-base xl:text-lg rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
                 theme === "dark"
                   ? "bg-white/10 text-white border-white/20 hover:bg-white hover:text-indigo-900 hover:border-indigo-200"
                   : "bg-indigo-900 text-white hover:bg-transparent hover:border hover:border-indigo-900 hover:text-indigo-900"
