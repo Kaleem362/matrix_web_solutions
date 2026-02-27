@@ -165,7 +165,7 @@ const Hero = () => {
           }`}
         >
           <h1
-            className={`text-2xl min-[475px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-poppins font-extrabold leading-tight transition-all duration-300 ${
+            className={`text-2xl min-[475px]:text-3xl sm:text-4xl md:text-3xl lg:text-4xl xl:text-6xl font-poppins font-extrabold leading-16 transition-all duration-300 ${
               theme === "dark" ? "text-white" : "text-indigo-900"
             }`}>
             Grow Your Business Online with{" "}
@@ -181,7 +181,7 @@ const Hero = () => {
           </h1>
 
           <p
-            className={`mt-4 text-[13px] min-[475px]:text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-poppins leading-relaxed transition-all duration-300 ${
+            className={`mt-4 text-[13px] min-[475px]:text-sm sm:text-base md:text-md lg:text-lg xl:text-2xl font-poppins leading-relaxed transition-all duration-300 ${
               theme === "dark" ? "text-white/75" : "text-gray-700"
             }`}
           >
@@ -191,7 +191,7 @@ const Hero = () => {
 
           {/* points */}
           <div
-            className={`mt-5 space-y-2.5 text-[13px] min-[475px]:text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-300 ${
+            className={`mt-5 space-y-4 mb-4 text-[13px] min-[475px]:text-sm sm:text-base md:text-md lg:text-lg xl:text-xl transition-all duration-300 ${
               theme === "dark" ? "text-white/80" : "text-gray-800"
             }`}
           >
@@ -199,7 +199,7 @@ const Hero = () => {
               <img
                 src={webdev}
                 alt=""
-                className="h-4 w-4 min-[475px]:h-[18px] min-[475px]:w-[18px] sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-4.5 min-[475px]:w-4.5 sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               Modern Website & App Development
             </p>
@@ -207,7 +207,7 @@ const Hero = () => {
               <img
                 src={seo}
                 alt=""
-                className="h-4 w-4 min-[475px]:h-[18px] min-[475px]:w-[18px] sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-4.5nmin-[475px]:w-4.5:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               SEO + Google Ranking Growth
             </p>
@@ -215,7 +215,7 @@ const Hero = () => {
               <img
                 src={designlogo}
                 alt=""
-                className="h-4 w-4 min-[475px]:h-[18px] min-[475px]:w-[18px] sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-4.5 min-[475px]:w-4.5 sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               Branding (Logo, Thumbnails, Designs)
             </p>
@@ -223,7 +223,7 @@ const Hero = () => {
               <img
                 src={fastdel}
                 alt=""
-                className="h-4 w-4 min-[475px]:h-[18px] min-[475px]:w-[18px] sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-4.5 min-[475px]:w-4.5 sm:h-5 sm:w-5 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               Fast Delivery + Affordable Packages
             </p>
@@ -234,7 +234,7 @@ const Hero = () => {
             {/* Get a Quote */}
             <button
               onClick={() => setIsQuoteOpen(true)}
-              className={`w-full sm:w-auto sm:min-w-[180px] lg:min-w-[200px] px-4 min-[475px]:px-5 sm:px-6 xl:px-7 py-2.5 sm:py-3 xl:py-3.5 text-sm sm:text-base xl:text-lg rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
+              className={`w-full sm:w-auto sm:min-w-45 lg:min-w-50 px-4 min-[475px]:px-5 sm:px-6 xl:px-7 py-2.5 sm:py-3 xl:py-3.5 text-sm sm:text-base xl:text-lg rounded-full font-semibold transition-all duration-200 active:scale-95 cursor-pointer border ${
                 theme === "dark"
                   ? "bg-indigo-500 text-white border-indigo-400/20 hover:bg-transparent hover:text-white hover:border-white/40"
                   : "bg-white text-indigo-900 border-indigo-900 hover:bg-transparent hover:text-indigo-900 hover:border-indigo-900"
