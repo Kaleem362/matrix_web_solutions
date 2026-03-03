@@ -16,7 +16,12 @@ const TestimonialForm = () => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  const API_URL = "http://localhost:5000/api/testimonials";
+  const BASE_URL =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:5000"
+      : import.meta.env.VITE_API_URL;
+      
+  const API_URL = `${BASE_URL}/api/testimonials`;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
