@@ -14,9 +14,13 @@ const Testimonials = () => {
   // 🔹 UI filter
   const [filter, setFilter] = useState("pending");
 
+  const BASE_URL =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:5000"
+      : import.meta.env.VITE_API_URL;
   // 🔹 APIs
-  const GETALL_API_URL = "http://localhost:5000/api/testimonials/all";
-  const APP_testimonials_API_URL = "http://localhost:5000/api/testimonials/";
+  const GETALL_API_URL = `${BASE_URL}/api/testimonials/all`;
+  const APP_testimonials_API_URL = `${BASE_URL}/api/testimonials/`;
 
   // =========================================
   // 🔹 FETCH ALL TESTIMONIALS (ADMIN ONLY)
@@ -68,6 +72,7 @@ const Testimonials = () => {
       socket.off("testimonialApproved");
       socket.off("testimonialDeleted");
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // =========================================
@@ -83,10 +88,10 @@ const Testimonials = () => {
   const approveTestimonial = async (id) => {
     try {
       await axios.patch(
-      `${APP_testimonials_API_URL}${id}/approve`,
-      {},
-      { withCredentials: true }
-    );
+        `${APP_testimonials_API_URL}${id}/approve`,
+        {},
+        { withCredentials: true },
+      );
 
       // 🔥 Source of truth = backend
       await fetchTestimonials();
@@ -154,11 +159,13 @@ const Testimonials = () => {
       </div>
 
       {/* 🔹 STATES */}
-      {loading && <Loader/>}
+      {loading && <Loader />}
       {error && <p className="text-red-500">{error}</p>}
 
       {!loading && filteredTestimonials.length === 0 && (
-        <p className="text-gray-500/30 text-center flex items-center justify-center text-9xl h-82">No testimonials found</p>
+        <p className="text-gray-500/30 text-center flex items-center justify-center text-9xl h-82">
+          No testimonials found
+        </p>
       )}
 
       {/* 🔹 GRID */}
