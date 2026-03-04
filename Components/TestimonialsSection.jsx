@@ -7,8 +7,14 @@ import Loader from "./Loader";
 
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const BASE_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5000"
+    : import.meta.env.VITE_API_URL;
 
+const API_URL = `${BASE_URL}/api/testimonials`;
+
+const socket = io(import.meta.env.VITE_API_URL || "http://localhost:5000");
 
 const TestimonialsSection = () => {
   const { theme, setIsQuoteOpen } = useStore();
@@ -40,7 +46,7 @@ const TestimonialsSection = () => {
     const fetchTestimonials = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get("http://localhost:5000/api/testimonials");
+        const res = await axios.get(API_URL);
         setTestimonials(res?.data?.data || []);
       } catch (err) {
         console.error(err);
@@ -50,23 +56,23 @@ const TestimonialsSection = () => {
     };
 
     // Initial fetch
-  fetchTestimonials();
-
-  // 🔥 Listen for real-time updates
-  socket.on("testimonialApproved", () => {
     fetchTestimonials();
-  });
-  // 🔔 When testimonial is deleted
-  socket.on("testimonialDeleted", () => {
-    console.log("🗑 Public: testimonial deleted");
-    fetchTestimonials();
-  });
 
-  return () => {
-    socket.off("testimonialApproved");
-    socket.off("testimonialDeleted");
-  };
-}, []);
+    // 🔥 Listen for real-time updates
+    socket.on("testimonialApproved", () => {
+      fetchTestimonials();
+    });
+    // 🔔 When testimonial is deleted
+    socket.on("testimonialDeleted", () => {
+      console.log("🗑 Public: testimonial deleted");
+      fetchTestimonials();
+    });
+
+    return () => {
+      socket.off("testimonialApproved");
+      socket.off("testimonialDeleted");
+    };
+  }, []);
 
   const maxIndex = Math.max(testimonials.length - visibleCards, 0);
 
@@ -103,8 +109,12 @@ const TestimonialsSection = () => {
           Slider
       ====================== */}
       <div className="relative max-w-6xl mx-auto mt-14 overflow-visible no-scrollbar">
-        {!testimonials.length && isLoading && <Loader /> ? <div><h1>No testimonials available yet</h1></div> : null}
-        
+        {!testimonials.length && isLoading && <Loader /> ? (
+          <div>
+            <h1>No testimonials available yet</h1>
+          </div>
+        ) : null}
+
         {isLoading ? (
           <Loader />
         ) : (
@@ -141,9 +151,7 @@ const TestimonialsSection = () => {
                   {/* Message */}
                   <p
                     className={`mt-4 text-sm leading-relaxed ${
-                      theme === "dark"
-                        ? "text-white/75"
-                        : "text-gray-600"
+                      theme === "dark" ? "text-white/75" : "text-gray-600"
                     }`}
                   >
                     “{t.message}”
@@ -152,8 +160,16 @@ const TestimonialsSection = () => {
                   {/* Person */}
                   <div className="mt-6 flex items-center justify-between">
                     <div>
-                      <h4 className={`text-sm opacity-70 font-bold ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>{t.name}</h4>
-                      <p className={`text-xs opacity-70 ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>{t.role}</p>
+                      <h4
+                        className={`text-sm opacity-70 font-bold ${theme === "dark" ? "text-white" : "text-indigo-900"}`}
+                      >
+                        {t.name}
+                      </h4>
+                      <p
+                        className={`text-xs opacity-70 ${theme === "dark" ? "text-white" : "text-indigo-900"}`}
+                      >
+                        {t.role}
+                      </p>
                     </div>
                     <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold bg-indigo-600">
                       {t.name?.[0]}
@@ -184,14 +200,15 @@ const TestimonialsSection = () => {
             </button>
           </>
         )}
-       
       </div>
 
       {/* ======================
           CTA
       ====================== */}
       <div className="text-center mt-14">
-        <p className={`text-sm opacity-70 ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>
+        <p
+          className={`text-sm opacity-70 ${theme === "dark" ? "text-white" : "text-indigo-900"}`}
+        >
           Ready to grow your business online? Quote Now to Discuss Your Project!
         </p>
         <button

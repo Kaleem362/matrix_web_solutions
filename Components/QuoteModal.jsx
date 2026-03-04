@@ -6,6 +6,12 @@ import "../src/index.css";
 import axios from "axios";
 
 const QuoteModal = () => {
+  const BASE_URL =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:5000"
+      : import.meta.env.VITE_API_URL;
+      
+  const API_URL = `${BASE_URL}/api/testimonials`;
   const { theme, isQuoteOpen, setIsQuoteOpen, whatsappicon } =
     useStore(useStore);
   const [name, setName] = useState("");
@@ -14,7 +20,7 @@ const QuoteModal = () => {
   const [description, setDescription] = useState("");
   const [phone, setPhone] = useState("");
 
-  const QUOTE_API_URL = "http://localhost:5000/api/quotes";
+  const QUOTE_API_URL = `${BASE_URL}/api/quotes`;
 
   // ESC press to close
   useEffect(() => {
