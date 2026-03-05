@@ -160,17 +160,17 @@ const Hero = () => {
 
         {/* RIGHT: Catchy Text Content */}
         <div
-          className={`lg:col-span-5 rounded-2xl backdrop-blur-md shadow-xl p-6 sm:p-8 flex flex-col justify-center h-full transition-all duration-300 ${
+          className={`lg:col-span-5 rounded-2xl backdrop-blur-md shadow-xl p-4 min-[475px]:p-5 sm:p-6 md:p-7 lg:p-8 xl:p-9 flex flex-col justify-center h-full transition-all duration-300 ${
             theme === "dark" ? "bg-white/5 border border-white/10 shadow-xs shadow-indigo-600" : "bg-white/60"
           }`}
         >
           <h1
-            className={`xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-poppins font-extrabold leading-16 transition-all duration-300 ${
+            className={`text-[1.45rem] min-[375px]:text-[1.65rem] min-[475px]:text-[1.85rem] sm:text-[2.05rem] md:text-[2.25rem] lg:text-[2.5rem] xl:text-[2.8rem] 2xl:text-[3.1rem] font-poppins font-extrabold leading-[1.15] tracking-[-0.01em] transition-all duration-300 ${
               theme === "dark" ? "text-white" : "text-indigo-900"
             }`}>
             Grow Your Business Online with{" "}
             <span
-              className={`inline-block font-poppins font-bold px-2 py-1 min-[475px]:px-2.5 sm:px-3 rounded-md border transition-all duration-300 ${
+              className={`inline-block mt-2 text-[0.95em] sm:text-[0.9em] font-poppins font-bold px-2 py-1 min-[475px]:px-2.5 sm:px-3 md:px-3.5 rounded-md border transition-all duration-300 ${
                 theme === "dark"
                   ? "text-indigo-200 bg-indigo-950/60 border-indigo-400/20"
                   : "text-white bg-indigo-900 border-indigo-900"
@@ -181,7 +181,7 @@ const Hero = () => {
           </h1>
 
           <p
-            className={`mt-4 xs:text-sm sm:text-base md:text-md lg:text-lg xl:text-xl font-poppins leading-relaxed transition-all duration-300 ${
+            className={`mt-3 min-[475px]:mt-4 text-[0.95rem] min-[475px]:text-[1rem] sm:text-[1.05rem] md:text-[1.1rem] lg:text-[1.18rem] xl:text-[1.24rem] 2xl:text-[1.3rem] font-poppins leading-relaxed transition-all duration-300 ${
               theme === "dark" ? "text-white/75" : "text-gray-700"
             }`}
           >
@@ -191,7 +191,7 @@ const Hero = () => {
 
           {/* points */}
           <div
-            className={`mt-5 space-y-4 mb-4 xs:text-sm sm:text-base md:text-md lg:text-lg xl:text-xl transition-all duration-300 ${
+            className={`mt-4 min-[475px]:mt-5 space-y-3.5 sm:space-y-4 mb-4 text-[0.9rem] min-[475px]:text-[0.95rem] sm:text-[1rem] md:text-[1.05rem] lg:text-[1.1rem] xl:text-[1.16rem] 2xl:text-[1.22rem] leading-relaxed transition-all duration-300 ${
               theme === "dark" ? "text-white/80" : "text-gray-800"
             }`}
           >
@@ -207,7 +207,7 @@ const Hero = () => {
               <img
                 src={seo}
                 alt=""
-                className="h-4 w-4 min-[475px]:h-4.5nmin-[475px]:w-4.5:h-5 sm:w-8 sm:h-8 shrink-0 hover:scale-150 duration-300 transition-all"
+                className="h-4 w-4 min-[475px]:h-5 min-[475px]:w-5 sm:w-8 sm:h-8 shrink-0 hover:scale-150 duration-300 transition-all"
               />
               SEO + Google Ranking Growth
             </p>
@@ -262,7 +262,7 @@ const Hero = () => {
 
           {/* trust line */}
           <p
-            className={`mt-4 text-[11px] min-[475px]:text-xs sm:text-sm transition-all duration-300 ${
+            className={`mt-4 text-[0.72rem] min-[475px]:text-xs sm:text-sm md:text-[0.92rem] transition-all duration-300 ${
               theme === "dark" ? "text-white/60" : "text-gray-600"
             }`}
           >
