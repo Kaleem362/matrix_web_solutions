@@ -8,7 +8,7 @@ import webdev from "../../Elements/images/icons/webdev.png";
 import seo from "../../Elements/images/icons/seo.png";
 import thumbnaildesign from "../../Elements/images/icons/thumbnaildesign.png";
 import cv from "../../Elements/images/icons/cv.png";
-
+import close from "../../Elements/images/icons/close.png";
 import fastdel from "../../Elements/images/icons/fastdel.png";
 import appdev from "../../Elements/images/icons/appdev.png";
 import whatsappicon from "../../Elements/images/icons/whatsappicon.png";
@@ -100,7 +100,8 @@ export const ContextProvider = ({ children }) => {
         activeService,
         isServiceOpen,
         github,
-        logouticon
+        logouticon,
+        close,
       }}
     >
       {children}

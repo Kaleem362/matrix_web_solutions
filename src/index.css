@@ -14,9 +14,18 @@
 .react-tel-input .country-list {
   border-radius: 12px;
   border: none;
+  transform: scale(1.2);
+}
+.react-tel-input .flag {
+  transform: scale(1.2);
 }
 
 .react-tel-input .country-list .country:hover {
   background-color: #4f46e5 !important; /* indigo-600 */
   color: white !important;
+}
+.react-tel-input .flag {
+  transform: scale(1.2);
+  color: white;
+  
 }

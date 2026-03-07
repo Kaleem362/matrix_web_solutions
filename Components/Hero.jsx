@@ -165,12 +165,12 @@ const Hero = () => {
           }`}
         >
           <h1
-            className={`text-[1.45rem] min-[375px]:text-[1.65rem] min-[475px]:text-[1.85rem] sm:text-[2.05rem] md:text-[2.25rem] lg:text-[2.5rem] xl:text-[2.8rem] 2xl:text-[3.1rem] font-poppins font-extrabold leading-[1.15] tracking-[-0.01em] transition-all duration-300 ${
+            className={`text-[1.45rem] min-[375px]:text-[1.65rem] min-[475px]:text-[2.8rem] sm:text-[3.2rem] md:text-[3.2rem] lg:text-[3.3rem] xl:text-[3.3rem] 2xl:text-[3.5rem] font-poppins font-extrabold leading-14 uppercase  transition-all duration-300 ${
               theme === "dark" ? "text-white" : "text-indigo-900"
             }`}>
             Grow Your Business Online with{" "}
             <span
-              className={`inline-block mt-2 text-[0.95em] sm:text-[0.9em] font-poppins font-bold px-2 py-1 min-[475px]:px-2.5 sm:px-3 md:px-3.5 rounded-md border transition-all duration-300 ${
+              className={`inline-block mt-2 text-[0.8em] sm:text-[1em] font-poppins font-bold px-2 py-1 min-[475px]:px-2.5 sm:px-3 md:px-3.5 rounded-md border transition-all duration-300 ${
                 theme === "dark"
                   ? "text-indigo-200 bg-indigo-950/60 border-indigo-400/20"
                   : "text-white bg-indigo-900 border-indigo-900"

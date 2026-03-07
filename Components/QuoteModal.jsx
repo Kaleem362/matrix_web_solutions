@@ -11,7 +11,7 @@ const QuoteModal = () => {
       ? "http://localhost:5000"
       : import.meta.env.VITE_API_URL;
 
-  const { theme, isQuoteOpen, setIsQuoteOpen, whatsappicon } =
+  const { theme, isQuoteOpen, setIsQuoteOpen, whatsappicon,close } =
     useStore(useStore);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -71,7 +71,7 @@ const QuoteModal = () => {
   if (!isQuoteOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-end sm:items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-999 flex items-end sm:items-center justify-center p-3 sm:p-4">
       <div
         className="absolute inset-0 bg-black/65 backdrop-blur-[2px]"
         onClick={() => setIsQuoteOpen(false)}
@@ -105,7 +105,7 @@ const QuoteModal = () => {
               theme === "dark" ? "hover:bg-white/10" : "hover:bg-gray-100"
             }`}
           >
-            X
+            <img src={close} alt="Close" className="h-10 w-10 bg-white rounded-full p-1" />
           </button>
         </div>
 
@@ -115,7 +115,7 @@ const QuoteModal = () => {
             placeholder="Your Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className={`w-full h-12 sm:h-[3.25rem] text-sm sm:text-base px-3.5 sm:px-4 rounded-xl outline-none border transition-all ${
+            className={`w-full h-12 sm:h-13 text-sm sm:text-base px-3.5 sm:px-4 rounded-xl outline-none border transition-all ${
               theme === "dark"
                 ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30"
                 : "bg-white border-gray-300 placeholder:text-gray-400 focus:border-indigo-500"
@@ -127,7 +127,7 @@ const QuoteModal = () => {
             placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={`w-full h-12 sm:h-[3.25rem] text-sm sm:text-base px-3.5 sm:px-4 rounded-xl outline-none border transition-all ${
+            className={`w-full h-12 sm:h-13 text-sm sm:text-base px-3.5 sm:px-4 rounded-xl outline-none border transition-all ${
               theme === "dark"
                 ? "bg-white/5 border-white/10 placeholder:text-white/40 focus:border-white/30"
                 : "bg-white border-gray-300 placeholder:text-gray-400 focus:border-indigo-500"
@@ -135,7 +135,7 @@ const QuoteModal = () => {
           />
 
           <div
-            className={`relative w-full min-h-12 sm:min-h-[3.25rem] rounded-xl transition-all ${
+            className={`relative w-full min-h-12 sm:min-h-13 rounded-xl transition-all ${
               theme === "dark"
                 ? "bg-indigo-900 border border-indigo-600"
                 : "bg-white border border-indigo-200"
@@ -166,7 +166,7 @@ const QuoteModal = () => {
           <select
             value={service}
             onChange={(e) => setService(e.target.value)}
-            className={`w-full h-12 sm:h-[3.25rem] text-sm sm:text-base px-3.5 sm:px-4 rounded-xl outline-none border transition-all ${
+            className={`w-full h-12 sm:h-13 text-sm sm:text-base px-3.5 sm:px-4 rounded-xl outline-none border transition-all ${
               theme === "dark"
                 ? "bg-white/5 border-white/10 text-white focus:border-white/30"
                 : "bg-white border-gray-300 text-gray-900 focus:border-indigo-500"
@@ -196,7 +196,7 @@ const QuoteModal = () => {
           <div className="flex flex-col gap-3 pt-2">
             <button
               type="submit"
-              className="w-full h-12 sm:h-[3.25rem] px-5 rounded-full text-sm sm:text-base bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
+              className="w-full h-12 sm:h-13 px-5 rounded-full text-sm sm:text-base bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all active:scale-95"
             >
               Submit Quote Request
             </button>
@@ -213,7 +213,7 @@ const QuoteModal = () => {
               href="https://wa.me/923485427362?text=Hi%20Matrix%20Web%20Solutions!%20I%20want%20a%20quote%20for%20my%20project."
               target="_blank"
               rel="noreferrer"
-              className={`w-full h-12 sm:h-[3.25rem] flex items-center justify-center gap-3 px-5 rounded-full text-sm sm:text-base font-semibold text-center border transition-all active:scale-95 ${
+              className={`w-full h-12 sm:h-13 flex items-center justify-center gap-3 px-5 rounded-full text-sm sm:text-base font-semibold text-center border transition-all active:scale-95 ${
                 theme === "dark"
                   ? "border-white/20 text-white hover:bg-white/10"
                   : "border-gray-300 text-gray-800 hover:bg-gray-100"

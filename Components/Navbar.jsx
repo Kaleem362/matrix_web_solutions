@@ -37,7 +37,7 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full">
       <nav
-        className={`shadow-md supports-[backdrop-filter]:backdrop-blur ${
+        className={`shadow-md supports-backdrop-filter:backdrop-blur ${
           theme === "dark"
             ? "bg-linear-to-r from-indigo-400 to-indigo-900"
             : "bg-white"
@@ -120,9 +120,9 @@ const Navbar = () => {
               aria-label="Toggle Theme"
             >
               {theme === "dark" ? (
-                <img src={sun} alt="light mode" className="h-[18px] w-[18px] sm:h-6 sm:w-6" />
+                <img src={sun} alt="light mode" className="h-4.5 w-4.5 h-6 sm:w-6" />
               ) : (
-                <img src={moon} alt="dark mode" className="h-[18px] w-[18px] sm:h-6 sm:w-6" />
+                <img src={moon} alt="dark mode" className="h-4.5 w-4.5 h-6 sm:w-6" />
               )}
             </button>
 
