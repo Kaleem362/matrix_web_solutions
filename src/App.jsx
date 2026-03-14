@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-
 /* =============================
    PUBLIC WEBSITE COMPONENTS
    ============================= */
@@ -19,6 +18,11 @@ import ServiceDetailsModal from "../Components/ServiceDetailsModal";
 import TestimonialForm from "../Components/TestimonialForm";
 import ProtectedRoute from "./Admin/Components/ProtectedRoute";
 import PublicRoute from "./Admin/Components/PublicRoute"; // ✅ PUBLIC ROUTE COMPONENT
+import OurServicesPage from "../Pages/OurServicesPage";
+import Projectspage from "../Pages/Projectspage";
+import AboutPage from "../Pages/AboutPage";
+import BlogPage from "../Pages/BlogPage";
+import ContactPage from "../Pages/ContactPage";
 
 /* =============================
    ADMIN / AUTH PAGES
@@ -26,7 +30,7 @@ import PublicRoute from "./Admin/Components/PublicRoute"; // ✅ PUBLIC ROUTE CO
 import AdminRoutes from "./Admin/routes/AdminRoutes";
 import Login from "../src/Admin/pages/Login";
 // import Signup from "../src/Admin/pages/Signup";/ // ✅ SIGNUP PAGE
-import Signup from "../src/Admin/pages/SignUp"
+import Signup from "../src/Admin/pages/SignUp";
 
 const App = () => {
   return (
@@ -49,6 +53,51 @@ const App = () => {
               <FAQSection />
               <Footer />
               <ServiceDetailsModal />
+            </>
+          }
+        />
+        <Route
+          path="/our-services"
+          element={
+            <>
+              <Navbar />
+              <OurServicesPage />
+            </>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <>
+              <Navbar />
+              <Projectspage />
+            </>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <>
+              <Navbar />
+              <ContactPage />
+            </>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <>
+              <Navbar />
+              <AboutPage />
+            </>
+          }
+        />
+        <Route
+          path="/blog"
+          element={
+            <>
+              <Navbar />
+              <BlogPage />
             </>
           }
         />

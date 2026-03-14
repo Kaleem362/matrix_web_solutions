@@ -1,17 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { useStore } from "../src/Context/UseStore.jsx";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { theme, themeChanger, sun, moon, setIsQuoteOpen, logo, setTheme } = useStore(useContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { label: "Home", id: "home" },
-    { label: "Our Work", id: "ourwork" },
-    { label: "Projects", id: "ourwork" },
-    { label: "Contact", id: "contact" },
-    { label: "About", id: "process" },
-    { label: "Blog", id: "faq" },
+    { label: "Home", to: "/" },
+    { label: "Our Services", to: "/our-services" },
+    { label: "Projects", to: "/projects" },
+    { label: "Contact", to: "/contact" },
+    { label: "About", to: "/about" },
+    { label: "Blog", to: "/blog" },
   ];
 
   // Close mobile menu on resize to large screen
@@ -25,14 +26,6 @@ const Navbar = () => {
   useEffect(() => {
     setTheme(localStorage.getItem("theme"));
   }, [setTheme]);
-
-  const handleNavClick = (targetId) => {
-    const el = document.getElementById(targetId);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-    setIsOpen(false);
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -48,14 +41,14 @@ const Navbar = () => {
           {/* Left: Logo + Brand */}
           <div className="flex items-center gap-2 min-[475px]:gap-3">
             <div className="img-logo flex h-9 w-9 items-center justify-center min-[475px]:h-10 min-[475px]:w-10 sm:h-11 sm:w-11">
-              <a href="/">
+              <Link to="/">
                 <img
                   src={logo}
                   alt="Matrix Web Solutions"
                   className="h-full w-full animate-[spin_6s_linear_infinite] object-contain"
                   title="Matrix Web Solutions"
                 />
-              </a>
+              </Link>
             </div>
 
             {/* Brand text (hidden on very small screens) */}
@@ -83,12 +76,13 @@ const Navbar = () => {
             {navLinks.map((item) => (
               <li
                 key={item.label}
-                onClick={() => handleNavClick(item.id)}
                 className={`relative group font-roboto cursor-pointer text-[clamp(0.82rem,0.9vw,1rem)] ${
                   theme === "dark" ? "text-indigo-100" : "text-indigo-700"
                 } ${theme === "dark" ? "hover:text-white" : "hover:text-indigo-500"}`}
               >
-                {item.label}
+                <Link to={item.to}>
+                  {item.label}
+                </Link>
                 <span
                   className={`absolute left-0 -bottom-1 h-0.5 w-0 ${
                     theme === "dark" ? "bg-white" : "bg-indigo-500"
@@ -120,9 +114,9 @@ const Navbar = () => {
               aria-label="Toggle Theme"
             >
               {theme === "dark" ? (
-                <img src={sun} alt="light mode" className="h-4.5 w-4.5 h-6 sm:w-6" />
+                <img src={sun} alt="light mode" className="w-4.5 h-6 sm:w-6" />
               ) : (
-                <img src={moon} alt="dark mode" className="h-4.5 w-4.5 h-6 sm:w-6" />
+                <img src={moon} alt="dark mode" className="w-4.5 h-6 sm:w-6" />
               )}
             </button>
 
@@ -176,7 +170,6 @@ const Navbar = () => {
               {navLinks.map((item) => (
                 <li
                   key={item.label}
-                  onClick={() => handleNavClick(item.id)}
                   className={`cursor-pointer py-1 font-roboto text-[clamp(0.85rem,1.1vw,1.1rem)] ${
                     theme === "dark" ? "text-indigo-100" : "text-indigo-700"
                   } ${
@@ -185,7 +178,9 @@ const Navbar = () => {
                       : "hover:text-indigo-500"
                   }`}
                 >
-                  {item.label}
+                  <Link to={item.to} onClick={() => setIsOpen(false)}>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>

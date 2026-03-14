@@ -2,7 +2,6 @@
 import { createContext, useState } from "react";
 import sun from "../../Elements/images/sun.png";
 import moon from "../../Elements/images/cresent.png";
-export const StoreContext = createContext();
 import designlogo from "../../Elements/images/icons/designicon.png";
 import webdev from "../../Elements/images/icons/webdev.png";
 import seo from "../../Elements/images/icons/seo.png";
@@ -15,8 +14,9 @@ import whatsappicon from "../../Elements/images/icons/whatsappicon.png";
 import gmail from "../../Elements/images/icons/gmail.png";
 import github from "../../Elements/images/github.png";
 import logouticon from "../../Elements/images/logouticon.png";
-
 import logo from "../assets/MatrixLogo.png";
+
+export const StoreContext = createContext();
 
 export const ContextProvider = ({ children }) => {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
