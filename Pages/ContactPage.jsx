@@ -1,138 +1,344 @@
-/* eslint-disable no-unused-vars */
-import {
-  FaClock,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaPaperPlane,
-  FaPhoneAlt,
-} from "react-icons/fa";
-import CoverContactPage from "./coversforpages/CoverContactPage";
-
-const contactCards = [
-  {
-    title: "Call Us",
-    value: "+92 348 5427362",
-    detail: "Mon - Sat, 9:00 AM to 7:00 PM",
-    icon: FaPhoneAlt,
-  },
-  {
-    title: "Email",
-    value: "matrixdev19@gmail.com",
-    detail: "We usually reply within a few hours",
-    icon: FaEnvelope,
-  },
-  {
-    title: "Remote",
-    value: "Mingora, Swat 19130",
-    detail: "Pakistan",
-    icon: FaMapMarkerAlt,
-  },
-  {
-    title: "Working Hours",
-    value: "Monday - Saturday",
-    detail: "9:00 AM - 7:00 PM",
-    icon: FaClock,
-  },
-];
+import { useStore } from "../src/Context/UseStore";
+import PhoneInput from "react-phone-input-2";
+import { WiDirectionUpRight } from "react-icons/wi";
+import { BsFillSendArrowUpFill } from "react-icons/bs";
+import { useState } from "react";
 
 const ContactPage = () => {
+  const {
+    theme,
+    gmail,
+    github,
+    facebook,
+    location,
+    call,
+    instagram,
+    linkedin,
+    send,
+  } = useStore(useStore);
+  console.log(theme);
+  const [phone, setPhone] = useState();
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [subject, setSubject] = useState();
+  const [concern, setConcern] = useState();
   return (
-    <>
-    <CoverContactPage />
-    <section className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-100">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-24 top-16 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl" />
-        <div className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-fuchsia-500/15 blur-3xl" />
-      </div>
-
-      <div className="relative mx-auto w-full max-w-7xl px-5 pb-12 pt-24 sm:px-8 lg:px-12">
-        <div className="mb-12 max-w-3xl">
-          <p className="mb-4 inline-block rounded-full border border-white/20 bg-white/5 px-4 py-1 text-xs tracking-[0.22em] uppercase">
-            Let&apos;s Build Together
+    <div
+      className={`foreground-1 w-full h-full bg-linear-to-br ${theme === "dark" ? "from-indigo-950 via-indigo-400 to-indigo-500" : "from-indigo-500 via-indigo-200 to-indigo-700"}`}
+    >
+      <div className="contact-container-div w-full overflow-y-auto md:justify-center lg:flex p-6 sm:p-8 lg:p-20">
+        {/* //---------------------------------------- 
+          //LEFT SIDE DIV IN CONTACT
+          //---------------------------------------- */}
+        <div className="left-side w-full p-4 overflow-hidden google-sans">
+          <h1
+            className={`leading-10 sm:leading-16 text-5xl sm:text-[60px] md:text-[60px] m-4 md:m-0 tracking-tight font-extrabold google-sans ${
+              theme === "light" ? "text-indigo-900" : "text-white"
+            }`}
+          >
+            Lets Get in touch
+          </h1>
+          <p
+            className={`google-sans text-lg m-4 ${theme === "light" ? "text-indigo-900" : "text-white"}`}
+          >
+            always feel easy to hello Us!
           </p>
-          <h1 className=" [-webkit-text-stroke:1px_white] bg-transparent bg-clip-text text-4xl font-black text-transparent sm:text-6xl lg:text-7xl">
+          <ul className="contact-tabs mt-4 flex flex-col gap-3 w-full max-w-md">
+            {/* EMAIL */}
+            <li
+              className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3 transition
+    ${
+      theme === "light"
+        ? "bg-white/70 text-indigo-900"
+        : "bg-white/10 text-white shadow-md shadow-indigo-900/30"
+    }`}
+            >
+              <img
+                src={gmail}
+                className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+                alt="email"
+              />
+
+              <div className="flex flex-col flex-1 min-w-0 px-1">
+                <p className="text-xs sm:text-sm leading-tight opacity-70">
+                  Email us
+                </p>
+                <p className="text-sm sm:text-base truncate">
+                  matrixdev19@gmail.com
+                </p>
+              </div>
+
+              <WiDirectionUpRight
+                className={`h-5 w-5 sm:h-6 sm:w-6 shrink-0 border rounded-md p-0.5
+      ${theme === "light" ? "text-indigo-900" : "text-white"}`}
+              />
+            </li>
+
+            {/* CALL */}
+            <li
+              className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3 transition
+    ${
+      theme === "light"
+        ? "bg-white/70 text-indigo-900"
+        : "bg-white/10 text-white shadow-md shadow-indigo-900/30"
+    }`}
+            >
+              <img
+                src={call}
+                className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+                alt="call"
+              />
+
+              <div className="flex flex-col flex-1 min-w-0 px-1">
+                <p className="text-xs sm:text-sm leading-tight opacity-70">
+                  Call us
+                </p>
+                <p className="text-sm sm:text-base truncate">+92 313 9908631</p>
+              </div>
+
+              <WiDirectionUpRight
+                className={`h-5 w-5 sm:h-6 sm:w-6 shrink-0 border rounded-md p-0.5
+      ${theme === "light" ? "text-indigo-900" : "text-white"}`}
+              />
+            </li>
+
+            {/* ADDRESS */}
+            <li
+              className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3 transition
+    ${
+      theme === "light"
+        ? "bg-white/70 text-indigo-900"
+        : "bg-white/10 text-white shadow-md shadow-indigo-900/30"
+    }`}
+            >
+              <img
+                src={location}
+                className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+                alt="location"
+              />
+
+              <div className="flex flex-col flex-1 min-w-0 px-1">
+                <p className="text-xs sm:text-sm leading-tight opacity-70">
+                  Address
+                </p>
+                <p className="text-sm sm:text-base truncate">
+                  Mingora Swat KP, Pakistan
+                </p>
+              </div>
+
+              <WiDirectionUpRight
+                className={`h-5 w-5 sm:h-6 sm:w-6 shrink-0 border rounded-md p-0.5
+      ${theme === "light" ? "text-indigo-900" : "text-white"}`}
+              />
+            </li>
+          </ul>
+
+          {/* SOCIAL LINKS */}
+          <ul
+            className={`social-media-links mt-4 p-4 rounded-xl flex flex-wrap items-center gap-3 sm:gap-4 w-full max-w-md ${theme === "light" ? "bg-indigo-500/50" : "bg-indigo-900/50"}`}
+          >
+            <li className="text-white text-sm sm:text-base whitespace-nowrap">
+              Follow us on
+            </li>
+
+            <a href="#" className="shrink-0">
+              <img
+                src={facebook}
+                alt="facebook"
+                className="h-8 w-8 sm:h-10 sm:w-10 object-contain hover:scale-110 transition"
+              />
+            </a>
+
+            <a href="#" className="shrink-0">
+              <img
+                src={github}
+                alt="github"
+                className="h-8 w-8 sm:h-10 sm:w-10 object-contain hover:scale-110 transition"
+              />
+            </a>
+
+            <a href="#" className="shrink-0">
+              <img
+                src={instagram}
+                alt="instagram"
+                className="h-8 w-8 sm:h-10 sm:w-10 object-contain hover:scale-110 transition"
+              />
+            </a>
+
+            <a href="#" className="shrink-0">
+              <img
+                src={linkedin}
+                alt="linkedin"
+                className="h-8 w-8 sm:h-10 sm:w-10 object-contain hover:scale-110 transition"
+              />
+            </a>
+          </ul>
+        </div>
+        {/* //---------------------------------------- 
+          //RIGHT SIDE DIV IN CONTACT
+          //---------------------------------------- */}
+        <div
+          className={`right-side w-full google-sans overflow-hidden ${theme === "light" ? "border-gray-200" : "bg-linear-to-b from-indigo-400 to-indigo-900 border-indigo-900"}bg-white  rounded-[40px] border-10 border-gray-200 py-10 px-4 `}
+        >
+          <h1
+            className={` font-extrabold px-4  text-4xl text-transparent ${theme === "light" ? "[-webkit-text-stroke:2px_#312E81]" : "[-webkit-text-stroke:2px_#fff]"}`}
+          >
             Contact Us
           </h1>
-          <p className="mt-5 text-base text-slate-300 sm:text-lg">
-             Share your ideas with us. From complete strategy to product launch, we provide full support to deliver a comprehensive digital solution.
-          </p>
-        </div>
-
-        <div className="grid gap-7 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-3xl border border-white/15 bg-white/8 p-6 shadow-2xl shadow-cyan-500/10 backdrop-blur-xl sm:p-8">
-            <h2 className="text-2xl font-bold text-white sm:text-3xl">
-              Talk to our team
-            </h2>
-            <p className="mt-3 max-w-xl text-sm text-slate-300 sm:text-base">
-              Whether it’s a business inquiry, support concern, or collaboration request, our team will connect with you directly
-            </p>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              
-              {contactCards.map(({ title, value, detail, icon: Icon }) => (
-                <article
-                  key={title}
-                  className="rounded-2xl border border-white/12 bg-slate-900/55 p-4 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/40"
+          <form action="" className="mt-4 google-sans px-4 w-full max-w-2xl">
+            {/* GRID CONTAINER */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* NAME */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor="name"
+                  className={`${theme === "light" ? "text-indigo-900" : "text-white"} font-light`}
                 >
-                  <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-400/15 text-cyan-200">
-                    <Icon size={16} />
-                  </span>
-                  <h3 className="text-sm font-semibold text-slate-300">{title}</h3>
-                  <p className="mt-1 text-base font-bold text-white">{value}</p>
-                  <p className="mt-1 text-xs text-slate-400">{detail}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <form className="rounded-3xl border border-white/15 bg-slate-900/75 p-6 shadow-2xl shadow-indigo-500/15 backdrop-blur-xl sm:p-8">
-            <h2 className="text-2xl font-bold text-white sm:text-3xl">
-              Send Message
-            </h2>
-            <p className="mt-3 text-sm text-slate-300 sm:text-base">
-              Fill the Form & you'll get response later.
-            </p>
-
-            <div className="mt-7 space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
+                  Name
+                </label>
                 <input
                   type="text"
-                  placeholder="Full Name"
-                  className="w-full rounded-xl border border-white/15 bg-slate-950/65 px-4 py-3 text-sm text-white outline-none ring-0 transition focus:border-cyan-300/70"
-                />
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  className="w-full rounded-xl border border-white/15 bg-slate-950/65 px-4 py-3 text-sm text-white outline-none ring-0 transition focus:border-indigo-300/70"
+                  placeholder="Enter Name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={`border p-2 rounded-lg focus:bg-white/10 
+        ${
+          theme === "light"
+            ? "placeholder:text-indigo-900/50 border-indigo-900"
+            : "placeholder:text-indigo-400 border-white"
+        }
+        placeholder:font-extralight outline-none`}
                 />
               </div>
 
-              <input
-                type="text"
-                placeholder="Subject"
-                className="w-full rounded-xl border border-white/15 bg-slate-950/65 px-4 py-3 text-sm text-white outline-none ring-0 transition focus:border-cyan-300/70"
-              />
+              {/* EMAIL */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor="email"
+                  className={`${theme === "light" ? "text-indigo-900" : "text-white"} font-light`}
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="Johndoe@gmail.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={`border p-2 rounded-lg focus:bg-white/10 
+        ${
+          theme === "light"
+            ? "placeholder:text-indigo-900/50 border-indigo-900"
+            : "placeholder:text-indigo-400 border-white"
+        }
+        placeholder:font-extralight outline-none`}
+                />
+              </div>
 
-              <textarea
-                rows={5}
-                placeholder="Write your message..."
-                className="w-full resize-none rounded-xl border border-white/15 bg-slate-950/65 px-4 py-3 text-sm text-white outline-none ring-0 transition focus:border-cyan-300/70"
-              />
+              {/* PHONE */}
+              <div className="flex flex-col md:col-span-1 col-span-1">
+                <label
+                  htmlFor="phone"
+                  className={`${theme === "light" ? "text-indigo-900" : "text-white"} font-light`}
+                >
+                  Phone
+                </label>
+                <PhoneInput
+                  country="pk"
+                  onChange={(value) => setPhone(value)}
+                  enableSearch
+                  value={phone}
+                  required
+                  containerClass="w-full"
+                  inputClass={`!w-full !text-sm sm:!text-base !py-5 !rounded-lg !bg-transparent !border !outline-none !pl-12.5
+        ${
+          theme === "dark"
+            ? "!text-white placeholder:!text-white/50 !placeholder:font-light"
+            : "!text-gray-900 placeholder:!text-gray-400 !placeholder:font-light !border-indigo-900"
+        }`}
+                  buttonClass={`!border-0 !bg-transparent ${
+                    theme === "dark" ? "!bg-indigo-900" : ""
+                  }`}
+                  dropdownClass={`!rounded-xl !shadow-xl ${
+                    theme === "dark"
+                      ? "bg-white/5 border-white/10 text-indigo-900"
+                      : "bg-white border-gray-300 text-indigo-800"
+                  }`}
+                />
+              </div>
 
+              {/* SUBJECT */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor="subject"
+                  className={`${theme === "light" ? "text-indigo-900" : "text-white"} font-light`}
+                >
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  maxLength={50}
+                  required
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Enter Your Subject"
+                  className={`border p-2 rounded-lg focus:bg-white/10 
+        ${
+          theme === "light"
+            ? "placeholder:text-indigo-900/50 border-indigo-900"
+            : "placeholder:text-indigo-400 border-white"
+        }
+        placeholder:font-extralight outline-none`}
+                />
+              </div>
+
+              {/* TEXTAREA (FULL WIDTH) */}
+              <div className="col-span-1 md:col-span-2 flex flex-col">
+                <label
+                  className={`${theme === "light" ? "text-indigo-900" : "text-white"} font-light`}
+                >
+                  Message
+                </label>
+                <textarea
+                  name="description"
+                  rows={4}
+                  required
+                  value={concern}
+                  onChange={(e) => setConcern(e.target.value)}
+                  placeholder="Explain Your Concern here ....."
+                  className={`p-4 outline-none rounded-lg w-full max-h-60 focus:bg-white/10 border
+        ${
+          theme === "light"
+            ? "border-indigo-900 placeholder:text-indigo-900/50"
+            : "border-white placeholder:text-indigo-400"
+        }
+        font-light`}
+                ></textarea>
+              </div>
+            </div>
+
+            {/* SUBMIT BUTTON */}
+            <div className="mt-4">
               <button
-                type="button"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-indigo-900 via-indigo-400 to-indigo-900 px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110"
+                className={`w-full p-3 flex items-center justify-center gap-3 rounded-full transition-all duration-200 group
+      ${
+        theme === "light"
+          ? "bg-indigo-900 text-white hover:bg-white hover:text-indigo-700"
+          : "bg-white text-indigo-900 border border-indigo-900 hover:bg-transparent hover:text-white hover:border-white group"
+      }`}
               >
-                <FaPaperPlane size={14} />
-                Send Message
+                SUBMIT
+                <img
+                  src={send}
+                  className="h-8 w-8 rotate-40 group-hover:rotate-0 transition-all duration-200"
+                />
               </button>
             </div>
           </form>
         </div>
       </div>
-    </section>
-    </>
+    </div>
   );
 };
 
