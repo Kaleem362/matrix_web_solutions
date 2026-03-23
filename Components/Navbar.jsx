@@ -3,7 +3,8 @@ import { useStore } from "../src/Context/UseStore.jsx";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const { theme, themeChanger, sun, moon, setIsQuoteOpen, logo, setTheme } = useStore(useContext);
+  const { theme, themeChanger, sun, moon, setIsQuoteOpen, logo, setTheme } =
+    useStore(useContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
@@ -66,7 +67,9 @@ const Navbar = () => {
                 }`}
               >
                 Digital Services Agency{" "}
-                <span className="text-[clamp(0.5rem,0.6vw,0.65rem)]">1.0.1</span>
+                <span className="text-[clamp(0.5rem,0.6vw,0.65rem)]">
+                  1.0.1
+                </span>
               </p>
             </div>
           </div>
@@ -80,9 +83,7 @@ const Navbar = () => {
                   theme === "dark" ? "text-indigo-100" : "text-indigo-700"
                 } ${theme === "dark" ? "hover:text-white" : "hover:text-indigo-500"}`}
               >
-                <Link to={item.to}>
-                  {item.label}
-                </Link>
+                <Link to={item.to}>{item.label}</Link>
                 <span
                   className={`absolute left-0 -bottom-1 h-0.5 w-0 ${
                     theme === "dark" ? "bg-white" : "bg-indigo-500"
@@ -114,9 +115,9 @@ const Navbar = () => {
               aria-label="Toggle Theme"
             >
               {theme === "dark" ? (
-                <img src={sun} alt="light mode" className="w-4.5 h-6 sm:w-6" />
+                <img src={sun} alt="light mode" className="w-6 h-6" />
               ) : (
-                <img src={moon} alt="dark mode" className="w-4.5 h-6 sm:w-6" />
+                <img src={moon} alt="dark mode" className="w-6 h-6" />
               )}
             </button>
 
