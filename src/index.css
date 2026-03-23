@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
@@ -23,9 +24,34 @@
 .react-tel-input .country-list .country:hover {
   background-color: #4f46e5 !important; /* indigo-600 */
   color: white !important;
+
 }
+
+
 .react-tel-input .flag {
   transform: scale(1.2);
   color: white;
-  
+}
+/* FIX COUNTRY CODE BACKGROUND */
+.react-tel-input .flag-dropdown {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* LIGHT MODE */
+.light .react-tel-input .flag-dropdown {
+  background-color: #e0e7ff !important; /* indigo-200 */
+}
+
+/* DARK MODE */
+.dark .react-tel-input .flag-dropdown {
+  background-color: #1e1b4b !important; /* indigo-900 */
+}
+
+.google-sans{
+  font-family: "Google Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+  font-variation-settings: "GRAD" 0;
 }
