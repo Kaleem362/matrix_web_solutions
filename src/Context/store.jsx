@@ -15,6 +15,12 @@ import gmail from "../../Elements/images/icons/gmail.png";
 import github from "../../Elements/images/github.png";
 import logouticon from "../../Elements/images/logouticon.png";
 import logo from "../assets/MatrixLogo.png";
+import call from "../../Elements/images/icons/call.png";
+import location from "../../Elements/images/icons/location.png";
+import linkedin from "../../Elements/images/icons/linkedin.png";
+import instagram from "../../Elements/images/icons/instagram.png";
+import facebook from "../../Elements/images/icons/facebook.png";
+import send from "../../Elements/images/icons/send.png";
 
 export const StoreContext = createContext();
 
@@ -102,6 +108,12 @@ export const ContextProvider = ({ children }) => {
         github,
         logouticon,
         close,
+        call,
+        location,
+        linkedin,
+        instagram,
+        facebook,
+        send
       }}
     >
       {children}
