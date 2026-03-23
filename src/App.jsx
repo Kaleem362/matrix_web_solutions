@@ -62,6 +62,7 @@ const App = () => {
             <>
               <Navbar />
               <OurServicesPage />
+              <Footer />
             </>
           }
         />
@@ -71,6 +72,7 @@ const App = () => {
             <>
               <Navbar />
               <Projectspage />
+              <Footer />
             </>
           }
         />
@@ -80,6 +82,7 @@ const App = () => {
             <>
               <Navbar />
               <ContactPage />
+              <Footer />
             </>
           }
         />
@@ -89,6 +92,7 @@ const App = () => {
             <>
               <Navbar />
               <AboutPage />
+              <Footer />
             </>
           }
         />
@@ -98,6 +102,7 @@ const App = () => {
             <>
               <Navbar />
               <BlogPage />
+              <Footer />
             </>
           }
         />
