@@ -11,9 +11,9 @@ export default {
         roboto: ["Roboto", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
         knewave: ["Knewave", "system-ui"],
+        inter: ["Inter", "sans-serif"],
       },
     },
   },
   plugins: [],
-
 };

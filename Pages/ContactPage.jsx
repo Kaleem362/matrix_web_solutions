@@ -11,7 +11,7 @@ const ContactPage = () => {
     github,
     facebook,
     location,
-    call,
+    callIcon,
     instagram,
     linkedin,
     send,
@@ -84,7 +84,7 @@ const ContactPage = () => {
     }`}
             >
               <img
-                src={call}
+                src={callIcon}
                 className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
                 alt="call"
               />
