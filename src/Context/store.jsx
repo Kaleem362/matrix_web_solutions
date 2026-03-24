@@ -15,7 +15,7 @@ import gmail from "../../Elements/images/icons/gmail.png";
 import github from "../../Elements/images/github.png";
 import logouticon from "../../Elements/images/logouticon.png";
 import logo from "../assets/MatrixLogo.png";
-import callIcon from "/src/Elements/images/icons/call.png";
+import callIcon from "../../Elements/images/icons/call.png";
 import location from "../../Elements/images/icons/location.png";
 import linkedin from "../../Elements/images/icons/linkedin.png";
 import instagram from "../../Elements/images/icons/instagram.png";
