@@ -62,7 +62,7 @@ const Hero = () => {
   return (
     <div
       id="home"
-      className={`w-full px-4 min-[475px]:px-5 sm:px-8 lg:px-16 py-6 sm:py-10 transition-all duration-300 ${
+      className={`w-full google-sans px-4 min-[475px]:px-5 sm:px-8 lg:px-16 py-6 sm:py-10 transition-all duration-300 ${
         theme === "dark"
           ? "bg-linear-to-b from-indigo-950 via-black to-black"
           : "bg-linear-to-b from-indigo-400 to-white"
@@ -165,12 +165,12 @@ const Hero = () => {
           }`}
         >
           <h1
-            className={`text-[1.45rem] min-[375px]:text-[1.65rem] min-[475px]:text-[2.8rem] sm:text-[3.2rem] md:text-[3.2rem] lg:text-[3.3rem] xl:text-[3.3rem] 2xl:text-[3.5rem] font-poppins font-extrabold leading-14 uppercase  transition-all duration-300 ${
+            className={`text-[2rem] min-[375px]:text-[1.65rem] min-[475px]:text-[2.8rem] sm:text-[3.2rem] md:text-[3.2rem] lg:text-[3.3rem] xl:text-[3.3rem] 2xl:text-[5rem] font-poppins leading-14 uppercase 2xl:leading-16  transition-all duration-300 ${
               theme === "dark" ? "text-white" : "text-indigo-900"
-            }`}>
+            }`} style={{fontWeight: "bolder"}}>
             Grow Your Business Online with{" "}
             <span
-              className={`inline-block mt-2 text-[0.8em] sm:text-[1em] font-poppins font-bold px-2 py-1 min-[475px]:px-2.5 sm:px-3 md:px-3.5 rounded-md border transition-all duration-300 ${
+              className={`inline-block mt-2 text-[0.8em] sm:text-[1em] font-poppins p-3 google-sans min-[475px]:px-2.5 sm:px-3 md:px-3.5 lg:leading-16 font-bold rounded-md border transition-all duration-300 ${
                 theme === "dark"
                   ? "text-indigo-200 bg-indigo-950/60 border-indigo-400/20"
                   : "text-white bg-indigo-900 border-indigo-900"
