@@ -28,6 +28,10 @@ export const ContextProvider = ({ children }) => {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [activeService, setActiveService] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  const [contacts, setContacts] = useState([]);
 
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -83,6 +87,8 @@ export const ContextProvider = ({ children }) => {
   return (
     <StoreContext.Provider
       value={{
+        contacts,
+        setContacts,
         theme,
         setTheme,
         themeChanger,
@@ -113,7 +119,13 @@ export const ContextProvider = ({ children }) => {
         linkedin,
         instagram,
         facebook,
-        send
+        send,
+        loading,
+        setLoading,
+        error,
+        setError,
+        success,
+        setSuccess,
       }}
     >
       {children}

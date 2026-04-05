@@ -3,6 +3,7 @@ import Dashboard from "../pages/Dashboard";
 import Topbar from "../layout/Topbar";
 import Sidebar from "../layout/Sidebar";
 import Testimonials from "../Components/Testimonials";
+import ClientContacts from "../Components/ClientContacts";
 import Quotes from "../Components/Quotes";
 
 const AdminRoutes = () => {
@@ -12,8 +13,15 @@ const AdminRoutes = () => {
       <Route path="/testimonials" element={<div>
         <Topbar></Topbar>
         <Sidebar />
-        <div>
+        <div className="google-sans">
             <Testimonials/>
+        </div>
+      </div>} />
+      <Route path="/getContacts" element={<div>
+        <Topbar></Topbar>
+        <Sidebar />
+        <div>
+            <ClientContacts/>
         </div>
       </div>} />
       {/* FIX: Render Quotes component instead of placeholder text. */}

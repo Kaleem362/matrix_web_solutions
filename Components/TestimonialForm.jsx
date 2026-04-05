@@ -3,7 +3,8 @@ import axios from "axios";
 import { useStore } from "../src/Context/UseStore";
 
 const TestimonialForm = () => {
-  const { theme } = useStore(useStore);
+  const { theme, loading, setLoading, success, setSuccess, error, setError } =
+    useStore(useStore);
   const [formData, setFormData] = useState({
     name: "",
     role: "",
@@ -12,15 +13,11 @@ const TestimonialForm = () => {
     image: "", // ✅ STRING (URL)
   });
 
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
-
   const BASE_URL =
     import.meta.env.MODE === "development"
       ? "http://localhost:5000"
       : import.meta.env.VITE_API_URL;
-      
+
   const API_URL = `${BASE_URL}/api/testimonials`;
 
   const handleChange = (e) => {

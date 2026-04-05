@@ -4,7 +4,15 @@ import { socket } from "../../Socket.js";
 import Loader from "./Loader/Loader.jsx";
 
 const Testimonials = () => {
+  const BASE_URL =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:5000"
+      : import.meta.env.VITE_API_URL;
+  // 🔹 APIs
+
   // 🔹 Backend se aane wale SAARE testimonials
+  const GETALL_API_URL = `${BASE_URL}/api/testimonials/all`;
+  const APP_testimonials_API_URL = `${BASE_URL}/api/testimonials/`;
   const [testimonialsData, setTestimonialsData] = useState([]);
 
   // 🔹 Loading & error
@@ -13,14 +21,6 @@ const Testimonials = () => {
 
   // 🔹 UI filter
   const [filter, setFilter] = useState("pending");
-
-  const BASE_URL =
-    import.meta.env.MODE === "development"
-      ? "http://localhost:5000"
-      : import.meta.env.VITE_API_URL;
-  // 🔹 APIs
-  const GETALL_API_URL = `${BASE_URL}/api/testimonials/all`;
-  const APP_testimonials_API_URL = `${BASE_URL}/api/testimonials/`;
 
   // =========================================
   // 🔹 FETCH ALL TESTIMONIALS (ADMIN ONLY)
@@ -56,7 +56,6 @@ const Testimonials = () => {
     // 🔔 Testimonial approved
     socket.on("testimonialApproved", (approvedTestimonial) => {
       console.log("✅ Testimonial approved:", approvedTestimonial);
-
       // 🔥 IMPORTANT: refetch to keep filters correct
       fetchTestimonials();
     });
@@ -72,7 +71,7 @@ const Testimonials = () => {
       socket.off("testimonialApproved");
       socket.off("testimonialDeleted");
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // =========================================
@@ -160,7 +159,11 @@ const Testimonials = () => {
 
       {/* 🔹 STATES */}
       {loading && <Loader />}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && (
+        <p className="text-red-200 google-sans h-screen w-full text-center flex items-center text-5xl">
+          {error}
+        </p>
+      )}
 
       {!loading && filteredTestimonials.length === 0 && (
         <p className="text-gray-500/30 text-center flex items-center justify-center text-9xl h-82">

@@ -3,6 +3,8 @@ import PhoneInput from "react-phone-input-2";
 import { WiDirectionUpRight } from "react-icons/wi";
 import { BsFillSendArrowUpFill } from "react-icons/bs";
 import { useState } from "react";
+import { getApiBase } from "../src/utils/api.js"; // ✅ add this
+import axios from "axios";
 
 const ContactPage = () => {
   const {
@@ -15,13 +17,82 @@ const ContactPage = () => {
     instagram,
     linkedin,
     send,
+    loading,
+    setLoading,
+    success,
+    setSuccess,
+    error,
+    setError,
   } = useStore(useStore);
-  console.log(theme);
-  const [phone, setPhone] = useState();
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [subject, setSubject] = useState();
-  const [concern, setConcern] = useState();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    concern: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const BASE_URL =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:5000"
+      : import.meta.env.VITE_API_URL;
+
+  // ✅ AFTER — sirf yeh do lines
+  const API_URL = `${getApiBase()}/api/contact`; // ✅ correct route
+
+  const submitContact = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+    try {
+      await axios.post(
+        API_URL,
+        {
+          name: formData.name,
+          email: formData.email, // ✅
+          phone: formData.phone, // ✅
+          subject: formData.subject,
+          message: formData.concern,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      setSuccess(
+        "Thank you for Contacting Us, We'll get back to you very soon.",
+      );
+      setTimeout(() => {
+        setSuccess("");
+      }, 5000);
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "", // ✅
+        concern: "",
+      });
+    } catch (err) {
+      setError(
+        err?.response?.data?.message ||
+          "Something went wrong. Please try again later.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div
       className={`foreground-1 w-full h-full bg-linear-to-br ${theme === "dark" ? "from-indigo-950 via-indigo-400 to-indigo-500" : "from-indigo-500 via-indigo-200 to-indigo-700"}`}
@@ -185,7 +256,33 @@ const ContactPage = () => {
           >
             Contact Us
           </h1>
-          <form action="" className="mt-4 google-sans px-4 w-full max-w-2xl">
+          {/* Success Message */}
+          {success && (
+            <div
+              className={`
+        mb-5 rounded-lg p-2 my-2 text-sm w-full max-w-lg text-center border transition-all duration-200
+        ${
+          theme === "dark"
+            ? "bg-white/10 border border-indigo-600 text-indigo-100"
+            : "bg-green-400/50 border border-white text-black"
+        }
+      `}
+            >
+              {success}
+            </div>
+          )}
+
+          {/* Error Message */}
+          {error && (
+            <div className="mb-5 rounded-lg p-4 text-sm border border-red-300 bg-red-50 text-red-700">
+              {error}
+            </div>
+          )}
+          <form
+            action=""
+            onSubmit={submitContact}
+            className="mt-4 google-sans px-4 w-full max-w-2xl"
+          >
             {/* GRID CONTAINER */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* NAME */}
@@ -200,8 +297,9 @@ const ContactPage = () => {
                   type="text"
                   placeholder="Enter Name"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className={`border p-2 rounded-lg focus:bg-white/10 
         ${
           theme === "light"
@@ -224,8 +322,9 @@ const ContactPage = () => {
                   type="email"
                   placeholder="Johndoe@gmail.com"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className={`border p-2 rounded-lg focus:bg-white/10 
         ${
           theme === "light"
@@ -246,10 +345,16 @@ const ContactPage = () => {
                 </label>
                 <PhoneInput
                   country="pk"
-                  onChange={(value) => setPhone(value)}
+                  onChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      phone: value,
+                    }))
+                  }
                   enableSearch
-                  value={phone}
+                  value={formData.phone}
                   required
+                  name="phone"
                   containerClass="w-full"
                   inputClass={`!w-full !text-sm sm:!text-base !py-5 !rounded-lg !bg-transparent !border !outline-none !pl-12.5
         ${
@@ -280,8 +385,9 @@ const ContactPage = () => {
                   type="text"
                   maxLength={50}
                   required
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
                   placeholder="Enter Your Subject"
                   className={`border p-2 rounded-lg focus:bg-white/10 
         ${
@@ -301,11 +407,11 @@ const ContactPage = () => {
                   Message
                 </label>
                 <textarea
-                  name="description"
                   rows={4}
                   required
-                  value={concern}
-                  onChange={(e) => setConcern(e.target.value)}
+                  name="concern"
+                  value={formData.concern}
+                  onChange={handleChange}
                   placeholder="Explain Your Concern here ....."
                   className={`p-4 outline-none rounded-lg w-full max-h-60 focus:bg-white/10 border
         ${
@@ -327,8 +433,9 @@ const ContactPage = () => {
           ? "bg-indigo-900 text-white hover:bg-white hover:text-indigo-700"
           : "bg-white text-indigo-900 border border-indigo-900 hover:bg-transparent hover:text-white hover:border-white group"
       }`}
+                disabled={loading}
               >
-                SUBMIT
+                {loading ? "Submitting..." : "Submit Contact"}
                 <img
                   src={send}
                   className="h-8 w-8 rotate-40 group-hover:rotate-0 transition-all duration-200"
