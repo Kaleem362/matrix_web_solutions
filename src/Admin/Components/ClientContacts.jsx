@@ -12,7 +12,7 @@ const ToastContainer = ({ toasts, onClose }) => (
     {toasts.map((t) => (
       <div
         key={t.id}
-        className={`pointer-events-auto flex items-start gap-3 bg-white rounded-xl border shadow-md px-4 py-3 min-w-[260px] max-w-xs
+        className={`pointer-events-auto flex items-start gap-3 bg-white rounded-xl border shadow-md px-4 py-3 min-w-65 max-w-xs
           animate-[slideIn_0.25s_ease] transition-all
           ${t.type === "success" ? "border-green-200" : t.type === "error" ? "border-red-200" : "border-blue-200"}`}
       >
