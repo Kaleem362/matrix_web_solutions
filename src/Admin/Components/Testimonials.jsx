@@ -14,34 +14,81 @@ const ToastContainer = ({ toasts, onClose }) => (
           ${t.type === "success" ? "border-green-200" : t.type === "error" ? "border-red-200" : "border-blue-200"}`}
       >
         {/* Icon */}
-        <div className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0
-          ${t.type === "success" ? "bg-green-100" : t.type === "error" ? "bg-red-100" : "bg-blue-100"}`}>
+        <div
+          className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0
+          ${t.type === "success" ? "bg-green-100" : t.type === "error" ? "bg-red-100" : "bg-blue-100"}`}
+        >
           {t.type === "success" && (
-            <svg className="w-3 h-3 text-green-600" viewBox="0 0 12 12" fill="none">
-              <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg
+              className="w-3 h-3 text-green-600"
+              viewBox="0 0 12 12"
+              fill="none"
+            >
+              <path
+                d="M2 6l3 3 5-5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           )}
           {t.type === "error" && (
-            <svg className="w-3 h-3 text-red-600" viewBox="0 0 12 12" fill="none">
-              <path d="M3 9L9 3M3 3l6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+            <svg
+              className="w-3 h-3 text-red-600"
+              viewBox="0 0 12 12"
+              fill="none"
+            >
+              <path
+                d="M3 9L9 3M3 3l6 6"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
             </svg>
           )}
           {t.type === "info" && (
-            <svg className="w-3 h-3 text-blue-600" viewBox="0 0 12 12" fill="none">
-              <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
-              <path d="M6 5.5V9M6 4v-.3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            <svg
+              className="w-3 h-3 text-blue-600"
+              viewBox="0 0 12 12"
+              fill="none"
+            >
+              <circle
+                cx="6"
+                cy="6"
+                r="4.5"
+                stroke="currentColor"
+                strokeWidth="1.2"
+              />
+              <path
+                d="M6 5.5V9M6 4v-.3"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+              />
             </svg>
           )}
         </div>
 
         {/* Text */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-gray-800 leading-snug">{t.title}</p>
-          {t.message && <p className="text-xs text-gray-500 mt-0.5 leading-snug">{t.message}</p>}
+          <p className="text-sm font-medium text-gray-800 leading-snug">
+            {t.title}
+          </p>
+          {t.message && (
+            <p className="text-xs text-gray-500 mt-0.5 leading-snug">
+              {t.message}
+            </p>
+          )}
         </div>
 
         {/* Close */}
-        <button onClick={() => onClose(t.id)} className="text-gray-300 hover:text-gray-500 text-sm leading-none mt-0.5">✕</button>
+        <button
+          onClick={() => onClose(t.id)}
+          className="text-gray-300 hover:text-gray-500 text-sm leading-none mt-0.5"
+        >
+          ✕
+        </button>
       </div>
     ))}
   </div>
@@ -55,14 +102,25 @@ const ConfirmModal = ({ modal, onConfirm, onCancel }) => {
       <div className="bg-white rounded-2xl border border-gray-200 shadow-xl p-6 w-full max-w-sm">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-            <svg className="w-4 h-4 text-red-600" viewBox="0 0 14 14" fill="none">
-              <path d="M2 4h10M5 4V2.5h4V4M6 7v3M8 7v3M3 4l.5 7.5h7L11 4"
-                stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg
+              className="w-4 h-4 text-red-600"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <path
+                d="M2 4h10M5 4V2.5h4V4M6 7v3M8 7v3M3 4l.5 7.5h7L11 4"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </div>
           <p className="font-semibold text-gray-800">{modal.title}</p>
         </div>
-        <p className="text-sm text-gray-500 mb-5 leading-relaxed">{modal.description}</p>
+        <p className="text-sm text-gray-500 mb-5 leading-relaxed">
+          {modal.description}
+        </p>
         <div className="flex justify-end gap-2">
           <button
             onClick={onCancel}
@@ -103,7 +161,10 @@ const Testimonials = () => {
   const showToast = useCallback((type, title, message = "") => {
     const id = Date.now();
     setToasts((prev) => [...prev, { id, type, title, message }]);
-    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 3500);
+    setTimeout(
+      () => setToasts((prev) => prev.filter((t) => t.id !== id)),
+      3500,
+    );
   }, []);
 
   const closeToast = useCallback((id) => {
@@ -123,7 +184,12 @@ const Testimonials = () => {
   };
 
   const closeConfirm = () => {
-    setConfirmModal({ open: false, title: "", description: "", onConfirm: null });
+    setConfirmModal({
+      open: false,
+      title: "",
+      description: "",
+      onConfirm: null,
+    });
   };
 
   // ── Fetch ──
@@ -146,7 +212,11 @@ const Testimonials = () => {
 
     socket.on("newTestimonialSubmitted", (newTestimonial) => {
       setTestimonialsData((prev) => [newTestimonial, ...prev]);
-      showToast("info", "New testimonial received", `From ${newTestimonial.name} — awaiting your review.`);
+      showToast(
+        "info",
+        "New testimonial received",
+        `From ${newTestimonial.name} — awaiting your review.`,
+      );
     });
 
     socket.on("testimonialApproved", () => {
@@ -167,7 +237,7 @@ const Testimonials = () => {
 
   // ── Filtering ──
   const filteredTestimonials = testimonialsData.filter((item) =>
-    filter === "approved" ? item.approved === true : item.approved === false
+    filter === "approved" ? item.approved === true : item.approved === false,
   );
 
   // ── Approve ──
@@ -176,15 +246,19 @@ const Testimonials = () => {
       await axios.patch(
         `${APP_testimonials_API_URL}${id}/approve`,
         {},
-        { withCredentials: true }
+        { withCredentials: true },
       );
       await fetchTestimonials();
-      showToast("success", "Testimonial approved", "It's now visible on the public site.");
+      showToast(
+        "success",
+        "Testimonial approved",
+        "It's now visible on the public site.",
+      );
     } catch (err) {
       showToast(
         "error",
         "Approval failed",
-        err?.response?.data?.message || err.message
+        err?.response?.data?.message || err.message,
       );
     }
   };
@@ -201,11 +275,15 @@ const Testimonials = () => {
             withCredentials: true,
           });
           await fetchTestimonials();
-          showToast("error", "Testimonial deleted", "The entry has been removed.");
+          showToast(
+            "error",
+            "Testimonial deleted",
+            "The entry has been removed.",
+          );
         } catch (err) {
           showToast("error", "Delete failed", err.message);
         }
-      }
+      },
     );
   };
 
@@ -219,7 +297,7 @@ const Testimonials = () => {
         onCancel={closeConfirm}
       />
 
-      <h2 className="text-2xl font-semibold mb-6">Testimonials Management</h2>
+      <h2 className="text-3xl font-bold">Testimonials Management</h2>
 
       <div className="flex gap-3 mb-6">
         <button
