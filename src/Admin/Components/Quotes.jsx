@@ -6,6 +6,9 @@ import { socket } from "../../Socket";
 import { FaWhatsapp } from "react-icons/fa";
 import { FcPhone } from "react-icons/fc";
 import { TfiEmail } from "react-icons/tfi";
+import { MdDeleteOutline } from "react-icons/md";
+import { HiOutlineSearch } from "react-icons/hi";
+import { BsQuote } from "react-icons/bs";
 
 const Quotes = () => {
   const [quotes, setQuotes] = useState([]);
@@ -45,7 +48,6 @@ const Quotes = () => {
   useEffect(() => {
     fetchQuotes();
 
-    // FIX: Refetch on socket events so UI always shows server source-of-truth.
     socket.on("newQuoteSubmitted", () => {
       fetchQuotes();
     });
@@ -78,105 +80,169 @@ const Quotes = () => {
     });
   }, [quotes, search]);
 
+  const getInitials = (name = "") => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const avatarColors = [
+    "bg-indigo-100 text-indigo-700",
+    "bg-violet-100 text-violet-700",
+    "bg-sky-100 text-sky-700",
+    "bg-emerald-100 text-emerald-700",
+    "bg-rose-100 text-rose-700",
+    "bg-amber-100 text-amber-700",
+  ];
+
+  const getAvatarColor = (name = "") => {
+    const index = name.charCodeAt(0) % avatarColors.length;
+    return avatarColors[index];
+  };
+
   return (
     <AdminLayout>
-      <section className="rounded-2xl border border-indigo-900/10 bg-white p-4 sm:p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-3xl font-bold">
-              Quotes Management
-            </h2>
-            <p className="mt-1 text-sm text-indigo-900/70">
-              Review, filter and remove submitted client quotes.
+      <section className="min-h-screen px-1 py-2 sm:px-2">
+
+        {/* ── Page Header ── */}
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600">
+              <BsQuote className="text-xl text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+                Quote Requests
+              </h2>
+              <p className="text-sm text-gray-500">
+                Manage and respond to incoming client quotes
+              </p>
+            </div>
+          </div>
+
+          {/* Stats pill */}
+          <div className="flex items-center gap-2">
+            <span className="rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-semibold text-indigo-700 ring-1 ring-indigo-200">
+              {filteredQuotes.length}{" "}
+              {filteredQuotes.length === 1 ? "Quote" : "Quotes"}
+            </span>
+          </div>
+        </div>
+
+        {/* ── Search Bar ── */}
+        <div className="mb-6 relative w-full sm:max-w-sm">
+          <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name, email, phone or service…"
+            className="w-full rounded-xl border border-gray-200 bg-white py-2.5 pl-9 pr-4 text-sm text-gray-800 shadow-sm placeholder:text-gray-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100 transition"
+          />
+        </div>
+
+        {/* ── States ── */}
+        {loading && (
+          <div className="flex justify-center py-16">
+            <Loader />
+          </div>
+        )}
+
+        {!loading && error && (
+          <div className="rounded-xl border border-red-100 bg-red-50 px-5 py-4 text-sm text-red-600">
+            {error}
+          </div>
+        )}
+
+        {!loading && !error && filteredQuotes.length === 0 && (
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-white py-20 text-center">
+            <BsQuote className="mb-3 text-5xl text-gray-200" />
+            <p className="text-base font-semibold text-gray-400">
+              No quotes found
+            </p>
+            <p className="mt-1 text-sm text-gray-400">
+              {search ? "Try a different search term." : "No quotes have been submitted yet."}
             </p>
           </div>
+        )}
 
-          <div className="w-full sm:w-72">
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name, email, phone, service"
-              className="w-full rounded-lg border border-indigo-900/30 bg-white px-3 py-2 text-sm text-indigo-900 placeholder:text-indigo-900/40 focus:outline-none focus:ring-2 focus:ring-indigo-900"
-            />
-          </div>
-        </div>
-
-        <div className="mt-4 inline-block rounded-lg bg-indigo-900 px-4 py-2 text-sm text-white">
-          Total Quotes: {filteredQuotes.length}
-        </div>
-
-        <div className="mt-6">
-          {loading && <Loader />}
-          {error && <p className="text-sm text-red-600">{error}</p>}
-
-          {!loading && !error && filteredQuotes.length === 0 && (
-            <div className="rounded-xl border border-indigo-900/20 bg-white p-8 text-center text-indigo-900/70">
-              No quotes found.
-            </div>
-          )}
-
-          {!loading && !error && filteredQuotes.length > 0 && (
-            <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 lg:gap-6 xl:grid-cols-3">
-              {filteredQuotes.map((item) => (
-                <article
-                  key={item._id}
-                  className="flex h-full min-w-0 flex-col rounded-xl border border-indigo-900/15 bg-white p-4 shadow-sm sm:p-5"
+        {/* ── Quote Tiles List ── */}
+        {!loading && !error && filteredQuotes.length > 0 && (
+          <div className="flex flex-col gap-3">
+            {filteredQuotes.map((item) => (
+              <article
+                key={item._id}
+                className="group flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
+              >
+                {/* ── Avatar ── */}
+                <div
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center self-start rounded-full text-sm font-bold sm:self-auto ${getAvatarColor(item.name)}`}
                 >
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div className="min-w-0 flex-1">
-                      <h3 className="wrap-break-word text-lg font-extrabold text-indigo-900 sm:text-xl">
-                        {item.name}
-                      </h3>
-                      <p className="mt-1 break-all text-sm text-black underline underline-offset-2">
-                        {item.email}
-                      </p>
-                    </div>
-                    <span className="max-w-full shrink-0 rounded-full bg-green-900 px-3 py-2 text-center text-xs text-white wrap-break-word">
+                  {getInitials(item.name)}
+                </div>
+
+                {/* ── Client Info ── */}
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-semibold text-gray-900">{item.name}</p>
+                    <span className="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-600 ring-1 ring-indigo-100">
                       {item.service}
                     </span>
                   </div>
-
-                  <p className="mt-3 wrap-break-word text-sm font-medium leading-relaxed text-indigo-900/80">
-                    {item.description}
-                  </p>
-
-                  <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
-                    <p className="col-span-1 inline-flex min-w-0 items-center gap-1 break-all text-sm font-extrabold text-indigo-900 sm:col-span-2 sm:text-base lg:col-span-3">
-                      <FcPhone />
-                      {"+" + item.phone}
-                    </p>
-
-                    <a
-                      href={`https://wa.me/${item.phone}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-green-700 bg-green-700 px-3 py-2 text-sm text-white transition hover:border-white hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
-                    >
-                      <span>WhatsApp</span>
-                      <FaWhatsapp size={18} />
-                    </a>
-                    <a
-                      href={`mailto:${item.email}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full border bg-linear-to-r from-pink-500 to-indigo-400 px-3 py-2 text-sm font-medium text-white transition-all duration-200 hover:from-pink-600 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
-                    >
-                      <span>Email</span>
-                      <TfiEmail size={18} />
-                    </a>
-                    <button
-                      onClick={() => deleteQuote(item._id)}
-                      className="w-full rounded-full border border-red-700 bg-red-700 px-3 py-2 text-sm text-white transition hover:border-white hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 sm:col-span-2 lg:col-span-1"
-                    >
-                      Delete
-                    </button>
+                  <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1">
+                    <span className="flex items-center gap-1 text-xs text-gray-500">
+                      <TfiEmail className="shrink-0" />
+                      <span className="truncate text-indigo-500 underline underline-offset-2">
+                        {item.email}
+                      </span>
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-gray-500">
+                      <FcPhone className="shrink-0" />
+                      +{item.phone}
+                    </span>
                   </div>
-                </article>
-              ))}
-            </div>
-          )}
-        </div>
+                  {item.description && (
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-400">
+                      {item.description}
+                    </p>
+                  )}
+                </div>
+
+                {/* ── Actions ── */}
+                <div className="flex shrink-0 items-center gap-2 self-start sm:self-auto">
+                  <a
+                    href={`https://wa.me/${item.phone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Chat on WhatsApp"
+                    className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-50 text-green-600 transition hover:bg-green-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-1"
+                  >
+                    <FaWhatsapp className="text-base" />
+                  </a>
+                  <a
+                    href={`mailto:${item.email}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Send Email"
+                    className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1"
+                  >
+                    <TfiEmail className="text-base" />
+                  </a>
+                  <button
+                    onClick={() => deleteQuote(item._id)}
+                    title="Delete quote"
+                    className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-400 transition hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-1"
+                  >
+                    <MdDeleteOutline className="text-lg" />
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </AdminLayout>
   );
