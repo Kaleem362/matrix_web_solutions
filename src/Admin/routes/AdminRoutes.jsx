@@ -18,7 +18,7 @@ const AdminRoutes = () => {
         path="/testimonials"
         element={
           <div>
-            <Topbar></Topbar>
+            {/* <Topbar></Topbar> */}
             <Sidebar />
             <div className="google-sans">
               <Testimonials />
@@ -30,7 +30,7 @@ const AdminRoutes = () => {
         path="/getContacts"
         element={
           <div>
-            <Topbar></Topbar>
+            {/* <Topbar></Topbar> */}
             <Sidebar />
             <div>
               <ClientContacts />
@@ -44,7 +44,7 @@ const AdminRoutes = () => {
         path="/ourwork"
         element={
           <div>
-            <Topbar></Topbar>
+            {/* <Topbar></Topbar> */}
             <Sidebar />
             <div>
               <OurWork />
@@ -56,7 +56,7 @@ const AdminRoutes = () => {
         path="/services"
         element={
           <div>
-            <Topbar></Topbar>
+            {/* <Topbar></Topbar> */}
             <Sidebar />
             <div>
               <Services />

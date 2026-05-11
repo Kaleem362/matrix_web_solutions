@@ -5,15 +5,15 @@
 // console.log("SOCKET URL:", import.meta.env.VITE_API_URL);
 // // 🔹 Single socket instance (singleton)
 // export const socket = io(SOCKET_URL, {
-  
+
 //   autoConnect: true,
 //   transports: ["websocket"],
 // });
 import { io } from "socket.io-client";
+import { getApiBase } from "./utils/api.js";
 
 // Backend URL from env
-const SOCKET_URL = import.meta.env.VITE_API_URL;
-
+const SOCKET_URL = getApiBase();
 console.log("SOCKET URL:", SOCKET_URL);
 
 export const socket = io(SOCKET_URL, {
