@@ -29,7 +29,7 @@ const Navbar = () => {
   }, [setTheme]);
 
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header className="sticky top-0 z-40 w-full">
       <nav
         className={`shadow-md supports-backdrop-filter:backdrop-blur ${
           theme === "dark"

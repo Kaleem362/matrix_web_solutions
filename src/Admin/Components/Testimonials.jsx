@@ -5,6 +5,7 @@ import Loader from "./Loader/Loader.jsx";
 import AdminLayout from "../layout/AdminLayout";
 import { MdDeleteOutline, MdOutlineVerified } from "react-icons/md";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
+import { markAsSeen } from "../../utils/seenItems";
 
 // ─── Toast Container ──────────────────────────────────────────
 const ToastContainer = ({ toasts, onClose }) => (
@@ -126,6 +127,36 @@ const getInitials = (name = "") =>
 const getAvatarColor = (name = "") =>
   avatarColors[name.charCodeAt(0) % avatarColors.length];
 
+// ─── Avatar Component ────────────────────────────────────────
+const Avatar = ({ item }) => {
+  const initials = getInitials(item.name);
+  const colorClass = getAvatarColor(item.name);
+
+  // Handle both full URLs and partial paths
+  const getImageUrl = (url) => {
+    if (!url) return null;
+    if (url.startsWith("http")) return url;
+    return `http://localhost:5000${url}`;
+  };
+
+  if (item.image) {
+    return (
+      <img
+        src={getImageUrl(item.image)}
+        alt={item.name}
+        className="h-11 w-11 rounded-full object-cover ring-2 ring-white"
+        onError={(e) => { e.target.style.display = 'none'; }}
+      />
+    );
+  }
+
+  return (
+    <div className={`flex h-11 w-11 shrink-0 items-center justify-center self-start rounded-full text-sm font-bold ${colorClass}`}>
+      {initials}
+    </div>
+  );
+};
+
 // ─── Main Component ───────────────────────────────────────────
 const Testimonials = () => {
   const BASE_URL =
@@ -172,7 +203,9 @@ const Testimonials = () => {
     try {
       setLoading(true);
       const res = await axios.get(GETALL_API_URL, { withCredentials: true });
-      setTestimonialsData(res.data.data || []);
+      const testimonialsData = res.data.data || [];
+      setTestimonialsData(testimonialsData);
+      markAsSeen("testimonials", testimonialsData.map((t) => t._id));
       setError("");
     } catch (err) {
       setError("Failed to fetch testimonials: " + err.message);
@@ -333,11 +366,7 @@ const Testimonials = () => {
                 className="group flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md sm:flex-row sm:items-start sm:gap-5"
               >
                 {/* ── Avatar ── */}
-                <div
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center self-start rounded-full text-sm font-bold ${getAvatarColor(item.name)}`}
-                >
-                  {getInitials(item.name)}
-                </div>
+                <Avatar item={item} />
 
                 {/* ── Content ── */}
                 <div className="min-w-0 flex-1">

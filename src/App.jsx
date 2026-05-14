@@ -32,10 +32,15 @@ import AdminRoutes from "./Admin/routes/AdminRoutes";
 import Login from "../src/Admin/pages/Login";
 // import Signup from "../src/Admin/pages/Signup";/ // ✅ SIGNUP PAGE
 import Signup from "../src/Admin/pages/SignUp";
+import ResetPassword from "../src/Admin/pages/ResetPassword";
 
 const App = () => {
   return (
     <BrowserRouter>
+      {/* Global Modals - Available on all pages */}
+      <QuoteModal />
+      <ServiceDetailsModal />
+
       <Routes>
         {/* 🌍 PUBLIC WEBSITE */}
         <Route
@@ -45,7 +50,6 @@ const App = () => {
               <Navbar />
               <Hero />
               <ServicesSection />
-              <QuoteModal />
               <OurWorkSection />
               <TestimonialsSection />
               <TestimonialForm />
@@ -53,7 +57,6 @@ const App = () => {
               <ProcessSection />
               <FAQSection />
               <Footer />
-              <ServiceDetailsModal />
             </>
           }
         />
@@ -110,6 +113,7 @@ const App = () => {
         {/* 🔓 AUTH ROUTES (PUBLIC) */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} /> {/* ✅ ADDED */}
+        <Route path="/admin/reset-password" element={<ResetPassword />} />
         {/* 🔐 ADMIN PANEL (PROTECTED INSIDE) */}
         <Route
           path="/admin/*"

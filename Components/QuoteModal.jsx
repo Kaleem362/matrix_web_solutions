@@ -71,7 +71,7 @@ const QuoteModal = () => {
   if (!isQuoteOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-999 flex items-end sm:items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-3 sm:p-4">
       <div
         className="absolute inset-0 bg-black/65 backdrop-blur-[2px]"
         onClick={() => setIsQuoteOpen(false)}

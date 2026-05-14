@@ -93,12 +93,20 @@ const Login = () => {
           { withCredentials: true, timeout: 10000, headers: { "Content-Type": "application/json" } }
         );
         if (res.data?.success) {
-          setResetMsg(res.data?.message || "Reset link sent! Check your inbox.");
+          if (res.data?.devMode) {
+            setResetMsg("Dev mode: Check server console for reset link.");
+          } else {
+            setResetMsg("Email sent! Check your inbox for reset instructions.");
+          }
         } else {
           setResetErr(res.data?.message || "Could not send reset link.");
         }
       } catch (err) {
-        setResetErr(err.response?.data?.message || "Failed to send reset link. Try again.");
+        let msg = "Failed to send reset link. Try again.";
+        if (err.response?.status === 500) msg = "Server error. Please try again later.";
+        else if (!err.response) msg = "Cannot connect to server.";
+        else msg = err.response?.data?.message || msg;
+        setResetErr(msg);
       } finally {
         setResetLoading(false);
       }

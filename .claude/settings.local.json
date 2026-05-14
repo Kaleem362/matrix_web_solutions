@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"d:\\\\Matrix_web-Solution\")",
+      "Read(//d/Matrix_web-Solution/**)",
+      "Bash(npm install *)"
+    ]
+  }
+}

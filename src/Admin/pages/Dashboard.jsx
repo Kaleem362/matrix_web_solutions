@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AdminLayout from "../layout/AdminLayout";
 import axios from "axios";
 import { getApiBase } from "../../utils/api.js";
+import io from "socket.io-client";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -14,110 +15,62 @@ const Dashboard = () => {
   const [recentActivity, setRecentActivity] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const socketRef = useRef(null);
+
+  // Fetch dashboard stats
+  const fetchStats = async () => {
+    try {
+      const API_BASE = getApiBase();
+      const res = await axios.get(`${API_BASE}/api/dashboard/stats`, {
+        withCredentials: true,
+      });
+
+      if (res.data?.success) {
+        setStats(res.data.stats);
+        setRecentActivity(res.data.recentActivity || []);
+      }
+    } catch (err) {
+      console.error("Dashboard fetch error:", err);
+      if (err.response?.status === 401) {
+        setError("Session expired. Please log out and log back in.");
+      } else {
+        setError("Failed to load dashboard data.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const API_BASE = getApiBase();
+    // Initial fetch
+    fetchStats();
 
-        // Use axios with credentials for all requests
-        const [testimonialsRes, quotesRes, servicesRes, contactsRes] =
-          await Promise.all([
-            axios.get(`${API_BASE}/api/testimonials/all`, { withCredentials: true }),
-            axios.get(`${API_BASE}/api/quotes`, { withCredentials: true }),
-            axios.get(`${API_BASE}/api/services`, { withCredentials: true }),
-            axios.get(`${API_BASE}/api/contact`, { withCredentials: true }),
-          ]);
+    // Connect to Socket.io
+    const API_BASE = getApiBase();
+    socketRef.current = io(API_BASE, {
+      withCredentials: true,
+    });
 
-        // Log response status for debugging
-        console.log("📊 Response status:", {
-          testimonials: testimonialsRes.status,
-          quotes: quotesRes.status,
-          services: servicesRes.status,
-          contacts: contactsRes.status,
-        });
+    socketRef.current.on("connect", () => {
+      console.log("🔌 Dashboard socket connected");
+      socketRef.current.emit("joinAdmin");
+    });
 
-        // If any response is 401, user needs to re-login
-        if ([testimonialsRes, quotesRes, servicesRes, contactsRes].some(r => r.status === 401)) {
-          setError("Session expired. Please log out and log back in.");
-          setLoading(false);
-          return;
-        }
+    // Listen for any data change → refetch stats
+    socketRef.current.on("dashboardStatsUpdated", () => {
+      console.log("📊 Dashboard stats updated via socket");
+      fetchStats();
+    });
 
-        // --- Testimonials ---
-        const testimonialsData = testimonialsRes.data;
-        const allTestimonials = Array.isArray(testimonialsData)
-          ? testimonialsData
-          : testimonialsData.data ?? testimonialsData.testimonials ?? [];
-        const pending = allTestimonials.filter(
-          (t) => t.status === "pending" || t.approved === false
-        );
+    socketRef.current.on("disconnect", () => {
+      console.log("🔌 Dashboard socket disconnected");
+    });
 
-        // --- Quotes ---
-        const quotesData = quotesRes.data;
-        const allQuotes = Array.isArray(quotesData)
-          ? quotesData
-          : quotesData.data ?? quotesData.quotes ?? [];
-
-        // --- Services ---
-        const servicesData = servicesRes.data;
-        const allServices = Array.isArray(servicesData)
-          ? servicesData
-          : servicesData.data ?? servicesData.services ?? [];
-        const activeServices = allServices.filter(
-          (s) => s.isActive === true || s.status === "active"
-        );
-
-        // --- Contacts ---
-        const contactsData = contactsRes.data;
-        const allContacts = Array.isArray(contactsData)
-          ? contactsData
-          : contactsData.data ?? contactsData.contacts ?? [];
-
-        setStats({
-          totalTestimonials: allTestimonials.length,
-          pendingTestimonials: pending.length,
-          totalQuotes: allQuotes.length,
-          activeServices: activeServices.length,
-          totalContacts: allContacts.length,
-        });
-
-        // Build recent activity from latest entries across collections
-        const activity = [
-          ...allTestimonials.slice(-3).map((t) => ({
-            label: `Testimonial by ${t.name ?? "someone"} — ${t.status ?? (t.approved ? "approved" : "pending")}`,
-            date: t.createdAt,
-          })),
-          ...allQuotes.slice(-2).map((q) => ({
-            label: `Quote request from ${q.name ?? q.email ?? "a client"}`,
-            date: q.createdAt,
-          })),
-          ...allContacts.slice(-2).map((c) => ({
-            label: `Contact message from ${c.name ?? c.email ?? "someone"}`,
-            date: c.createdAt,
-          })),
-        ]
-          .filter((a) => a.date)
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 6);
-
-        setRecentActivity(activity);
-      } catch (err) {
-        console.error("Dashboard fetch error:", err);
-        // Handle axios errors
-        if (err.response?.status === 401) {
-          setError("Session expired. Please log out and log back in.");
-        } else {
-          setError("Failed to load dashboard data. Is the server running?");
-        }
-      } finally {
-        setLoading(false);
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
       }
     };
-
-    fetchDashboardData();
   }, []);
 
   const statCards = [

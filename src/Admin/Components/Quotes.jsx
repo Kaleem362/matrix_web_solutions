@@ -9,6 +9,7 @@ import { TfiEmail } from "react-icons/tfi";
 import { MdDeleteOutline } from "react-icons/md";
 import { HiOutlineSearch } from "react-icons/hi";
 import { BsQuote } from "react-icons/bs";
+import { markAsSeen } from "../../utils/seenItems";
 
 const Quotes = () => {
   const [quotes, setQuotes] = useState([]);
@@ -22,7 +23,9 @@ const Quotes = () => {
     try {
       setLoading(true);
       const res = await axios.get(QUOTES_API, { withCredentials: true });
-      setQuotes(res?.data?.data || []);
+      const quotesData = res?.data?.data || [];
+      setQuotes(quotesData);
+      markAsSeen("quotes", quotesData.map((q) => q._id));
       setError("");
     } catch (err) {
       setError(err?.response?.data?.message || "Failed to fetch quotes.");

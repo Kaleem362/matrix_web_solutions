@@ -13,7 +13,7 @@ const ServiceDetailsModal = () => {
   if (!isServiceOpen || !activeService) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div className="fixed inset-0 z-55 flex items-center justify-center px-4">
       {/* Backdrop */}
       <div
         onClick={() => setIsServiceOpen(false)}
