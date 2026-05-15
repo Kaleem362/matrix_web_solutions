@@ -4,6 +4,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "../src/index.css";
 import axios from "axios";
+import { playQuoteSound } from "../src/utils/notificationSound";
 
 const QuoteModal = () => {
   const BASE_URL =
@@ -11,8 +12,14 @@ const QuoteModal = () => {
       ? "http://localhost:5000"
       : import.meta.env.VITE_API_URL;
 
-  const { theme, isQuoteOpen, setIsQuoteOpen, whatsappicon,close } =
+  const { theme, isQuoteOpen, setIsQuoteOpen, whatsappicon,close, currency, userCountry, detectUserLocation, locationRequested } =
     useStore(useStore);
+
+  useEffect(() => {
+    if (!locationRequested) {
+      detectUserLocation();
+    }
+  }, [locationRequested, detectUserLocation]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [service, setService] = useState("");
@@ -56,8 +63,15 @@ const QuoteModal = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      alert("Quote request submitted successfully!");
-      setName("");
+      playQuoteSound();
+      setTimeout(() => {
+        alert("Quote request submitted successfully!");
+        setName("");
+        setEmail("");
+        setPhone("");
+        setService("");
+        setDescription("");
+      }, 150);
       setEmail("");
       setPhone("");
       setService("");
@@ -71,7 +85,7 @@ const QuoteModal = () => {
   if (!isQuoteOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-60 flex items-end sm:items-center justify-center p-3 sm:p-4">
       <div
         className="absolute inset-0 bg-black/65 backdrop-blur-[2px]"
         onClick={() => setIsQuoteOpen(false)}
@@ -95,6 +109,11 @@ const QuoteModal = () => {
               }`}
             >
               Tell us what you need and we&apos;ll get back to you ASAP.
+              {currency && (
+                <span className="block mt-1 text-xs opacity-75">
+                  Pricing shown in {currency} (detected: {userCountry || 'your location'})
+                </span>
+              )}
             </p>
           </div>
 

@@ -4,6 +4,7 @@ import { FiMail, FiPhone, FiMapPin, FiSend, FiChevronRight } from "react-icons/f
 import { useState, useEffect } from "react";
 import { getApiBase } from "../src/utils/api.js";
 import axios from "axios";
+import { playContactSound } from "../src/utils/notificationSound";
 
 const ContactPage = () => {
   const {
@@ -58,9 +59,12 @@ const ContactPage = () => {
         subject: formData.subject,
         message: formData.concern,
       });
-      setSuccess("Thank you for contacting us! We'll get back to you within 24 hours.");
-      setTimeout(() => setSuccess(""), 5000);
-      setFormData({ name: "", email: "", phone: "", subject: "", concern: "" });
+      playContactSound();
+      setTimeout(() => {
+        setSuccess("Thank you for contacting us! We'll get back to you within 24 hours.");
+        setTimeout(() => setSuccess(""), 5000);
+        setFormData({ name: "", email: "", phone: "", subject: "", concern: "" });
+      }, 150);
     } catch (err) {
       setError(err?.response?.data?.message || "Something went wrong. Please try again.");
     } finally {

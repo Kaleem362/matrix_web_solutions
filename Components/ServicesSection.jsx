@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useStore } from "../src/Context/UseStore";
@@ -15,7 +15,24 @@ const ServicesSection = () => {
     setIsQuoteOpen,
     setActiveService,
     setIsServiceOpen,
+    currency,
+    detectUserLocation,
+    locationRequested,
   } = useStore();
+
+  useEffect(() => {
+    if (!locationRequested) {
+      detectUserLocation();
+    }
+  }, [locationRequested, detectUserLocation]);
+
+  const formatServicePrice = (priceUSD) => {
+    if (currency === "PKR") {
+      const pkr = priceUSD * 280;
+      return `Starting from ${pkr.toLocaleString()} PKR`;
+    }
+    return `Starting from $${priceUSD} USD`;
+  };
 
   const servicesList = [
     {
@@ -49,7 +66,7 @@ const ServicesSection = () => {
       ],
 
       timeline: "7–14 days (depending on pages and features)",
-      startingPrice: "Starting from 9,999 PKR",
+      startingPriceUSD: 35,
 
       faqs: [
         {
@@ -96,7 +113,7 @@ const ServicesSection = () => {
       ],
 
       timeline: "3–6 weeks (depending on features)",
-      startingPrice: "Starting from 39,999 PKR",
+      startingPriceUSD: 140,
 
       faqs: [
         {
@@ -144,7 +161,7 @@ const ServicesSection = () => {
       ],
 
       timeline: "4–8 weeks (to start seeing improvements)",
-      startingPrice: "Starting from 14,999 PKR / month",
+      startingPriceUSD: 50,
 
       faqs: [
         {
@@ -190,7 +207,7 @@ const ServicesSection = () => {
       ],
 
       timeline: "2–5 days (depending on revisions)",
-      startingPrice: "Starting from 2,999 PKR",
+      startingPriceUSD: 10,
 
       faqs: [
         {
@@ -240,7 +257,7 @@ const ServicesSection = () => {
       ],
 
       timeline: "24–48 hours (depending on workload)",
-      startingPrice: "Starting from 499 PKR",
+      startingPriceUSD: 2,
 
       faqs: [
         {
@@ -286,7 +303,7 @@ const ServicesSection = () => {
       ],
 
       timeline: "1–3 days (depending on details)",
-      startingPrice: "Starting from 1,499 PKR",
+      startingPriceUSD: 5,
 
       faqs: [
         {

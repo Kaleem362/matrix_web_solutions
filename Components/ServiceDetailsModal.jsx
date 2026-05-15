@@ -8,7 +8,24 @@ const ServiceDetailsModal = () => {
     setIsServiceOpen,
     activeService,
     setIsQuoteOpen,
+    currency,
+    detectUserLocation,
+    locationRequested,
   } = useStore(useStore);
+
+  React.useEffect(() => {
+    if (!locationRequested) {
+      detectUserLocation();
+    }
+  }, [locationRequested, detectUserLocation]);
+
+  const formatPrice = (priceUSD) => {
+    if (currency === "PKR") {
+      const pkr = priceUSD * 280;
+      return `${pkr.toLocaleString()} PKR`;
+    }
+    return `$${priceUSD} USD`;
+  };
 
   if (!isServiceOpen || !activeService) return null;
 
@@ -93,7 +110,7 @@ const ServiceDetailsModal = () => {
                 Starting Price
               </p>
               <p className="text-lg font-bold text-indigo-500">
-                {activeService.startingPrice}
+                {activeService.startingPriceUSD ? formatPrice(activeService.startingPriceUSD) : activeService.startingPrice}
               </p>
             </div>
 

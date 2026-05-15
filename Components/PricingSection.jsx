@@ -1,30 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useStore } from "../src/Context/UseStore";
 
 const PricingSection = () => {
-  const { theme, setIsQuoteOpen } = useStore(useStore);
-  
+  const { theme, setIsQuoteOpen, currency, detectUserLocation, locationRequested } = useStore(useStore);
+
+  useEffect(() => {
+    if (!locationRequested) {
+      detectUserLocation();
+    }
+  }, [locationRequested, detectUserLocation]);
+
+  const formatPrice = (plan) => {
+    if (currency === "PKR") {
+      return plan.pricePKR;
+    }
+    return plan.priceUSD;
+  };
 
   const plans = [
     {
       name: "Basic",
-      price: "9,999 PKR",
+      pricePKR: "9,999 PKR",
+      priceUSD: "$35 USD",
       desc: "Best for small businesses starting online.",
       features: ["1 Page Website", "Responsive Design", "Basic SEO Setup", "2 Revisions"],
       popular: false,
     },
     {
       name: "Standard",
-      price: "19,999 PKR",
+      pricePKR: "19,999 PKR",
+      priceUSD: "$70 USD",
       desc: "Perfect for growing brands and services.",
       features: ["Up to 5 Pages", "Modern UI/UX", "SEO Optimization", "WhatsApp Integration", "5 Revisions"],
       popular: true,
     },
     {
       name: "Premium",
-      price: "39,999 PKR",
+      pricePKR: "39,999 PKR",
+      priceUSD: "$140 USD",
       desc: "For serious businesses that want scale.",
       features: ["Up to 10 Pages", "Full Optimization", "Advanced SEO", "Speed Optimization", "Unlimited Revisions"],
       popular: false,
@@ -78,7 +93,7 @@ const PricingSection = () => {
             <h3 className={`text-xl font-bold ${theme === "dark" ? "text-white" : "text-indigo-900"}`}>{plan.name}</h3>
             <p className={`mt-2 text-sm ${theme === "dark" ? "text-white/70" : "text-gray-600"}`}>{plan.desc}</p>
 
-            <p className={`mt-5 text-3xl font-extrabold ${theme === "dark" ? "text-white" : "text-indigo-500"}`}>{plan.price}</p>
+            <p className={`mt-5 text-3xl font-extrabold ${theme === "dark" ? "text-white" : "text-indigo-500"}`}>{formatPrice(plan)}</p>
 
             <ul className="mt-6 space-y-2 text-sm">
               {plan.features.map((f, idx) => (

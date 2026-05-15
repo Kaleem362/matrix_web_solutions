@@ -3,9 +3,15 @@ import { useStore } from "../src/Context/UseStore.jsx";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const { theme, themeChanger, sun, moon, setIsQuoteOpen, logo, setTheme } =
+  const { theme, themeChanger, sun, moon, setIsQuoteOpen, logo, setTheme, currency, detectUserLocation, locationRequested, userCountry } =
     useStore(useContext);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!locationRequested) {
+      detectUserLocation();
+    }
+  }, [locationRequested, detectUserLocation]);
 
   const navLinks = [
     { label: "Home", to: "/" },
@@ -120,6 +126,21 @@ const Navbar = () => {
                 <img src={moon} alt="dark mode" className="w-6 h-6" />
               )}
             </button>
+
+            {/* Currency Indicator */}
+            {currency && (
+              <div
+                className={`hidden sm:flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${
+                  theme === "dark"
+                    ? "bg-white/20 text-white"
+                    : "bg-indigo-100 text-indigo-700"
+                }`}
+                title={`Detected: ${userCountry || 'Unknown'}`}
+              >
+                <span>{currency === "PKR" ? "🇵🇰" : "🌍"}</span>
+                <span>{currency}</span>
+              </div>
+            )}
 
             {/* Hamburger Button (Mobile/Tablet) */}
             <button

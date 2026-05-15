@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useStore } from "../src/Context/UseStore";
 import { getApiBase } from "../src/utils/api.js";
+import { playTestimonialSound } from "../src/utils/notificationSound";
 
 const TestimonialForm = () => {
   const { theme, loading, setLoading, success, setSuccess, error, setError } = useStore(useStore);
@@ -106,12 +107,14 @@ const TestimonialForm = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      setSuccess("Thank you for your feedback! Your testimonial will be reviewed before publishing.");
+      playTestimonialSound();
+      setTimeout(() => {
+        setSuccess("Thank you for your feedback! Your testimonial will be reviewed before publishing.");
+        setFormData({ name: "", role: "", message: "", rating: 5, image: "" });
+        setImageFile(null);
+        setPreviewUrl(null);
+      }, 150);
       setTimeout(() => setSuccess(""), 5000);
-
-      setFormData({ name: "", role: "", message: "", rating: 5, image: "" });
-      setImageFile(null);
-      setPreviewUrl(null);
     } catch (err) {
       setError(err?.response?.data?.message || "Something went wrong. Please try again later.");
     } finally {
@@ -315,10 +318,10 @@ const TestimonialForm = () => {
 
           {/* Submit Button */}
           <button type="submit" disabled={loading || !formData.name || !formData.message}
-            className={`w-full rounded-lg py-3 font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
+            className={`w-full rounded-lg py-3 font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 border-2 ${
               theme === "dark"
-                ? "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30 hover:shadow-indigo-500/50"
-                : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/40 hover:shadow-indigo-700/50"
+                ? "bg-white/10 hover:bg-white/20 text-white border-white/40 shadow-lg shadow-black/20 backdrop-blur-sm"
+                : "bg-indigo-600 hover:bg-indigo-700 text-white border-indigo-600 shadow-lg shadow-indigo-600/40 hover:shadow-indigo-700/50"
             } disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none hover:scale-[1.01] active:scale-[0.99]`}>
             {loading ? (
               <>

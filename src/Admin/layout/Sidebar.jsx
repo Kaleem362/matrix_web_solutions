@@ -81,9 +81,9 @@ const Sidebar = () => {
             key={item.name}
             to={item.path}
             className={({ isActive }) =>
-              `px-4 py-2 rounded-md transition flex items-center justify-between ${
+              `px-4 py-2 rounded-md transition flex items-center justify-between font-semibold ${
                 isActive
-                  ? "bg-white text-indigo-700 font-semibold"
+                  ? "bg-white text-indigo-700"
                   : "hover:bg-indigo-600"
               }`
             }
