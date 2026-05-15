@@ -166,6 +166,8 @@ const OurServicesPage = () => {
             /* Services Grid */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {services.map((service) => {
+                // Check if icon is an image URL (from admin dashboard) or a React Icon name
+                const isIconImage = service.icon && (service.icon.startsWith('http') || service.icon.startsWith('data:') || service.icon.startsWith('/'));
                 const IconComponent = iconMap[service.icon] || FiCode;
                 return (
                   <div
@@ -188,9 +190,17 @@ const OurServicesPage = () => {
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-linear-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
 
-                      {/* Icon Badge */}
+                      {/* Icon Badge - render as image if icon is a URL, otherwise use React Icon */}
                       <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <IconComponent className="w-6 h-6 text-indigo-600" />
+                        {isIconImage ? (
+                          <img
+                            src={service.icon}
+                            alt="Service Icon"
+                            className="w-7 h-7 object-contain"
+                          />
+                        ) : (
+                          <IconComponent className="w-6 h-6 text-indigo-600" />
+                        )}
                       </div>
 
                       {/* Price Badge */}
