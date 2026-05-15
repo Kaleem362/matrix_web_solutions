@@ -21,11 +21,32 @@ import linkedin from "../../Elements/images/icons/linkedin.png";
 import instagram from "../../Elements/images/icons/instagram.png";
 import facebook from "../../Elements/images/icons/facebook.png";
 import send from "../../Elements/images/icons/send.png";
+import appdesigningposter from "../../Elements/images/appdesigningposter.jpg";
+import websitedesigningposter from "../../Elements/images/websitedesigningposter.jpg";
 
 export const StoreContext = createContext();
 
 // Exchange rates (global website prices in USD → PKR conversion)
 const USD_TO_PKR = 280; // Approximate rate - adjust as needed
+const USD_TO_EUR = 0.92; // Approximate rate - adjust as needed
+
+// European countries list for EUR currency
+const EUROPEAN_COUNTRIES = [
+  "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic",
+  "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary",
+  "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands",
+  "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden",
+  "United Kingdom", "UK", "Great Britain", "GB", // Also include UK variants
+];
+
+const isEuropeanCountry = (country) => {
+  if (!country) return false;
+  const normalizedCountry = country.toLowerCase().trim();
+  return EUROPEAN_COUNTRIES.some(
+    (euCountry) => euCountry.toLowerCase() === normalizedCountry
+  );
+};
+
 const PKR_PRICES = {
   basic: { usd: 35, pkr: 9999 },
   standard: { usd: 70, pkr: 19999 },
@@ -44,10 +65,15 @@ export const convertPrice = (priceObj, currency) => {
   if (currency === "PKR") {
     return `${priceObj.pkr.toLocaleString()} PKR`;
   }
+  if (currency === "EUR") {
+    const eurPrice = (priceObj.usd * USD_TO_EUR).toFixed(2);
+    return `€${eurPrice} EUR`;
+  }
   return `$${priceObj.usd} USD`;
 };
 
-export const getServicePriceUSD = (serviceId) => SERVICE_PRICES_USD[serviceId] || 50;
+export const getServicePriceUSD = (serviceId) =>
+  SERVICE_PRICES_USD[serviceId] || 50;
 export const getServicePricePKR = (serviceId) => {
   const usd = getServicePriceUSD(serviceId);
   return usd * USD_TO_PKR;
@@ -61,9 +87,15 @@ export const ContextProvider = ({ children }) => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [contacts, setContacts] = useState([]);
-  const [userCountry, setUserCountry] = useState(() => localStorage.getItem("userCountry") || null);
-  const [currency, setCurrency] = useState(() => localStorage.getItem("currency") || null); // 'PKR' or 'USD'
-  const [locationRequested, setLocationRequested] = useState(() => localStorage.getItem("locationRequested") === "true");
+  const [userCountry, setUserCountry] = useState(
+    () => localStorage.getItem("userCountry") || null,
+  );
+  const [currency, setCurrency] = useState(
+    () => localStorage.getItem("currency") || null,
+  ); // 'PKR' or 'USD'
+  const [locationRequested, setLocationRequested] = useState(
+    () => localStorage.getItem("locationRequested") === "true",
+  );
 
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -87,7 +119,13 @@ export const ContextProvider = ({ children }) => {
     // First, check timezone - most reliable for Pakistan
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     console.log("User timezone:", timeZone);
-    if (timeZone === "Asia/Karachi" || timeZone === "Asia/Kolkata" || timeZone.includes("Karachi") || timeZone.includes("Lahore") || timeZone.includes("Islamabad")) {
+    if (
+      timeZone === "Asia/Karachi" ||
+      timeZone === "Asia/Kolkata" ||
+      timeZone.includes("Karachi") ||
+      timeZone.includes("Lahore") ||
+      timeZone.includes("Islamabad")
+    ) {
       saveLocationData("Pakistan", "PKR");
       return;
     }
@@ -95,7 +133,10 @@ export const ContextProvider = ({ children }) => {
     // Also check browser language for Pakistan
     const lang = navigator.language || navigator.userLanguage;
     console.log("Browser language:", lang);
-    if (lang.toLowerCase().includes("ur") || lang.toLowerCase().includes("pk")) {
+    if (
+      lang.toLowerCase().includes("ur") ||
+      lang.toLowerCase().includes("pk")
+    ) {
       saveLocationData("Pakistan", "PKR");
       return;
     }
@@ -108,6 +149,8 @@ export const ContextProvider = ({ children }) => {
         console.log("Detected country:", country);
         if (country === "Pakistan") {
           saveLocationData("Pakistan", "PKR");
+        } else if (isEuropeanCountry(country)) {
+          saveLocationData(country, "EUR");
         } else {
           saveLocationData(country, "USD");
         }
@@ -121,6 +164,8 @@ export const ContextProvider = ({ children }) => {
             console.log("Fallback detected country:", country);
             if (country === "Pakistan") {
               saveLocationData("Pakistan", "PKR");
+            } else if (isEuropeanCountry(country)) {
+              saveLocationData(country, "EUR");
             } else {
               saveLocationData(country, "USD");
             }
@@ -144,7 +189,7 @@ export const ContextProvider = ({ children }) => {
     {
       title: "Website Design",
       bgImage:
-        "https://img.freepik.com/free-vector/web-design-illustration-with-icons-concept-creating-websites-creating-logos-more_613284-492.jpg",
+        websitedesigningposter,
     },
     {
       title: "Website Development",
@@ -153,8 +198,7 @@ export const ContextProvider = ({ children }) => {
     },
     {
       title: "App Design",
-      bgImage:
-        "https://images.unsplash.com/photo-1767449441925-737379bc2c4d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      bgImage: appdesigningposter,
     },
     {
       title: "App Development",

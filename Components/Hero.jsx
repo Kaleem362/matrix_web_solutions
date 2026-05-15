@@ -86,7 +86,9 @@ const Hero = () => {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="min-w-full h-full relative bg-cover bg-center"
+                className={`min-w-full h-full relative ${
+                  index === 2 ? "bg-contain bg-no-repeat" : "bg-cover bg-center"
+                }`}
                 style={{ backgroundImage: `url(${service.bgImage})` }}
               >
                 {/* overlay (dark theme me thoda zyada strong) */}
