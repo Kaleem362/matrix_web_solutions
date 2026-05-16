@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node index.js)",
+      "Bash(curl -s http://localhost:5000/api/ads/public)",
+      "Bash(Select-String -Pattern \"\\\\.js$\")",
+      "Bash(Select-Object -First 5)"
+    ],
+    "additionalDirectories": [
+      "d:\\Matrix_web-Solution\\VS_code Project\\server\\src\\models",
+      "d:\\Matrix_web-Solution\\VS_code Project\\server"
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 /* =============================
    PUBLIC WEBSITE COMPONENTS
@@ -10,6 +11,7 @@ import ServicesSection from "../Components/ServicesSection";
 import QuoteModal from "../Components/QuoteModal";
 import OurWorkSection from "../Components/OurWorkSection";
 import TestimonialsSection from "../Components/TestimonialsSection";
+import { InlineAd } from "./Components/AdComponents";
 import Footer from "../Components/Footer";
 import PricingSection from "../Components/PricingSection";
 import ProcessSection from "../Components/ProcessSection";
@@ -24,6 +26,12 @@ import AboutPage from "../Pages/AboutPage";
 import BlogPage from "../Pages/BlogPage";
 import ContactPage from "../Pages/ContactPage";
 
+/* =============================
+   PAYMENT COMPONENTS
+   ============================= */
+import PaymentModal from "../Components/PaymentModal"; // Stripe payment modal
+import { PopupAd } from "./Components/AdComponents"; // Advertisement display
+
 
 /* =============================
    ADMIN / AUTH PAGES
@@ -37,9 +45,52 @@ import ResetPassword from "../src/Admin/pages/ResetPassword";
 const App = () => {
   return (
     <BrowserRouter>
+      {/* Toast Notifications - Beautiful alert replacements */}
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={20}
+        containerStyle={{
+          top: 60,
+        }}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            borderRadius: '12px',
+            padding: '14px 20px',
+            fontSize: '14px',
+            fontWeight: '500',
+          },
+          success: {
+            style: {
+              background: '#10b981',
+              color: '#fff',
+            },
+            iconTheme: {
+              primary: '#fff',
+              secondary: '#10b981',
+            },
+          },
+          error: {
+            style: {
+              background: '#ef4444',
+              color: '#fff',
+            },
+            iconTheme: {
+              primary: '#fff',
+              secondary: '#ef4444',
+            },
+          },
+        }}
+      />
+
       {/* Global Modals - Available on all pages */}
       <QuoteModal />
       <ServiceDetailsModal />
+      {/* Payment Modal - Appears after client accepts quote */}
+      <PaymentModal />
+      {/* Popup Ad - Shows on all pages after 3 seconds */}
+      <PopupAd />
 
       <Routes>
         {/* 🌍 PUBLIC WEBSITE */}
@@ -50,6 +101,8 @@ const App = () => {
               <Navbar />
               <Hero />
               <ServicesSection />
+              {/* Inline Advertisement */}
+              <InlineAd />
               <OurWorkSection />
               <TestimonialsSection />
               <TestimonialForm />

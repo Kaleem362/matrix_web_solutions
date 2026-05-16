@@ -5,6 +5,7 @@ import "react-phone-input-2/lib/style.css";
 import "../src/index.css";
 import axios from "axios";
 import { playQuoteSound } from "../src/utils/notificationSound";
+import toast from "react-hot-toast";
 
 const QuoteModal = () => {
   const BASE_URL =
@@ -48,11 +49,11 @@ const QuoteModal = () => {
     e.preventDefault();
 
     if (!phone || phone.length < 8) {
-      alert("Please enter a valid phone number");
+      toast.error("Please enter a valid phone number");
       return;
     }
     if (!name || !email || !service) {
-      alert("Please fill in all required fields");
+      toast.error("Please fill in all required fields");
       return;
     }
 
@@ -65,7 +66,7 @@ const QuoteModal = () => {
 
       playQuoteSound();
       setTimeout(() => {
-        alert("Quote request submitted successfully!");
+        toast.success("Quote request submitted successfully! We'll contact you soon.");
         setName("");
         setEmail("");
         setPhone("");
@@ -78,7 +79,7 @@ const QuoteModal = () => {
       setDescription("");
       setIsQuoteOpen(false);
     } catch (error) {
-      alert("Error submitting quote request: " + error.message);
+      toast.error("Failed to submit quote. Please try again.");
     }
   };
 

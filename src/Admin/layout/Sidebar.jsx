@@ -4,6 +4,7 @@ import axios from "axios";
 import { getApiBase } from "../../utils/api.js";
 import { getUnreadCount } from "../../utils/seenItems.js";
 import io from "socket.io-client";
+import { BsMegaphone } from "react-icons/bs";
 
 const menu = [
   { name: "Dashboard", path: "/admin/dashboard", badgeKey: null },
@@ -12,6 +13,7 @@ const menu = [
   { name: "Services", path: "/admin/services", badgeKey: null },
   { name: "Our Work", path: "/admin/ourwork", badgeKey: null },
   { name: "Quotes", path: "/admin/quotes", badgeKey: "quotes" },
+  { name: "Ads", path: "/admin/ads", badgeKey: null, icon: <BsMegaphone /> },
 ];
 
 const Sidebar = () => {
@@ -28,7 +30,7 @@ const Sidebar = () => {
 
       const [quotesRes, contactsRes, testimonialsRes] = await Promise.all([
         axios.get(`${API_BASE}/api/quotes`, { withCredentials: true }).catch(() => ({ data: { data: [] } })),
-        axios.get(`${API_BASE}/api/contacts`, { withCredentials: true }).catch(() => ({ data: { data: [] } })),
+        axios.get(`${API_BASE}/api/contact`, { withCredentials: true }).catch(() => ({ data: { data: [] } })),
         axios.get(`${API_BASE}/api/testimonials`, { withCredentials: true }).catch(() => ({ data: { data: [] } })),
       ]);
 
@@ -88,7 +90,10 @@ const Sidebar = () => {
               }`
             }
           >
-            <span>{item.name}</span>
+            <span className="flex items-center gap-3">
+              {item.icon && <span className="text-lg">{item.icon}</span>}
+              {item.name}
+            </span>
             {item.badgeKey && badgeCounts[item.badgeKey] > 0 && (
               <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full min-w-5 text-center">
                 {badgeCounts[item.badgeKey] > 99 ? "99+" : badgeCounts[item.badgeKey]}

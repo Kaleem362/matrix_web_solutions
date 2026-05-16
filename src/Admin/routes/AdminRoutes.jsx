@@ -7,6 +7,7 @@ import ClientContacts from "../Components/ClientContacts";
 import Services from "../Components/ServiceComponents/Services";
 import Quotes from "../Components/Quotes";
 import OurWork from "../Components/OurWork";
+import Ads from "../Components/Ads"; // 📢 Ads Management
 
 
 
@@ -40,6 +41,18 @@ const AdminRoutes = () => {
       />
       {/* FIX: Render Quotes component instead of placeholder text. */}
       <Route path="/quotes" element={<Quotes />} />
+      {/* 📢 Ads Management Route */}
+      <Route
+        path="/ads"
+        element={
+          <div>
+            <Sidebar />
+            <div className="google-sans">
+              <Ads />
+            </div>
+          </div>
+        }
+      />
       <Route
         path="/ourwork"
         element={

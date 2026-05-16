@@ -5,7 +5,9 @@
       "Read(//d/Matrix_web-Solution/**)",
       "Bash(npm install *)",
       "Bash(npm run *)",
-      "Bash(Select-Object -First 20)"
+      "Bash(Select-Object -First 20)",
+      "Bash(Get-ChildItem -Path \"d:\\\\Matrix_web-Solution\\\\VS_code Project\\\\client\\\\src\" -Directory)",
+      "Bash(Select-Object Name)"
     ]
   }
 }
