@@ -16,11 +16,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { getAllAds, createAd, updateAd, toggleAdStatus, deleteAd } from "../services/adService";
+import { connectAdSocket, disconnectAdSocket, onAdViewed, onAdClicked } from "../services/socketService";
 import AdminLayout from "../layout/AdminLayout";
 import Loader from "./Loader/Loader";
 import { HiOutlineSearch } from "react-icons/hi";
 import { BsMegaphone } from "react-icons/bs";
-import { FaEye, FaMousePointer, FaToggleOn, FaToggleOff, FaEdit, FaTrash, FaUpload } from "react-icons/fa";
+import { FaEye, FaMousePointer, FaToggleOn, FaToggleOff, FaEdit, FaTrash, FaUpload, FaBell } from "react-icons/fa";
 
 const getApiBase = () => import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -30,6 +31,9 @@ const Ads = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const [togglingId, setTogglingId] = useState(null);
+  const [liveStats, setLiveStats] = useState({ views: 0, clicks: 0 });
+  const [recentActivity, setRecentActivity] = useState([]);
 
   // Modal states
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -130,6 +134,40 @@ const Ads = () => {
     fetchAds();
   }, [fetchAds]);
 
+  // Real-time socket connection for ad analytics
+  useEffect(() => {
+    // Connect to socket
+    connectAdSocket();
+
+    // Listen for ad views
+    onAdViewed((data) => {
+      setLiveStats(prev => ({ ...prev, views: prev.views + 1 }));
+      setRecentActivity(prev => [
+        { type: "view", adId: data.adId, title: data.title, time: new Date() },
+        ...prev.slice(0, 9) // Keep last 10 activities
+      ]);
+      toast.success(`👁 New view: ${data.title}`, { icon: "👁", duration: 2000 });
+      // Refresh ads to get updated view count
+      fetchAds();
+    });
+
+    // Listen for ad clicks
+    onAdClicked((data) => {
+      setLiveStats(prev => ({ ...prev, clicks: prev.clicks + 1 }));
+      setRecentActivity(prev => [
+        { type: "click", adId: data.adId, title: data.title, time: new Date() },
+        ...prev.slice(0, 9)
+      ]);
+      toast.success(`🖱 New click: ${data.title}`, { icon: "🖱", duration: 2000 });
+      fetchAds();
+    });
+
+    // Cleanup on unmount
+    return () => {
+      disconnectAdSocket();
+    };
+  }, [fetchAds]);
+
   /* ========================================================================
      Function: handleCreateAd
      Creates a new ad
@@ -224,12 +262,22 @@ const Ads = () => {
      Toggles ad status between active/inactive
      ======================================================================== */
   const handleToggleStatus = async (id) => {
-    const result = await toggleAdStatus(id);
-    if (result.success) {
-      toast.success(`Ad ${result.data.status === "active" ? "activated" : "deactivated"}!`);
-      fetchAds();
-    } else {
-      toast.error(result.error || "Failed to toggle status");
+    setTogglingId(id);
+    try {
+      const result = await toggleAdStatus(id);
+      if (result.success) {
+        toast.success(`Ad ${result.data.status === "active" ? "activated" : "deactivated"}!`);
+        // Update the ad in the list directly instead of fetching all
+        setAds(prev => prev.map(ad =>
+          ad._id === id ? { ...ad, status: result.data.status } : ad
+        ));
+      } else {
+        toast.error(result.error || "Failed to toggle status");
+      }
+    } catch (err) {
+      toast.error("Failed to toggle status");
+    } finally {
+      setTogglingId(null);
     }
   };
 
@@ -365,6 +413,24 @@ const Ads = () => {
           </button>
         </div>
 
+        {/* Real-time Stats Banner */}
+        {liveStats.views > 0 || liveStats.clicks > 0 ? (
+          <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl flex items-center gap-4 animate-pulse">
+            <FaBell className="text-green-600 text-lg" />
+            <div className="flex items-center gap-6">
+              <span className="flex items-center gap-2 text-green-700 font-medium">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+                Live Views: <span className="text-lg font-bold">{liveStats.views}</span>
+              </span>
+              <span className="flex items-center gap-2 text-green-700 font-medium">
+                <span className="w-2 h-2 bg-blue-500 rounded-full animate-ping"></span>
+                Live Clicks: <span className="text-lg font-bold">{liveStats.clicks}</span>
+              </span>
+            </div>
+            <span className="text-xs text-green-600 ml-auto">Real-time updates active</span>
+          </div>
+        ) : null}
+
         {/* Search Bar */}
         <div className="mb-6 relative w-full sm:max-w-sm">
           <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg pointer-events-none" />
@@ -418,10 +484,15 @@ const Ads = () => {
                     src={ad.image}
                     alt={ad.title}
                     className="w-full h-full object-cover"
+                    loading="lazy"
                     onError={(e) => {
-                      e.target.src = "https://via.placeholder.com/400x200?text=Ad+Image";
+                      e.target.style.display = "none";
+                      e.target.nextSibling.style.display = "flex";
                     }}
                   />
+                  <div className="w-full h-full object-cover hidden items-center justify-center bg-gray-200">
+                    <span className="text-gray-400 text-sm">No Image</span>
+                  </div>
                 </div>
 
                 {/* Ad Info */}
@@ -457,19 +528,27 @@ const Ads = () => {
                     <FaMousePointer className="text-xs" />
                     {ad.clicks || 0} clicks
                   </span>
+                  <span className="flex items-center gap-1 text-purple-600">
+                    {ad.views > 0 ? ((ad.clicks / ad.views) * 100).toFixed(1) : 0}%
+                  </span>
                 </div>
 
                 {/* Actions */}
                 <div className="flex items-center gap-2 pt-3 border-t border-gray-100">
                   <button
                     onClick={() => handleToggleStatus(ad._id)}
+                    disabled={togglingId === ad._id}
                     className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-colors ${
                       ad.status === "active"
                         ? "bg-green-50 text-green-600 hover:bg-green-100"
                         : "bg-gray-50 text-gray-600 hover:bg-gray-100"
-                    }`}
+                    } ${togglingId === ad._id ? "opacity-50 cursor-wait" : ""}`}
                   >
-                    {ad.status === "active" ? <FaToggleOn /> : <FaToggleOff />}
+                    {togglingId === ad._id ? (
+                      <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+                    ) : (
+                      ad.status === "active" ? <FaToggleOn /> : <FaToggleOff />
+                    )}
                     {ad.status === "active" ? "Active" : "Inactive"}
                   </button>
 
@@ -639,6 +718,7 @@ const Ads = () => {
                       <option value="header">Header</option>
                       <option value="popup">Popup</option>
                       <option value="footer">Footer</option>
+                      <option value="floating">Floating (Overlay)</option>
                     </select>
                   </div>
 
@@ -849,6 +929,7 @@ const Ads = () => {
                       <option value="header">Header</option>
                       <option value="popup">Popup</option>
                       <option value="footer">Footer</option>
+                      <option value="floating">Floating (Overlay)</option>
                     </select>
                   </div>
 

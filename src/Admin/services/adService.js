@@ -219,6 +219,30 @@ export const trackAdClick = async (id) => {
   }
 };
 
+/* ========================================================================
+   Function: getAdAnalytics
+   Description: Get detailed analytics for an ad
+   Parameters: id - Ad ID
+   Returns: Analytics data including daily stats
+   ======================================================================== */
+export const getAdAnalytics = async (id) => {
+  try {
+    const response = await axios.get(`${getBaseUrl()}/api/ads/${id}/analytics`, {
+      withCredentials: true,
+    });
+    return {
+      success: true,
+      data: response.data.data,
+    };
+  } catch (error) {
+    console.error("Error fetching analytics:", error);
+    return {
+      success: false,
+      error: error.response?.data?.message || "Failed to fetch analytics",
+    };
+  }
+};
+
 export default {
   getAllAds,
   getPublicAds,
@@ -229,4 +253,5 @@ export default {
   deleteAd,
   trackAdView,
   trackAdClick,
+  getAdAnalytics,
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CoverAboutPage from "./coversforpages/CoverAboutPage";
+//import CoverAboutPage from "./coversforpages/CoverAboutPage";
 import { useStore } from "../src/Context/UseStore";
 import {
   FiMonitor, FiSmartphone, FiSearch, FiPenTool, FiImage, FiFileText,
@@ -122,7 +122,7 @@ const AboutPage = () => {
   return (
     <div className="bg-slate-50 min-h-screen">
       {/* Hero Cover */}
-      <CoverAboutPage />
+      {/* <CoverAboutPage /> */}
 
       {/* Stats Section */}
       <section className="bg-linear-to-r from-indigo-800 via-indigo-700 to-violet-700 py-12">

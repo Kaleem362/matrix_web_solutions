@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CoverOurServicesPage from "./coversforpages/CoverOurServicesPage";
+//import CoverOurServicesPage from "./coversforpages/CoverOurServicesPage";
 import { useStore } from "../src/Context/UseStore";
 import { FiMonitor, FiSmartphone, FiSearch, FiShield, FiCode, FiLayers, FiGlobe, FiShoppingCart, FiTrendingUp, FiMail, FiDatabase, FiCloud } from "react-icons/fi";
 import { socket } from "../src/Socket.js";
@@ -101,7 +101,7 @@ const OurServicesPage = () => {
   return (
     <div className="bg-slate-50 min-h-screen">
       {/* Hero Cover */}
-      <CoverOurServicesPage />
+      {/* <CoverOurServicesPage /> */}
 
       {/* Stats Section */}
       <section className="bg-linear-to-r from-indigo-800 via-indigo-700 to-violet-700 py-12">

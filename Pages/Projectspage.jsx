@@ -1,5 +1,5 @@
 import React from "react";
-import CoverProjectsPage from "./coversforpages/CoverProjectsPage";
+//import CoverProjectsPage from "./coversforpages/CoverProjectsPage";
 import { FiExternalLink, FiArrowRight, FiCode, FiLayers, FiSmartphone } from "react-icons/fi";
 import { useStore } from "../src/Context/UseStore";
 
@@ -81,7 +81,7 @@ const ProjectsPage = () => {
   return (
     <div className="bg-slate-50 min-h-screen">
       {/* Hero Cover */}
-      <CoverProjectsPage />
+      {/* <CoverProjectsPage /> */}
 
       {/* Stats Section */}
       <section className="bg-linear-to-r from-indigo-800 via-indigo-700 to-violet-700 py-12">

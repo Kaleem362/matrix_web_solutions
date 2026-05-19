@@ -32,10 +32,13 @@ export const AdProvider = ({ children }) => {
   const fetchAds = useCallback(async () => {
     setLoading(true);
     const result = await getPublicAds();
+    console.log("Public ads API result:", result);
     if (result.success) {
+      console.log("Ads fetched:", result.data);
       setAds(result.data);
       setError(null);
     } else {
+      console.error("Failed to fetch ads:", result.error);
       setError(result.error);
     }
     setLoading(false);

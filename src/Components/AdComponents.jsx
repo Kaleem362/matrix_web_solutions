@@ -23,22 +23,24 @@ export const InlineAd = () => {
   const { theme } = useStore();
 
   const ads = getAdsByPosition("inline");
+  const ad = ads.length > 0 ? ads[0] : null;
 
-  if (ads.length === 0) return null;
-
-  // Show one ad at a time (highest priority)
-  const ad = ads[0];
-
+  // Track view - use useEffect unconditionally
   useEffect(() => {
-    trackAdView(ad._id);
-  }, []);
+    if (ad && ad._id) {
+      trackAdView(ad._id);
+    }
+  }, [ad?._id]);
 
   const handleClick = async () => {
+    if (!ad) return;
     const link = await trackAdClick(ad._id);
     if (link) {
       window.open(link, "_blank");
     }
   };
+
+  if (!ad) return null;
 
   return (
     <div className="my-8">
@@ -287,10 +289,81 @@ export const FooterAd = () => {
   );
 };
 
+/* ========================================================================
+   FLOATING AD COMPONENT
+   Displays a floating ad that overlays the website (with close button)
+   Position: Fixed at bottom-right
+   ======================================================================== */
+export const FloatingAd = () => {
+  const { getAdsByPosition, trackAdView, trackAdClick } = useAdContext();
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Get ads first - call hook unconditionally
+  const ads = getAdsByPosition("floating");
+  const ad = ads.length > 0 ? ads[0] : null;
+
+  // Track view only once - use useEffect unconditionally
+  useEffect(() => {
+    if (ad && ad._id) {
+      trackAdView(ad._id);
+    }
+  }, [ad?._id]);
+
+  const handleClick = async () => {
+    if (!ad) return;
+    const link = await trackAdClick(ad._id);
+    if (link) {
+      window.open(link, "_blank");
+    }
+  };
+
+  const handleClose = () => {
+    setIsVisible(false);
+  };
+
+  // Early returns after all hooks
+  if (!ad || !isVisible) return null;
+
+  return (
+    <div className="fixed bottom-4 right-4 z-40 w-72 md:w-80">
+      <div className="relative rounded-xl overflow-hidden shadow-2xl bg-white">
+        {/* Close Button */}
+        <button
+          onClick={handleClose}
+          className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-1 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* Ad Content */}
+        <div className="cursor-pointer" onClick={handleClick}>
+          <img
+            src={ad.image}
+            alt={ad.title}
+            className="w-full h-40 object-cover"
+            onError={(e) => {
+              e.target.style.display = "none";
+            }}
+          />
+        </div>
+
+        {/* Ad Info Bar */}
+        <div className="bg-indigo-600 px-3 py-2 flex items-center justify-between">
+          <span className="text-white text-sm font-medium truncate">{ad.title}</span>
+          <span className="text-white/60 text-xs">Ad</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default {
   InlineAd,
   SidebarAd,
   HeaderAd,
   PopupAd,
   FooterAd,
+  FloatingAd,
 };

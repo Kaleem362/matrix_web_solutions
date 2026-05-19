@@ -11,7 +11,7 @@ import ServicesSection from "../Components/ServicesSection";
 import QuoteModal from "../Components/QuoteModal";
 import OurWorkSection from "../Components/OurWorkSection";
 import TestimonialsSection from "../Components/TestimonialsSection";
-import { InlineAd } from "./Components/AdComponents";
+import { InlineAd, SidebarAd } from "./Components/AdComponents";
 import Footer from "../Components/Footer";
 import PricingSection from "../Components/PricingSection";
 import ProcessSection from "../Components/ProcessSection";
@@ -23,15 +23,15 @@ import PublicRoute from "./Admin/Components/PublicRoute"; // ✅ PUBLIC ROUTE CO
 import OurServicesPage from "../Pages/OurServicesPage";
 import Projectspage from "../Pages/Projectspage";
 import AboutPage from "../Pages/AboutPage";
-import BlogPage from "../Pages/BlogPage";
+import BlogList from "../Pages/BlogList";
+import BlogDetail  from "../Pages/BlogDetail";
 import ContactPage from "../Pages/ContactPage";
 
 /* =============================
    PAYMENT COMPONENTS
    ============================= */
 import PaymentModal from "../Components/PaymentModal"; // Stripe payment modal
-import { PopupAd } from "./Components/AdComponents"; // Advertisement display
-
+import { PopupAd, FloatingAd } from "./Components/AdComponents"; // Advertisement display
 
 /* =============================
    ADMIN / AUTH PAGES
@@ -56,29 +56,29 @@ const App = () => {
         toastOptions={{
           duration: 3000,
           style: {
-            borderRadius: '12px',
-            padding: '14px 20px',
-            fontSize: '14px',
-            fontWeight: '500',
+            borderRadius: "12px",
+            padding: "14px 20px",
+            fontSize: "14px",
+            fontWeight: "500",
           },
           success: {
             style: {
-              background: '#10b981',
-              color: '#fff',
+              background: "#10b981",
+              color: "#fff",
             },
             iconTheme: {
-              primary: '#fff',
-              secondary: '#10b981',
+              primary: "#fff",
+              secondary: "#10b981",
             },
           },
           error: {
             style: {
-              background: '#ef4444',
-              color: '#fff',
+              background: "#ef4444",
+              color: "#fff",
             },
             iconTheme: {
-              primary: '#fff',
-              secondary: '#ef4444',
+              primary: "#fff",
+              secondary: "#ef4444",
             },
           },
         }}
@@ -103,12 +103,18 @@ const App = () => {
               <ServicesSection />
               {/* Inline Advertisement */}
               <InlineAd />
+              {/* Sidebar Advertisement */}
+              <div className="container mx-auto px-4 mb-8">
+                <SidebarAd />
+              </div>
               <OurWorkSection />
               <TestimonialsSection />
               <TestimonialForm />
               <PricingSection />
               <ProcessSection />
               <FAQSection />
+              {/* Floating Advertisement */}
+              <FloatingAd />
               <Footer />
             </>
           }
@@ -158,7 +164,17 @@ const App = () => {
           element={
             <>
               <Navbar />
-              <BlogPage />
+              <BlogList />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/blog/:slug"
+          element={
+            <>
+              <Navbar />
+              <BlogDetail />
               <Footer />
             </>
           }

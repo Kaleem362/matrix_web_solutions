@@ -18,6 +18,8 @@ const TestimonialsSection = () => {
   const API_URL = `${getApiBase()}/api/testimonials`;
 
   // Fetch testimonials
+
+
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
