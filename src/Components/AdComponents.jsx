@@ -56,7 +56,7 @@ export const InlineAd = () => {
             e.target.style.display = "none";
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-4">
           <div>
             <h4 className="text-white font-semibold text-lg">{ad.title}</h4>
             {ad.description && (
@@ -110,7 +110,7 @@ export const SidebarAd = () => {
             e.target.style.display = "none";
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-3">
+        <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent flex items-end p-3">
           <div>
             <h5 className="text-white font-semibold text-sm">{ad.title}</h5>
           </div>

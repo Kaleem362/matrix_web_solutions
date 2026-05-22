@@ -104,7 +104,7 @@ function FeaturedCard({ blog }) {
           alt={blog.title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/60 to-transparent" />
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
@@ -147,7 +147,7 @@ function BlogCard({ blog }) {
           alt={blog.title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-gray-900/80 to-transparent" />
         <span className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-gray-300 text-xs px-2.5 py-1 rounded-full border border-white/10">
           {blog.readTime} min read
         </span>
@@ -194,7 +194,7 @@ export default function BlogList() {
       {/* <CoverBlogPage/> */}
       {/* Hero */}
       <div className="relative overflow-hidden border-b border-white/5">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-150 h-100 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-0 right-0 w-64 h-64 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
@@ -206,7 +206,7 @@ export default function BlogList() {
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
             AI Tools &{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-violet-400">
               Digital Insights
             </span>
           </h1>
@@ -275,7 +275,7 @@ export default function BlogList() {
 
         {/* Newsletter CTA */}
         <div className="mt-16 rounded-2xl border border-indigo-500/20 bg-indigo-500/5 px-6 sm:px-10 py-10 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/5 to-violet-600/5 pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-br from-indigo-600/5 to-violet-600/5 pointer-events-none" />
           <h3 className="text-2xl font-bold text-white mb-2 relative">Stay in the Loop</h3>
           <p className="text-gray-400 text-sm mb-6 relative max-w-md mx-auto">
             Get the latest AI tool reviews and digital guides delivered to your inbox. No spam, ever.

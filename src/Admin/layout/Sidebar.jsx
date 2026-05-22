@@ -5,15 +5,25 @@ import { getApiBase } from "../../utils/api.js";
 import { getUnreadCount } from "../../utils/seenItems.js";
 import io from "socket.io-client";
 import { BsMegaphone } from "react-icons/bs";
+import matrixlogo from "../../../dist/assets/MWW3dLogo-B4uGzW_u.png";
+import { FaBlog,FaPhoenixFramework,FaServicestack   } from "react-icons/fa";
+import { PiQuotesFill } from "react-icons/pi";
+import { VscFeedback } from "react-icons/vsc";
+import { RiContactsLine } from "react-icons/ri";
+import { MdDashboard } from "react-icons/md";
+
+
+
 
 const menu = [
-  { name: "Dashboard", path: "/admin/dashboard", badgeKey: null },
-  { name: "Contacts", path: "/admin/getContacts", badgeKey: "contacts" },
-  { name: "Testimonials", path: "/admin/testimonials", badgeKey: "testimonials" },
-  { name: "Services", path: "/admin/services", badgeKey: null },
-  { name: "Our Work", path: "/admin/ourwork", badgeKey: null },
-  { name: "Quotes", path: "/admin/quotes", badgeKey: "quotes" },
+  { name: "Dashboard", path: "/admin/dashboard", badgeKey: null, icon: <MdDashboard /> },
+  { name: "Contacts", path: "/admin/getContacts", badgeKey: "contacts", icon: <RiContactsLine /> },
+  { name: "Testimonials", path: "/admin/testimonials", badgeKey: "testimonials", icon: <VscFeedback /> },
+  { name: "Services", path: "/admin/services", badgeKey: null, icon: <FaServicestack /> },
+  { name: "Our Work", path: "/admin/ourwork", badgeKey: null, icon: <FaPhoenixFramework /> },
+  { name: "Quotes", path: "/admin/quotes", badgeKey: "quotes", icon: <PiQuotesFill /> },
   { name: "Ads", path: "/admin/ads", badgeKey: null, icon: <BsMegaphone /> },
+  { name: "Blog", path: "/admin/blog", badgeKey: null, icon: <FaBlog /> },
 ];
 
 const Sidebar = () => {
@@ -74,6 +84,7 @@ const Sidebar = () => {
   return (
     <aside className="w-64 h-screen bg-indigo-700 text-white fixed left-0 top-0">
       <div className="h-16 flex items-center justify-center font-bold text-xl border-b border-indigo-500">
+        <img src={matrixlogo} alt="Logo" className="h-12 w-12 mr-2" />
         Matrix Admin
       </div>
 

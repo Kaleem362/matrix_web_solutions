@@ -8,6 +8,7 @@ import Services from "../Components/ServiceComponents/Services";
 import Quotes from "../Components/Quotes";
 import OurWork from "../Components/OurWork";
 import Ads from "../Components/Ads"; // 📢 Ads Management
+import BlogManager from "../Components/BlogManager";
 
 
 
@@ -73,6 +74,18 @@ const AdminRoutes = () => {
             <Sidebar />
             <div>
               <Services />
+            </div>
+          </div>
+        }
+      />
+      <Route
+        path="/blog"
+        element={
+          <div>
+            {/* <Topbar></Topbar> */}
+            <Sidebar />
+            <div>
+              <BlogManager />
             </div>
           </div>
         }
