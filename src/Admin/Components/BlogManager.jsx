@@ -427,10 +427,10 @@ export default function BlogManager() {
                       <img
                         src={blog.coverImage}
                         alt={blog.title}
-                        className="w-20 h-20 object-cover rounded-xl flex-shrink-0 bg-gray-800"
+                        className="w-20 h-20 object-cover rounded-xl shrink-0 bg-gray-800"
                       />
                     ) : (
-                      <div className="w-20 h-20 rounded-xl bg-gray-800 flex items-center justify-center flex-shrink-0">
+                      <div className="w-20 h-20 rounded-xl bg-gray-800 flex items-center justify-center shrink-0">
                         <svg
                           className="w-8 h-8 text-gray-600"
                           fill="none"
@@ -491,7 +491,7 @@ export default function BlogManager() {
                         </div>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-2 flex-shrink-0">
+                        <div className="flex items-center gap-2 shrink-0">
                           <button
                             onClick={() => handleEdit(blog)}
                             className="p-2 rounded-lg bg-gray-800 hover:bg-indigo-500/20 hover:text-indigo-400 text-gray-400 transition-colors"

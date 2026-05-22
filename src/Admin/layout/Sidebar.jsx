@@ -83,6 +83,7 @@ const Sidebar = () => {
 
   return (
     <aside className="w-64 h-screen bg-indigo-700 text-white fixed left-0 top-0">
+      <img src={matrixlogo} alt="Logo" className="h-30 w-30 mr-2 opacity-20 absolute bottom-10 left-15" />
       <div className="h-16 flex items-center justify-center font-bold text-xl border-b border-indigo-500">
         <img src={matrixlogo} alt="Logo" className="h-12 w-12 mr-2" />
         Matrix Admin
