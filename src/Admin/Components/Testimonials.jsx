@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { socket } from "../../Socket.js";
 import Loader from "./Loader/Loader.jsx";
-import AdminLayout from "../layout/AdminLayout";
 import { MdDeleteOutline, MdOutlineVerified } from "react-icons/md";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { markAsSeen } from "../../utils/seenItems";
@@ -273,7 +272,7 @@ const Testimonials = () => {
 
   // ── Render ──
   return (
-    <AdminLayout>
+    <>
       <ToastContainer toasts={toasts} onClose={closeToast} />
       <ConfirmModal modal={confirmModal} onConfirm={confirmModal.onConfirm} onCancel={closeConfirm} />
 
@@ -420,7 +419,7 @@ const Testimonials = () => {
           </div>
         )}
       </section>
-    </AdminLayout>
+    </>
   );
 };
 

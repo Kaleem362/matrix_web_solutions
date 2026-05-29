@@ -1,96 +1,89 @@
 import { Routes, Route } from "react-router-dom";
+import { DashboardProvider } from "../../Context/DashboardContext";
+import AdminLayout from "../layout/AdminLayout";
 import Dashboard from "../pages/Dashboard";
-import Topbar from "../layout/Topbar";
-import Sidebar from "../layout/Sidebar";
 import Testimonials from "../Components/Testimonials";
 import ClientContacts from "../Components/ClientContacts";
 import Services from "../Components/ServiceComponents/Services";
 import Quotes from "../Components/Quotes";
 import OurWork from "../Components/OurWork";
-import Ads from "../Components/Ads"; // 📢 Ads Management
+import Ads from "../Components/Ads";
 import BlogManager from "../Components/BlogManager";
 
-
-
+/* =====================================================
+   ✅ Single shared layout wrapper for all admin routes
+   DashboardProvider lives here — one socket, one fetch
+===================================================== */
 const AdminRoutes = () => {
   return (
-    <Routes>
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route
-        path="/testimonials"
-        element={
-          <div>
-            {/* <Topbar></Topbar> */}
-            <Sidebar />
-            <div className="google-sans">
+    <DashboardProvider>
+      <Routes>
+        <Route
+          path="/dashboard"
+          element={
+            <AdminLayout>
+              <Dashboard />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/testimonials"
+          element={
+            <AdminLayout>
               <Testimonials />
-            </div>
-          </div>
-        }
-      />
-      <Route
-        path="/getContacts"
-        element={
-          <div>
-            {/* <Topbar></Topbar> */}
-            <Sidebar />
-            <div>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/getContacts"
+          element={
+            <AdminLayout>
               <ClientContacts />
-            </div>
-          </div>
-        }
-      />
-      {/* FIX: Render Quotes component instead of placeholder text. */}
-      <Route path="/quotes" element={<Quotes />} />
-      {/* 📢 Ads Management Route */}
-      <Route
-        path="/ads"
-        element={
-          <div>
-            <Sidebar />
-            <div className="google-sans">
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/quotes"
+          element={
+            <AdminLayout>
+              <Quotes />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/ads"
+          element={
+            <AdminLayout>
               <Ads />
-            </div>
-          </div>
-        }
-      />
-      <Route
-        path="/ourwork"
-        element={
-          <div>
-            {/* <Topbar></Topbar> */}
-            <Sidebar />
-            <div>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/ourwork"
+          element={
+            <AdminLayout>
               <OurWork />
-            </div>
-          </div>
-        }
-      />
-      <Route
-        path="/services"
-        element={
-          <div>
-            {/* <Topbar></Topbar> */}
-            <Sidebar />
-            <div>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/services"
+          element={
+            <AdminLayout>
               <Services />
-            </div>
-          </div>
-        }
-      />
-      <Route
-        path="/blog"
-        element={
-          <div>
-            {/* <Topbar></Topbar> */}
-            <Sidebar />
-            <div>
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/blog"
+          element={
+            <AdminLayout>
               <BlogManager />
-            </div>
-          </div>
-        }
-      />
-    </Routes>
+            </AdminLayout>
+          }
+        />
+      </Routes>
+    </DashboardProvider>
   );
 };
 

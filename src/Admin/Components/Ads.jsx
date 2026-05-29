@@ -17,7 +17,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { getAllAds, createAd, updateAd, toggleAdStatus, deleteAd } from "../services/adService";
 import { connectAdSocket, disconnectAdSocket, onAdViewed, onAdClicked } from "../services/socketService";
-import AdminLayout from "../layout/AdminLayout";
 import Loader from "./Loader/Loader";
 import { HiOutlineSearch } from "react-icons/hi";
 import { BsMegaphone } from "react-icons/bs";
@@ -384,7 +383,7 @@ const Ads = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
       <section className="min-h-screen px-1 py-2 sm:px-2">
         {/* Page Header */}
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -1029,7 +1028,7 @@ const Ads = () => {
           </div>
         )}
       </section>
-    </AdminLayout>
+    </>
   );
 };
 

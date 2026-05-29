@@ -26,7 +26,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import AdminLayout from "../layout/AdminLayout";
 import Loader from "./Loader/Loader";
 import { socket } from "../../Socket";
 import { FaWhatsapp } from "react-icons/fa";
@@ -422,7 +421,7 @@ const Quotes = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
       <section className="min-h-screen px-1 py-2 sm:px-2">
 
         {/* ── Page Header ── */}
@@ -778,7 +777,7 @@ const Quotes = () => {
           </div>
         </div>
       )}
-    </AdminLayout>
+    </>
   );
 };
 

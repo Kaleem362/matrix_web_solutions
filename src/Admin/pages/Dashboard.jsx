@@ -1,77 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import AdminLayout from "../layout/AdminLayout";
-import axios from "axios";
-import { getApiBase } from "../../utils/api.js";
-import io from "socket.io-client";
+import { MdDashboard } from "react-icons/md";
+import { useDashboard } from "../../Context/DashboardContext";
 
 const Dashboard = () => {
-  const [stats, setStats] = useState({
-    totalTestimonials: 0,
-    pendingTestimonials: 0,
-    totalQuotes: 0,
-    activeServices: 0,
-    totalContacts: 0,
-  });
-  const [recentActivity, setRecentActivity] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const socketRef = useRef(null);
-
-  // Fetch dashboard stats
-  const fetchStats = async () => {
-    try {
-      const API_BASE = getApiBase();
-      const res = await axios.get(`${API_BASE}/api/dashboard/stats`, {
-        withCredentials: true,
-      });
-
-      if (res.data?.success) {
-        setStats(res.data.stats);
-        setRecentActivity(res.data.recentActivity || []);
-      }
-    } catch (err) {
-      console.error("Dashboard fetch error:", err);
-      if (err.response?.status === 401) {
-        setError("Session expired. Please log out and log back in.");
-      } else {
-        setError("Failed to load dashboard data.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    // Initial fetch
-    fetchStats();
-
-    // Connect to Socket.io
-    const API_BASE = getApiBase();
-    socketRef.current = io(API_BASE, {
-      withCredentials: true,
-    });
-
-    socketRef.current.on("connect", () => {
-      console.log("🔌 Dashboard socket connected");
-      socketRef.current.emit("joinAdmin");
-    });
-
-    // Listen for any data change → refetch stats
-    socketRef.current.on("dashboardStatsUpdated", () => {
-      console.log("📊 Dashboard stats updated via socket");
-      fetchStats();
-    });
-
-    socketRef.current.on("disconnect", () => {
-      console.log("🔌 Dashboard socket disconnected");
-    });
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-    };
-  }, []);
+  const { stats, recentActivity, loading, error } = useDashboard();
 
   const statCards = [
     {
@@ -97,55 +28,71 @@ const Dashboard = () => {
   ];
 
   return (
-    <AdminLayout>
-      <h1 className="text-2xl font-semibold text-gray-800 mb-6">Dashboard</h1>
+    <section className="min-h-screen px-1 py-2 sm:px-2">
+      {/* ── Page Header ── */}
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600">
+          <MdDashboard className="text-xl text-white" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+            Dashboard
+          </h2>
+          <p className="text-sm text-gray-500">
+            Overview of your agency at a glance
+          </p>
+        </div>
+      </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
+        <div className="mb-4 rounded-xl border border-red-100 bg-red-50 px-5 py-4 text-sm text-red-600">
           {error}
         </div>
       )}
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 google-sans">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {statCards.map((item) => (
           <div
             key={item.title}
-            className="bg-white rounded-xl shadow-sm p-5 border border-gray-100"
+            className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
           >
             <p className="text-sm text-gray-500">{item.title}</p>
-            <h2 className="text-2xl font-bold text-gray-800 mt-1">
+            <h2 className="mt-1 text-2xl font-bold text-gray-900">
               {loading ? (
-                <span className="inline-block w-8 h-7 bg-gray-200 animate-pulse rounded" />
+                <span className="inline-block h-7 w-8 animate-pulse rounded bg-gray-200" />
               ) : (
                 item.value
               )}
             </h2>
-            <p className="text-xs text-gray-400 mt-1">{item.subtitle}</p>
+            <p className="mt-1 text-xs text-gray-400">{item.subtitle}</p>
           </div>
         ))}
       </div>
 
       {/* Bottom Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
         {/* Recent Activity */}
-        <div className="bg-white rounded-xl shadow-sm p-5 col-span-2">
-          <h3 className="font-semibold text-gray-800 mb-4">Recent Activity</h3>
+        <div className="col-span-2 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+          <h3 className="mb-4 font-semibold text-gray-800">Recent Activity</h3>
           {loading ? (
             <ul className="space-y-2">
               {[...Array(4)].map((_, i) => (
-                <li key={i} className="h-4 bg-gray-100 animate-pulse rounded w-3/4" />
+                <li
+                  key={i}
+                  className="h-4 w-3/4 animate-pulse rounded bg-gray-100"
+                />
               ))}
             </ul>
           ) : recentActivity.length > 0 ? (
-            <ul className="text-sm text-gray-600 space-y-2">
+            <ul className="space-y-2 text-sm text-gray-600">
               {recentActivity.map((a, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="text-blue-400 mt-0.5">•</span>
+                  <span className="mt-0.5 text-indigo-500">•</span>
                   <span>
                     {a.label}
                     {a.date && (
-                      <span className="text-gray-400 ml-2 text-xs">
+                      <span className="ml-2 text-xs text-gray-400">
                         {new Date(a.date).toLocaleDateString()}
                       </span>
                     )}
@@ -159,9 +106,9 @@ const Dashboard = () => {
         </div>
 
         {/* Quick Info */}
-        <div className="bg-white rounded-xl shadow-sm p-5">
-          <h3 className="font-semibold text-gray-800 mb-4">Quick Info</h3>
-          <ul className="text-sm text-gray-600 space-y-3">
+        <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+          <h3 className="mb-4 font-semibold text-gray-800">Quick Info</h3>
+          <ul className="space-y-3 text-sm text-gray-600">
             <li className="flex justify-between">
               <span>Total Contacts</span>
               <span className="font-semibold text-gray-800">
@@ -170,24 +117,24 @@ const Dashboard = () => {
             </li>
             <li className="flex justify-between">
               <span>Pending Approvals</span>
-              <span className="font-semibold text-orange-500">
+              <span className="font-semibold text-amber-600">
                 {loading ? "..." : stats.pendingTestimonials}
               </span>
             </li>
             <li className="flex justify-between">
               <span>Active Services</span>
-              <span className="font-semibold text-green-600">
+              <span className="font-semibold text-emerald-600">
                 {loading ? "..." : stats.activeServices}
               </span>
             </li>
           </ul>
-          <p className="text-xs text-gray-400 mt-4 border-t pt-3">
+          <p className="mt-4 border-t border-gray-100 pt-3 text-xs text-gray-400">
             Manage content, approve testimonials, and respond to client quotes
             from the sidebar.
           </p>
         </div>
       </div>
-    </AdminLayout>
+    </section>
   );
 };
 

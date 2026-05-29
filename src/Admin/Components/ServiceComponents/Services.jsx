@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import AdminLayout from "../../layout/AdminLayout";
 import { MdDeleteOutline, MdOutlineAdd } from "react-icons/md";
 import { HiOutlineSearch, HiOutlineCog } from "react-icons/hi";
 import { BsGrid3X3Gap } from "react-icons/bs";
@@ -637,7 +636,7 @@ const Services = () => {
   return (
     <>
       <ToastContainer toasts={toasts} onClose={remove} />
-    <AdminLayout>
+    <>
 
       <section className="min-h-screen px-1 py-2 sm:px-2">
 
@@ -701,7 +700,7 @@ const Services = () => {
           <AllServicesList toast={toast} refreshKey={refreshKey} search={search} />
         )}
       </section>
-    </AdminLayout>
+    </>
     </>
   );
 };

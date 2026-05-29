@@ -2,10 +2,10 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { StoreContext } from "../../Context/store";
 
-``;
 const Topbar = () => {
   const { logouticon } = useContext(StoreContext);
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       // Call backend logout (for cookie/session clearing)
@@ -26,21 +26,27 @@ const Topbar = () => {
   };
 
   return (
-    <header className="h-16 bg-white border-b flex items-center justify-between px-6">
-      <h1 className="text-lg font-semibold text-gray-800">Admin Dashboard</h1>
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-100 bg-white px-6 shadow-sm">
+      <h1 className="text-lg font-semibold tracking-tight text-gray-800">
+        Admin Dashboard
+      </h1>
 
       <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-600">Hello, Admin</span>
+        <span className="hidden text-sm text-gray-500 sm:inline">
+          Hello, Admin
+        </span>
 
         <button
-          className="px-4 py-1.5 text-sm bg-white text-indigo-900 border border-indigo- rounded-full hover:bg-indigo-700 transition"
           onClick={handleLogout}
+          className="flex items-center gap-2 rounded-full border border-indigo-200 bg-white px-4 py-1.5 text-sm font-medium text-indigo-700 transition hover:bg-indigo-600 hover:text-white"
         >
-          {" "}
-          <img
-            src={logouticon}
-            className="w-4 h-4 mr-2 inline-block text-white"
-          ></img>
+          {logouticon && (
+            <img
+              src={logouticon}
+              alt=""
+              className="h-4 w-4"
+            />
+          )}
           Log out
         </button>
       </div>

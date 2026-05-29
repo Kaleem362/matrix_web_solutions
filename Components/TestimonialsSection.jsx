@@ -153,7 +153,7 @@ const TestimonialsSection = () => {
             {testimonials.map((t) => (
               <div
                 key={t._id}
-                className="testimonial-card shrink-0 w-[300px] sm:w-[340px] snap-start"
+                className="testimonial-card shrink-0 w-75 sm:w-85 snap-start"
                 style={{ scrollSnapAlign: "start" }}
               >
                 <div
