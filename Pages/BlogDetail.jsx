@@ -1,150 +1,20 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getApiBase } from "../src/utils/api.js";
+import { useStore } from "../src/Context/UseStore";
 
-const DUMMY_BLOGS = [
-  {
-    _id: "1",
-    slug: "top-5-ai-tools-2025",
-    title: "Top 5 AI Tools That Will Transform Your Workflow in 2025",
-    excerpt:
-      "Discover the most powerful AI tools redefining how developers, designers, and marketers work — from code generation to intelligent automation.",
-    coverImage: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=85",
-    tags: ["AI Tools", "Productivity", "2025"],
-    publishedAt: "2025-05-10T00:00:00.000Z",
-    readTime: 6,
-    content: [
-      {
-        type: "p",
-        text: "Artificial intelligence is no longer a future concept — it's already reshaping how professionals across every industry work, create, and think. In 2025, the tools available to us are more powerful, more accessible, and more specialized than ever before.",
-      },
-      {
-        type: "p",
-        text: "Whether you're a developer looking to ship code faster, a marketer trying to generate quality content at scale, or a designer seeking to speed up your workflow — there's an AI tool built exactly for you. The challenge isn't finding AI tools. It's knowing which ones are actually worth your time.",
-      },
-      {
-        type: "h2",
-        text: "1. GitHub Copilot — The Developer's AI Pair Programmer",
-      },
-      {
-        type: "p",
-        text: "GitHub Copilot has matured significantly since its early days. In 2025, it's not just autocompleting lines of code — it's generating entire functions, writing tests, explaining legacy code, and suggesting architectural patterns based on your project structure.",
-      },
-      {
-        type: "p",
-        text: "For MERN stack developers in particular, Copilot is exceptional at writing Express route handlers, React hooks, and MongoDB aggregation pipelines. The integration inside VS Code feels completely natural.",
-      },
-      {
-        type: "h2",
-        text: "2. Claude by Anthropic — Best for Reasoning & Long Documents",
-      },
-      {
-        type: "p",
-        text: "Claude has become the go-to AI assistant for tasks that require deep reasoning, nuanced writing, and long-context understanding. Unlike many competitors, Claude can handle extremely long documents — making it ideal for analyzing contracts, reviewing codebases, or writing comprehensive technical guides.",
-      },
-      {
-        type: "h2",
-        text: "3. Midjourney v6 — Professional-Grade Image Generation",
-      },
-      {
-        type: "p",
-        text: "Midjourney continues to be the gold standard for AI image generation in creative and commercial contexts. Version 6 introduced significantly better text rendering inside images, more realistic human anatomy, and a far more controllable style system.",
-      },
-      {
-        type: "h2",
-        text: "4. Perplexity AI — Research That Actually Cites Sources",
-      },
-      {
-        type: "p",
-        text: "Perplexity AI has carved out a unique niche: it's an AI-powered search engine that gives you summarized, cited answers rather than just links. For anyone who does regular research — whether for blog content, client proposals, or competitive analysis — Perplexity dramatically reduces research time.",
-      },
-      {
-        type: "h2",
-        text: "5. Notion AI — Intelligence Built Into Your Workspace",
-      },
-      {
-        type: "p",
-        text: "Notion AI transforms the already-powerful Notion workspace into an intelligent writing and organization assistant. You can summarize meeting notes, generate project outlines, translate content, and auto-fill databases — all without leaving the app.",
-      },
-      {
-        type: "h2",
-        text: "Final Thoughts",
-      },
-      {
-        type: "p",
-        text: "The AI tools landscape is evolving at a pace that can feel overwhelming. The key is to pick 2–3 tools that directly address your biggest workflow bottlenecks and master them deeply, rather than dabbling in everything. The compound productivity gains are real.",
-      },
-    ],
-  },
-  {
-    _id: "2",
-    slug: "chatgpt-vs-claude-comparison",
-    title: "ChatGPT vs Claude: Which AI Assistant Should You Use?",
-    excerpt: "A head-to-head breakdown of the two most popular AI assistants.",
-    coverImage: "https://images.unsplash.com/photo-1676299081847-824916de030a?w=1200&q=85",
-    tags: ["ChatGPT", "Claude", "Comparison"],
-    publishedAt: "2025-04-28T00:00:00.000Z",
-    readTime: 8,
-    content: [
-      { type: "p", text: "A full comparison of ChatGPT and Claude is coming soon. Stay tuned!" },
-    ],
-  },
-  {
-    _id: "3",
-    slug: "ai-for-web-developers-guide",
-    title: "The Complete AI Guide for Web Developers in 2025",
-    excerpt: "How modern web developers are using AI to ship faster and build smarter apps.",
-    coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=85",
-    tags: ["Web Dev", "AI", "Guide"],
-    publishedAt: "2025-04-15T00:00:00.000Z",
-    readTime: 10,
-    content: [
-      { type: "p", text: "A comprehensive guide for web developers leveraging AI. Full content coming soon." },
-    ],
-  },
-  {
-    _id: "4",
-    slug: "midjourney-vs-dalle-image-ai",
-    title: "Midjourney vs DALL·E 3: Best AI Image Generator for Your Projects",
-    excerpt: "We tested them across 20 prompts to find out which one wins.",
-    coverImage: "https://images.unsplash.com/photo-1686191128892-3b37add4c844?w=1200&q=85",
-    tags: ["Midjourney", "DALL·E", "Image AI"],
-    publishedAt: "2025-04-02T00:00:00.000Z",
-    readTime: 7,
-    content: [
-      { type: "p", text: "Full comparison content coming soon." },
-    ],
-  },
-  {
-    _id: "5",
-    slug: "prompt-engineering-tips",
-    title: "10 Prompt Engineering Tips That Get 10x Better AI Responses",
-    excerpt: "Practical techniques to extract precise, useful responses from any AI model.",
-    coverImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&q=85",
-    tags: ["Prompt Engineering", "Tips", "AI"],
-    publishedAt: "2025-03-20T00:00:00.000Z",
-    readTime: 5,
-    content: [
-      { type: "p", text: "Full guide content coming soon." },
-    ],
-  },
-  {
-    _id: "6",
-    slug: "free-ai-tools-freelancers",
-    title: "7 Free AI Tools Every Freelancer Should Be Using Right Now",
-    excerpt: "Free tools to help freelancers write proposals faster and deliver higher quality work.",
-    coverImage: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=85",
-    tags: ["Freelance", "Free Tools", "AI"],
-    publishedAt: "2025-03-08T00:00:00.000Z",
-    readTime: 6,
-    content: [
-      { type: "p", text: "Full article content coming soon." },
-    ],
-  },
-];
+const API = getApiBase();
 
 const TAG_STYLES = [
   "bg-indigo-500/15 text-indigo-300 border border-indigo-500/30",
   "bg-violet-500/15 text-violet-300 border border-violet-500/30",
   "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30",
+];
+
+const TAG_STYLES_LIGHT = [
+  "bg-indigo-100 text-indigo-700 border border-indigo-200",
+  "bg-violet-100 text-violet-700 border border-violet-200",
+  "bg-cyan-100 text-cyan-700 border border-cyan-200",
 ];
 
 function formatDate(iso) {
@@ -155,68 +25,356 @@ function formatDate(iso) {
   });
 }
 
-// Renders structured content blocks with Tailwind classes only
-function ContentBlock({ block }) {
+function calcReadTime(content = "") {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+// ── Renders plain string content (from admin textarea) ──
+function PlainContent({ content, theme }) {
+  return (
+    <div>
+      {content.split("\n").map((line, i) => {
+        const trimmed = line.trim();
+        if (!trimmed) return <div key={i} className="mb-3" />;
+
+        if (trimmed.startsWith("# ")) {
+          return (
+            <h1
+              key={i}
+              className={`text-2xl sm:text-3xl font-extrabold mt-10 mb-4 leading-snug ${
+                theme === "dark" ? "text-white" : "text-gray-900"
+              }`}
+            >
+              {trimmed.replace("# ", "")}
+            </h1>
+          );
+        }
+        if (trimmed.startsWith("## ")) {
+          return (
+            <h2
+              key={i}
+              className={`text-xl sm:text-2xl font-bold mt-10 mb-3 pl-4 border-l-4 border-indigo-500 leading-snug ${
+                theme === "dark" ? "text-white" : "text-gray-900"
+              }`}
+            >
+              {trimmed.replace("## ", "")}
+            </h2>
+          );
+        }
+        if (trimmed.startsWith("### ")) {
+          return (
+            <h3
+              key={i}
+              className={`text-lg font-semibold mt-7 mb-2 leading-snug ${
+                theme === "dark" ? "text-gray-100" : "text-gray-800"
+              }`}
+            >
+              {trimmed.replace("### ", "")}
+            </h3>
+          );
+        }
+        if (trimmed.startsWith("> ")) {
+          return (
+            <blockquote
+              key={i}
+              className={`my-6 pl-4 border-l-4 border-indigo-500/40 italic text-base leading-relaxed ${
+                theme === "dark" ? "text-gray-400" : "text-gray-500"
+              }`}
+            >
+              {trimmed.replace("> ", "")}
+            </blockquote>
+          );
+        }
+        if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+          return (
+            <li
+              key={i}
+              className={`ml-5 mb-2 text-base leading-relaxed list-disc ${
+                theme === "dark" ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
+              {trimmed.replace(/^[-*] /, "")}
+            </li>
+          );
+        }
+        if (trimmed.startsWith("---")) {
+          return (
+            <hr
+              key={i}
+              className={`my-8 ${
+                theme === "dark" ? "border-white/10" : "border-gray-200"
+              }`}
+            />
+          );
+        }
+        return (
+          <p
+            key={i}
+            className={`text-base leading-[1.85] mb-5 ${
+              theme === "dark" ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
+            {trimmed}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Renders structured content blocks (legacy dummy format) ──
+function ContentBlock({ block, theme }) {
   if (block.type === "h2") {
     return (
-      <h2 className="text-white text-xl sm:text-2xl font-bold mt-10 mb-3 pl-4 border-l-4 border-indigo-500 leading-snug">
+      <h2
+        className={`text-xl sm:text-2xl font-bold mt-10 mb-3 pl-4 border-l-4 border-indigo-500 leading-snug ${
+          theme === "dark" ? "text-white" : "text-gray-900"
+        }`}
+      >
         {block.text}
       </h2>
     );
   }
   if (block.type === "h3") {
     return (
-      <h3 className="text-gray-100 text-lg font-semibold mt-7 mb-2 leading-snug">
+      <h3
+        className={`text-lg font-semibold mt-7 mb-2 leading-snug ${
+          theme === "dark" ? "text-gray-100" : "text-gray-800"
+        }`}
+      >
         {block.text}
       </h3>
     );
   }
   if (block.type === "quote") {
     return (
-      <blockquote className="my-6 pl-4 border-l-4 border-indigo-500/40 text-gray-400 italic text-base leading-relaxed">
+      <blockquote
+        className={`my-6 pl-4 border-l-4 border-indigo-500/40 italic text-base leading-relaxed ${
+          theme === "dark" ? "text-gray-400" : "text-gray-500"
+        }`}
+      >
         {block.text}
       </blockquote>
     );
   }
-  // default: paragraph
   return (
-    <p className="text-gray-400 text-base leading-[1.85] mb-5">{block.text}</p>
+    <p
+      className={`text-base leading-[1.85] mb-5 ${
+        theme === "dark" ? "text-gray-400" : "text-gray-600"
+      }`}
+    >
+      {block.text}
+    </p>
   );
 }
 
-function RelatedCard({ blog }) {
+// ── Related Card ──
+function RelatedCard({ blog, theme }) {
   return (
     <Link
       to={`/blog/${blog.slug}`}
-      className="group flex gap-3 p-3 rounded-xl border border-white/5 hover:border-indigo-500/30 bg-gray-900/40 hover:bg-gray-900/70 transition-all duration-300"
+      className={`group flex gap-3 p-3 rounded-xl border transition-all duration-300 ${
+        theme === "dark"
+          ? "border-white/5 hover:border-indigo-500/30 bg-gray-900/40 hover:bg-gray-900/70"
+          : "border-gray-200 hover:border-indigo-400/40 bg-gray-50 hover:bg-gray-100"
+      }`}
     >
-      <img
-        src={blog.coverImage}
-        alt={blog.title}
-        className="w-20 h-14 object-cover rounded-lg shrink-0"
-      />
+      {blog.coverImage ? (
+        <img
+          src={blog.coverImage}
+          alt={blog.title}
+          className="w-20 h-14 object-cover rounded-lg shrink-0"
+        />
+      ) : (
+        <div
+          className={`w-20 h-14 rounded-lg shrink-0 flex items-center justify-center ${
+            theme === "dark" ? "bg-gray-800" : "bg-gray-200"
+          }`}
+        >
+          <svg
+            className="w-6 h-6 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1}
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+      )}
       <div className="min-w-0">
-        <h4 className="text-white text-sm font-semibold leading-snug line-clamp-2 group-hover:text-indigo-300 transition-colors">
+        <h4
+          className={`text-sm font-semibold leading-snug line-clamp-2 transition-colors ${
+            theme === "dark"
+              ? "text-white group-hover:text-indigo-300"
+              : "text-gray-900 group-hover:text-indigo-600"
+          }`}
+        >
           {blog.title}
         </h4>
-        <span className="text-gray-500 text-xs mt-1 block">{blog.readTime} min read</span>
+        <span
+          className={`text-xs mt-1 block ${
+            theme === "dark" ? "text-gray-500" : "text-gray-400"
+          }`}
+        >
+          {blog.readTime ?? calcReadTime(blog.content ?? "")} min read
+        </span>
       </div>
     </Link>
   );
 }
 
+// ── Loading Skeleton ──
+function BlogDetailSkeleton({ theme }) {
+  return (
+    <div
+      className={`min-h-screen transition-all duration-300 ${
+        theme === "dark" ? "bg-gray-950" : "bg-gray-50"
+      }`}
+    >
+      <div
+        className={`w-full h-64 sm:h-80 lg:h-96 animate-pulse ${
+          theme === "dark" ? "bg-gray-800" : "bg-gray-200"
+        }`}
+      />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative pb-20">
+        <div className="flex flex-col lg:flex-row gap-12">
+          <div className="flex-1 space-y-4 pt-8">
+            <div
+              className={`h-4 w-24 rounded-full animate-pulse ${
+                theme === "dark" ? "bg-gray-700" : "bg-gray-300"
+              }`}
+            />
+            <div
+              className={`h-10 w-3/4 rounded-lg animate-pulse ${
+                theme === "dark" ? "bg-gray-700" : "bg-gray-300"
+              }`}
+            />
+            <div
+              className={`h-4 w-1/2 rounded-lg animate-pulse ${
+                theme === "dark" ? "bg-gray-800" : "bg-gray-200"
+              }`}
+            />
+            <div className="space-y-3 pt-6">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div
+                  key={i}
+                  className={`h-4 rounded-lg animate-pulse ${
+                    theme === "dark" ? "bg-gray-800" : "bg-gray-200"
+                  }`}
+                  style={{ width: `${85 + Math.random() * 15}%` }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="w-full lg:w-72 shrink-0 space-y-4 pt-8">
+            <div
+              className={`h-40 rounded-2xl animate-pulse ${
+                theme === "dark" ? "bg-gray-800" : "bg-gray-200"
+              }`}
+            />
+            <div
+              className={`h-52 rounded-2xl animate-pulse ${
+                theme === "dark" ? "bg-gray-800" : "bg-gray-200"
+              }`}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Main Component ──
 export default function BlogDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { theme } = useStore(useStore);
 
-  const blog = DUMMY_BLOGS.find((b) => b.slug === slug);
+  const [blog, setBlog] = useState(null);
+  const [related, setRelated] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [copied, setCopied] = useState(false);
 
-  if (!blog) {
+  // ── Fetch blog by slug ──
+  useEffect(() => {
+    const fetchBlog = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`${API}/api/blogs/${slug}`, {
+          credentials: "include",
+        });
+        if (res.status === 404) throw new Error("not_found");
+        if (!res.ok) throw new Error("fetch_failed");
+        const data = await res.json();
+        setBlog(data);
+
+        // Fetch related blogs from public endpoint
+        const relRes = await fetch(`${API}/api/blogs`, {
+          credentials: "include",
+        });
+        if (relRes.ok) {
+          const relData = await relRes.json();
+          const allBlogs = Array.isArray(relData)
+            ? relData
+            : relData.blogs ?? [];
+          const filtered = allBlogs
+            .filter((b) => b.slug !== slug)
+            .slice(0, 3)
+            .map((b) => ({
+              ...b,
+              readTime: b.readTime ?? calcReadTime(b.content ?? ""),
+            }));
+          setRelated(filtered);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlog();
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // ── Loading ──
+  if (loading) return <BlogDetailSkeleton theme={theme} />;
+
+  // ── Not Found ──
+  if (error === "not_found") {
     return (
-      <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center text-center px-4">
+      <div
+        className={`min-h-screen flex flex-col items-center justify-center text-center px-4 transition-all duration-300 ${
+          theme === "dark" ? "bg-gray-950" : "bg-gray-50"
+        }`}
+      >
         <span className="text-6xl mb-4">📭</span>
-        <h1 className="text-2xl font-bold text-white mb-2">Article Not Found</h1>
-        <p className="text-gray-500 text-sm mb-6">
+        <h1
+          className={`text-2xl font-bold mb-2 ${
+            theme === "dark" ? "text-white" : "text-gray-900"
+          }`}
+        >
+          Article Not Found
+        </h1>
+        <p
+          className={`text-sm mb-6 ${
+            theme === "dark" ? "text-gray-500" : "text-gray-400"
+          }`}
+        >
           The article you're looking for doesn't exist or has been removed.
         </p>
         <Link
@@ -229,122 +387,274 @@ export default function BlogDetail() {
     );
   }
 
-  const related = DUMMY_BLOGS.filter((b) => b.slug !== slug).slice(0, 3);
+  // ── Error ──
+  if (error) {
+    return (
+      <div
+        className={`min-h-screen flex flex-col items-center justify-center text-center px-4 ${
+          theme === "dark" ? "bg-gray-950" : "bg-gray-50"
+        }`}
+      >
+        <span className="text-6xl mb-4">⚠️</span>
+        <h1
+          className={`text-2xl font-bold mb-2 ${
+            theme === "dark" ? "text-white" : "text-gray-900"
+          }`}
+        >
+          Something went wrong
+        </h1>
+        <p
+          className={`text-sm mb-6 ${
+            theme === "dark" ? "text-gray-500" : "text-gray-400"
+          }`}
+        >
+          Failed to load the article. Please try again.
+        </p>
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors"
+        >
+          ← Go Back
+        </button>
+      </div>
+    );
+  }
+
+  const readTime = blog.readTime ?? calcReadTime(blog.content ?? "");
+  const tags = theme === "dark" ? TAG_STYLES : TAG_STYLES_LIGHT;
+  const isStructured = Array.isArray(blog.content);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-
-      {/* Cover Hero */}
-      <div className="relative w-full h-64 sm:h-80 lg:h-105 overflow-hidden">
-        <img
-          src={blog.coverImage}
-          alt={blog.title}
-          className="w-full h-full object-cover"
+    <div
+      className={`min-h-screen transition-all duration-300 ${
+        theme === "dark" ? "bg-gray-950 text-white" : "bg-gray-50 text-gray-900"
+      }`}
+    >
+      {/* ── Cover Hero ── */}
+      <div className="relative w-full h-64 sm:h-80 lg:h-96 overflow-hidden">
+        {blog.coverImage ? (
+          <img
+            src={blog.coverImage}
+            alt={blog.title}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div
+            className={`w-full h-full flex items-center justify-center ${
+              theme === "dark"
+                ? "bg-linear-to-br from-indigo-900/60 to-gray-900"
+                : "bg-linear-to-br from-indigo-100 to-gray-200"
+            }`}
+          >
+            <svg
+              className="w-20 h-20 text-indigo-400/30"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+        )}
+        <div
+          className={`absolute inset-0 bg-linear-to-t ${
+            theme === "dark"
+              ? "from-gray-950 via-gray-950/50 to-gray-950/10"
+              : "from-gray-50 via-gray-50/40 to-transparent"
+          }`}
         />
-        <div className="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/50 to-gray-950/10" />
       </div>
 
-      {/* Layout */}
+      {/* ── Layout ── */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative pb-20">
         <div className="flex flex-col lg:flex-row gap-12">
 
-          {/* Article */}
+          {/* ── Article ── */}
           <article className="flex-1 min-w-0">
 
-            {/* Back */}
+            {/* Back button */}
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-1.5 text-gray-500 hover:text-indigo-400 text-sm mb-6 transition-colors group cursor-pointer"
+              className={`flex items-center gap-1.5 text-sm mb-6 transition-colors group cursor-pointer ${
+                theme === "dark"
+                  ? "text-gray-500 hover:text-indigo-400"
+                  : "text-gray-400 hover:text-indigo-600"
+              }`}
             >
-              <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
               Back to Blog
             </button>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {blog.tags.map((tag, i) => (
-                <span key={tag} className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${TAG_STYLES[i % TAG_STYLES.length]}`}>
+              {blog.tags?.map((tag, i) => (
+                <span
+                  key={tag}
+                  className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${
+                    tags[i % tags.length]
+                  }`}
+                >
                   {tag}
                 </span>
               ))}
             </div>
 
             {/* Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-snug mb-5">
+            <h1
+              className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-snug mb-5 ${
+                theme === "dark" ? "text-white" : "text-gray-900"
+              }`}
+            >
               {blog.title}
             </h1>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-5 text-gray-500 text-sm mb-8 pb-8 border-b border-white/5">
+            <div
+              className={`flex flex-wrap items-center gap-5 text-sm mb-8 pb-8 border-b ${
+                theme === "dark"
+                  ? "text-gray-500 border-white/5"
+                  : "text-gray-400 border-gray-200"
+              }`}
+            >
               <span className="flex items-center gap-1.5">
                 <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
                 </svg>
                 {formatDate(blog.publishedAt)}
               </span>
               <span className="flex items-center gap-1.5">
                 <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
-                {blog.readTime} min read
+                {readTime} min read
               </span>
               <span className="flex items-center gap-1.5">
                 <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
                 </svg>
                 Matrix Web Solutions
               </span>
             </div>
 
-            {/* Content Blocks */}
-            <div>
-              {blog.content.map((block, i) => (
-                <ContentBlock key={i} block={block} />
-              ))}
-            </div>
+            {/* ── Content ── */}
+            {isStructured ? (
+              <div>
+                {blog.content.map((block, i) => (
+                  <ContentBlock key={i} block={block} theme={theme} />
+                ))}
+              </div>
+            ) : (
+              <PlainContent content={blog.content ?? ""} theme={theme} />
+            )}
 
-            {/* Share */}
-            <div className="mt-12 pt-8 border-t border-white/5 flex flex-wrap items-center gap-3">
-              <span className="text-gray-400 text-sm font-medium">Share this article:</span>
+            {/* ── Share ── */}
+            <div
+              className={`mt-12 pt-8 border-t flex flex-wrap items-center gap-3 ${
+                theme === "dark" ? "border-white/5" : "border-gray-200"
+              }`}
+            >
+              <span
+                className={`text-sm font-medium ${
+                  theme === "dark" ? "text-gray-400" : "text-gray-500"
+                }`}
+              >
+                Share this article:
+              </span>
               <button
-                onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(blog.title)}&url=${encodeURIComponent(window.location.href)}`, "_blank")}
-                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-white/10 text-gray-400 hover:border-indigo-500/40 hover:text-indigo-300 transition-all cursor-pointer bg-gray-900/50"
+                onClick={() =>
+                  window.open(
+                    `https://twitter.com/intent/tweet?text=${encodeURIComponent(blog.title)}&url=${encodeURIComponent(window.location.href)}`,
+                    "_blank"
+                  )
+                }
+                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                  theme === "dark"
+                    ? "border-white/10 text-gray-400 hover:border-indigo-500/40 hover:text-indigo-300 bg-gray-900/50"
+                    : "border-gray-200 text-gray-500 hover:border-indigo-400 hover:text-indigo-600 bg-white"
+                }`}
               >
                 𝕏 Twitter
               </button>
               <button
-                onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, "_blank")}
-                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-white/10 text-gray-400 hover:border-indigo-500/40 hover:text-indigo-300 transition-all cursor-pointer bg-gray-900/50"
+                onClick={() =>
+                  window.open(
+                    `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`,
+                    "_blank"
+                  )
+                }
+                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                  theme === "dark"
+                    ? "border-white/10 text-gray-400 hover:border-indigo-500/40 hover:text-indigo-300 bg-gray-900/50"
+                    : "border-gray-200 text-gray-500 hover:border-indigo-400 hover:text-indigo-600 bg-white"
+                }`}
               >
                 in LinkedIn
               </button>
               <button
-                onClick={() => navigator.clipboard.writeText(window.location.href)}
-                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-white/10 text-gray-400 hover:border-indigo-500/40 hover:text-indigo-300 transition-all cursor-pointer bg-gray-900/50"
+                onClick={handleCopyLink}
+                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                  copied
+                    ? "border-emerald-500/40 text-emerald-400 bg-emerald-500/5"
+                    : theme === "dark"
+                    ? "border-white/10 text-gray-400 hover:border-indigo-500/40 hover:text-indigo-300 bg-gray-900/50"
+                    : "border-gray-200 text-gray-500 hover:border-indigo-400 hover:text-indigo-600 bg-white"
+                }`}
               >
-                🔗 Copy Link
+                {copied ? "✓ Copied!" : "🔗 Copy Link"}
               </button>
             </div>
           </article>
 
-          {/* Sidebar */}
+          {/* ── Sidebar ── */}
           <aside className="w-full lg:w-72 shrink-0">
             <div className="sticky top-6 space-y-6">
 
               {/* About */}
-              <div className="rounded-2xl border border-white/8 bg-gray-900/50 p-5">
-                <span className="text-indigo-400 text-xs font-semibold uppercase tracking-widest">
+              <div
+                className={`rounded-2xl border p-5 ${
+                  theme === "dark"
+                    ? "border-white/8 bg-gray-900/50"
+                    : "border-gray-200 bg-white"
+                }`}
+              >
+                <span className="text-indigo-500 text-xs font-semibold uppercase tracking-widest">
                   About This Blog
                 </span>
-                <p className="text-gray-400 text-sm leading-relaxed mt-3">
-                  Matrix Web Solutions publishes in-depth reviews and guides on AI tools, web
-                  development, and digital productivity — written by practitioners, for practitioners.
+                <p
+                  className={`text-sm leading-relaxed mt-3 ${
+                    theme === "dark" ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
+                  Matrix Web Solutions publishes in-depth reviews and guides on
+                  AI tools, web development, and digital productivity — written
+                  by practitioners, for practitioners.
                 </p>
                 <Link
                   to="/blog"
-                  className="mt-4 inline-flex items-center gap-1.5 text-indigo-400 text-sm font-medium hover:text-indigo-300 transition-colors"
+                  className="mt-4 inline-flex items-center gap-1.5 text-indigo-500 text-sm font-medium hover:text-indigo-400 transition-colors"
                 >
                   Browse all articles
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -353,30 +663,56 @@ export default function BlogDetail() {
                 </Link>
               </div>
 
-              {/* Related */}
+              {/* Related Articles */}
               {related.length > 0 && (
-                <div className="rounded-2xl border border-white/8 bg-gray-900/50 p-5">
-                  <span className="text-indigo-400 text-xs font-semibold uppercase tracking-widest">
+                <div
+                  className={`rounded-2xl border p-5 ${
+                    theme === "dark"
+                      ? "border-white/8 bg-gray-900/50"
+                      : "border-gray-200 bg-white"
+                  }`}
+                >
+                  <span className="text-indigo-500 text-xs font-semibold uppercase tracking-widest">
                     Related Articles
                   </span>
                   <div className="space-y-3 mt-4">
                     {related.map((r) => (
-                      <RelatedCard key={r._id} blog={r} />
+                      <RelatedCard key={r._id} blog={r} theme={theme} />
                     ))}
                   </div>
                 </div>
               )}
 
               {/* Newsletter */}
-              <div className="rounded-2xl border border-indigo-500/20 bg-indigo-500/5 p-5">
-                <h3 className="text-white font-bold text-sm mb-1">Get New Articles</h3>
-                <p className="text-gray-400 text-xs mb-4 leading-relaxed">
+              <div
+                className={`rounded-2xl border p-5 ${
+                  theme === "dark"
+                    ? "border-indigo-500/20 bg-indigo-500/5"
+                    : "border-indigo-200 bg-indigo-50"
+                }`}
+              >
+                <h3
+                  className={`font-bold text-sm mb-1 ${
+                    theme === "dark" ? "text-white" : "text-indigo-900"
+                  }`}
+                >
+                  Get New Articles
+                </h3>
+                <p
+                  className={`text-xs mb-4 leading-relaxed ${
+                    theme === "dark" ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
                   No spam. Just new articles on AI tools and digital strategies.
                 </p>
                 <input
                   type="email"
                   placeholder="your@email.com"
-                  className="w-full bg-gray-900 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500/60 transition-colors mb-2"
+                  className={`w-full rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500/60 transition-colors mb-2 border ${
+                    theme === "dark"
+                      ? "bg-gray-900 border-white/10 text-white placeholder-gray-600"
+                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
+                  }`}
                 />
                 <button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold py-2 rounded-lg transition-colors cursor-pointer">
                   Subscribe

@@ -24,7 +24,7 @@ import OurServicesPage from "../Pages/OurServicesPage";
 import Projectspage from "../Pages/Projectspage";
 import AboutPage from "../Pages/AboutPage";
 import BlogList from "../Pages/BlogList";
-import BlogDetail  from "../Pages/BlogDetail";
+import BlogDetail from "../Pages/BlogDetail";
 import ContactPage from "../Pages/ContactPage";
 
 /* =============================

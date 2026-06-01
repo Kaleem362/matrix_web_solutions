@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { FaBlog } from "react-icons/fa";
 import { HiOutlineSearch } from "react-icons/hi";
 import { MdDeleteOutline, MdOutlineEdit, MdOutlineAdd } from "react-icons/md";
@@ -26,7 +26,7 @@ const slugify = (text) =>
 export default function BlogManager() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState("list"); // "list" | "create" | "edit"
+  const [view, setView] = useState("list");
   const [form, setForm] = useState(EMPTY_FORM);
   const [editId, setEditId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -35,11 +35,17 @@ export default function BlogManager() {
   const [previewMode, setPreviewMode] = useState(false);
   const [search, setSearch] = useState("");
 
-  // ── Fetch all blogs (admin sees all including drafts) ──
+  // ── Cover image upload states ──
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageError, setImageError] = useState(null);
+  const fileInputRef = useRef(null);
+
+  // ── Fetch all blogs ──
   const fetchBlogs = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/blogs/all`, {
+      const res = await fetch(`${API}/api/blogs/admin/all`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -78,10 +84,63 @@ export default function BlogManager() {
     }));
   };
 
+  // ── Cover image upload handler ──
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Local blob preview instantly
+    const localPreview = URL.createObjectURL(file);
+    setImagePreview(localPreview);
+    setImageError(null);
+    setImageUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const res = await fetch(`${API}/api/upload`, {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Upload failed");
+      }
+
+      // Store Cloudinary URL in form
+      setForm((prev) => ({ ...prev, coverImage: data.url }));
+      showToast("Cover image uploaded successfully");
+    } catch (err) {
+      setImageError(err.message || "Image upload failed");
+      setImagePreview(null);
+      setForm((prev) => ({ ...prev, coverImage: "" }));
+      // Reset file input
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
+  // ── Remove cover image ──
+  const handleRemoveImage = () => {
+    setImagePreview(null);
+    setImageError(null);
+    setForm((prev) => ({ ...prev, coverImage: "" }));
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   // ── Submit: create or update ──
   const handleSubmit = async () => {
     if (!form.title.trim() || !form.slug.trim() || !form.content.trim()) {
       showToast("Title, slug, and content are required", "error");
+      return;
+    }
+    if (imageUploading) {
+      showToast("Please wait for image upload to finish", "error");
       return;
     }
     setSubmitting(true);
@@ -115,6 +174,7 @@ export default function BlogManager() {
       );
       setForm(EMPTY_FORM);
       setEditId(null);
+      setImagePreview(null);
       setView("list");
       fetchBlogs();
     } catch (err) {
@@ -138,6 +198,9 @@ export default function BlogManager() {
     setEditId(blog._id);
     setView("edit");
     setPreviewMode(false);
+    // Show existing image as preview when editing
+    setImagePreview(blog.coverImage || null);
+    setImageError(null);
   };
 
   // ── Delete ──
@@ -160,13 +223,15 @@ export default function BlogManager() {
     setForm(EMPTY_FORM);
     setEditId(null);
     setPreviewMode(false);
+    setImagePreview(null);
+    setImageError(null);
     setView("create");
   };
 
   const wordCount = form.content.trim().split(/\s+/).filter(Boolean).length;
   const readTime = Math.max(1, Math.ceil(wordCount / 200));
 
-  // ── Filtered blogs by search ──
+  // ── Filtered blogs ──
   const filteredBlogs = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return blogs;
@@ -178,9 +243,6 @@ export default function BlogManager() {
     );
   }, [blogs, search]);
 
-  // ─────────────────────────────────────────────────────────────
-  // RENDER
-  // ─────────────────────────────────────────────────────────────
   return (
     <section className="min-h-screen px-1 py-2 sm:px-2">
       {/* ── Toast ── */}
@@ -249,9 +311,7 @@ export default function BlogManager() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════════════
-           PAGE HEADER
-         ══════════════════════════════════════════════════ */}
+      {/* ── Page Header ── */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           {view !== "list" && (
@@ -337,7 +397,7 @@ export default function BlogManager() {
             </button>
             <button
               onClick={handleSubmit}
-              disabled={submitting}
+              disabled={submitting || imageUploading}
               className="flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-50"
             >
               {submitting ? (
@@ -385,12 +445,9 @@ export default function BlogManager() {
         )}
       </div>
 
-      {/* ══════════════════════════════════════════════════
-           LIST VIEW
-         ══════════════════════════════════════════════════ */}
+      {/* ── List View ── */}
       {view === "list" && (
         <>
-          {/* Search bar */}
           <div className="mb-6 relative w-full sm:max-w-sm">
             <HiOutlineSearch className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg text-gray-400" />
             <input
@@ -445,7 +502,6 @@ export default function BlogManager() {
                   key={blog._id}
                   className="group flex flex-col gap-4 rounded-2xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
                 >
-                  {/* Cover thumbnail */}
                   {blog.coverImage ? (
                     <img
                       src={blog.coverImage}
@@ -469,8 +525,6 @@ export default function BlogManager() {
                       </svg>
                     </div>
                   )}
-
-                  {/* Info */}
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex flex-wrap items-center gap-2">
                       <span
@@ -512,8 +566,6 @@ export default function BlogManager() {
                         : "Not published yet"}
                     </p>
                   </div>
-
-                  {/* Actions */}
                   <div className="flex shrink-0 items-center gap-2 self-start sm:self-auto">
                     <button
                       onClick={() => handleEdit(blog)}
@@ -537,13 +589,10 @@ export default function BlogManager() {
         </>
       )}
 
-      {/* ══════════════════════════════════════════════════
-           CREATE / EDIT VIEW
-         ══════════════════════════════════════════════════ */}
+      {/* ── Create / Edit View ── */}
       {(view === "create" || view === "edit") && (
         <>
           {previewMode ? (
-            /* ── PREVIEW ── */
             <div className="mx-auto max-w-3xl rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
               {form.coverImage && (
                 <img
@@ -578,9 +627,8 @@ export default function BlogManager() {
               </div>
             </div>
           ) : (
-            /* ── EDITOR ── */
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-              {/* Main content */}
+              {/* ── Main content ── */}
               <div className="space-y-5 lg:col-span-2">
                 {/* Title */}
                 <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
@@ -633,14 +681,15 @@ export default function BlogManager() {
                 </div>
               </div>
 
-              {/* Sidebar settings */}
+              {/* ── Sidebar ── */}
               <div className="space-y-5">
+                {/* Publish toggle */}
                 {/* Publish toggle */}
                 <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                   <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
                     Publish Settings
                   </h3>
-                  <label className="group flex cursor-pointer items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-semibold text-gray-800">
                         {form.isPublished ? "Published" : "Draft"}
@@ -651,35 +700,40 @@ export default function BlogManager() {
                           : "Only visible to admin"}
                       </p>
                     </div>
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        name="isPublished"
-                        checked={form.isPublished}
-                        onChange={handleChange}
-                        className="sr-only"
-                      />
-                      <div
-                        onClick={() =>
-                          setForm((p) => ({
-                            ...p,
-                            isPublished: !p.isPublished,
-                          }))
-                        }
-                        className={`h-6 w-11 cursor-pointer rounded-full transition-colors ${
-                          form.isPublished ? "bg-indigo-600" : "bg-gray-300"
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm((p) => ({ ...p, isPublished: !p.isPublished }))
+                      }
+                      className={`relative h-6 w-11 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                        form.isPublished ? "bg-indigo-600" : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-300 ${
+                          form.isPublished ? "translate-x-5" : "translate-x-0"
                         }`}
-                      >
-                        <div
-                          className={`mt-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
-                            form.isPublished
-                              ? "ml-0.5 translate-x-5"
-                              : "translate-x-0.5"
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  </label>
+                      />
+                    </button>
+                  </div>
+
+                  {/* Publish status indicator */}
+                  <div
+                    className={`mt-4 flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium ${
+                      form.isPublished
+                        ? "bg-emerald-50 text-emerald-700"
+                        : "bg-amber-50 text-amber-700"
+                    }`}
+                  >
+                    <span
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        form.isPublished ? "bg-emerald-500" : "bg-amber-500"
+                      }`}
+                    />
+                    {form.isPublished
+                      ? "Will be visible on the public blog page"
+                      : "Save as draft — not visible to visitors"}
+                  </div>
                 </div>
 
                 {/* Slug */}
@@ -705,26 +759,164 @@ export default function BlogManager() {
                   </p>
                 </div>
 
-                {/* Cover Image */}
+                {/* ── Cover Image Upload ── */}
                 <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
-                  <label className="mb-2 block pl-1 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Cover Image URL
+                  <label className="mb-3 block pl-1 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Cover Image
                   </label>
+
+                  {/* Hidden file input */}
                   <input
-                    type="text"
-                    name="coverImage"
-                    value={form.coverImage}
-                    onChange={handleChange}
-                    placeholder="https://..."
-                    className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 placeholder-gray-400 transition-colors focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                    onChange={handleImageUpload}
+                    className="hidden"
                   />
-                  {form.coverImage && (
-                    <img
-                      src={form.coverImage}
-                      alt="Preview"
-                      className="mt-3 h-32 w-full rounded-xl object-cover"
-                      onError={(e) => (e.target.style.display = "none")}
-                    />
+
+                  {/* Preview state */}
+                  {imagePreview ? (
+                    <div className="relative">
+                      <img
+                        src={imagePreview}
+                        alt="Cover preview"
+                        className="h-40 w-full rounded-xl object-cover"
+                      />
+
+                      {/* Uploading overlay */}
+                      {imageUploading && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-xl bg-black/50 backdrop-blur-sm">
+                          <svg
+                            className="h-6 w-6 animate-spin text-white"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            />
+                          </svg>
+                          <span className="text-xs font-medium text-white">
+                            Uploading to Cloudinary...
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Actions — shown after upload done */}
+                      {!imageUploading && (
+                        <div className="absolute top-2 right-2 flex gap-1.5">
+                          {/* Replace */}
+                          <button
+                            onClick={() => fileInputRef.current?.click()}
+                            title="Replace image"
+                            className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/90 text-gray-600 shadow backdrop-blur-sm transition hover:bg-indigo-600 hover:text-white"
+                          >
+                            <svg
+                              className="h-3.5 w-3.5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                              />
+                            </svg>
+                          </button>
+                          {/* Remove */}
+                          <button
+                            onClick={handleRemoveImage}
+                            title="Remove image"
+                            className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/90 text-red-500 shadow backdrop-blur-sm transition hover:bg-red-500 hover:text-white"
+                          >
+                            <svg
+                              className="h-3.5 w-3.5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Cloudinary success badge */}
+                      {!imageUploading && form.coverImage && (
+                        <div className="absolute bottom-2 left-2 flex items-center gap-1 rounded-lg bg-black/60 px-2 py-1 backdrop-blur-sm">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                          <span className="text-xs font-medium text-white">
+                            Saved to Cloudinary
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    /* Drop zone */
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="group flex w-full flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 py-8 transition-all hover:border-indigo-400 hover:bg-indigo-50"
+                    >
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 transition-colors group-hover:bg-indigo-100">
+                        <svg
+                          className="h-5 w-5 text-gray-400 group-hover:text-indigo-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                          />
+                        </svg>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm font-semibold text-gray-600 group-hover:text-indigo-600">
+                          Click to upload cover image
+                        </p>
+                        <p className="mt-0.5 text-xs text-gray-400">
+                          JPG, PNG, GIF, WEBP · Max 5MB
+                        </p>
+                      </div>
+                    </button>
+                  )}
+
+                  {/* Error message */}
+                  {imageError && (
+                    <p className="mt-2 flex items-center gap-1.5 text-xs text-red-500">
+                      <svg
+                        className="h-3.5 w-3.5 shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      {imageError}
+                    </p>
                   )}
                 </div>
 
@@ -761,17 +953,19 @@ export default function BlogManager() {
                   )}
                 </div>
 
-                {/* Submit button (sidebar duplicate for mobile-friendliness) */}
+                {/* Submit button */}
                 <button
                   onClick={handleSubmit}
-                  disabled={submitting}
+                  disabled={submitting || imageUploading}
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-50"
                 >
-                  {submitting
-                    ? "Saving..."
-                    : view === "edit"
-                      ? "Update Post"
-                      : "Publish Post"}
+                  {imageUploading
+                    ? "Waiting for image..."
+                    : submitting
+                      ? "Saving..."
+                      : view === "edit"
+                        ? "Update Post"
+                        : "Publish Post"}
                 </button>
               </div>
             </div>
