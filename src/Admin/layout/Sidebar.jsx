@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useDashboard } from "../../Context/DashboardContext";
 import { BsMegaphone } from "react-icons/bs";
-import matrixlogo from "../../../dist/assets/mws3dlogo.png";
+import matrixlogo from "../../../Elements/MWW3dLogo.png";
 import { FaBlog, FaPhoenixFramework, FaServicestack } from "react-icons/fa";
 import { PiQuotesFill } from "react-icons/pi";
 import { VscFeedback } from "react-icons/vsc";
