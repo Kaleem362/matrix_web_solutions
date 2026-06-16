@@ -43,7 +43,7 @@ export const InlineAd = () => {
   if (!ad) return null;
 
   return (
-    <div className="my-8">
+    <div className="py-8">
       <div
         className="relative rounded-xl overflow-hidden cursor-pointer group"
         onClick={handleClick}

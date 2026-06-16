@@ -104,7 +104,7 @@ const App = () => {
               {/* Inline Advertisement */}
               <InlineAd />
               {/* Sidebar Advertisement */}
-              <div className="container mx-auto px-4 mb-8">
+              <div className="container mx-auto px-4">
                 <SidebarAd />
               </div>
               <OurWorkSection />
